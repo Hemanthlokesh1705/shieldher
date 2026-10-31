@@ -1,0 +1,74 @@
+# ============================================================
+# ShieldHer – .gitignore
+# ============================================================
+
+# --- Python / backend ---
+__pycache__/
+*.py[oc]
+*.pyd
+*.so
+*.egg
+*.egg-info/
+build/
+dist/
+wheels/
+.eggs/
+
+# --- Virtual environments ---
+.venv/
+venv/
+env/
+
+# --- Secrets / environment ---
+.env
+.env.local
+.env.*.local
+secrets/
+*.pem
+*.key
+*.crt
+.env.*
+
+# --- Uploaded images / forensic artefacts (never commit) ---
+uploads/
+artefacts/
+media/
+
+# --- ML model weights (download at runtime) ---
+*.pt
+*.pth
+*.ckpt
+*.safetensors
+*.bin
+*.tflite
+backend/models/weights/
+
+# --- Logs ---
+*.log
+logs/
+
+# --- Node / frontend ---
+node_modules/
+frontend/dist/
+frontend/build/
+.cache/
+
+# --- Database / storage volumes ---
+*.sqlite3
+*.db
+pgdata/
+redisdata/
+
+# --- Test artefacts ---
+.pytest_cache/
+htmlcov/
+.coverage
+coverage.xml
+.mypy_cache/
+
+# --- IDE / OS ---
+.vscode/
+.idea/
+*.DS_Store
+Thumbs.db
+

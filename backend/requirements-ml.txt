@@ -1,0 +1,14 @@
+# ShieldHer – Optional ML Inference Dependencies
+# Face manipulation & face-swap detection (Effort-AIGI-Detection)
+#
+# Installation (CPU):
+#   pip install -r requirements-ml.txt --extra-index-url https://download.pytorch.org/whl/cpu
+# Installation (CUDA):
+#   pip install -r requirements-ml.txt
+
+torch>=2.0.0
+torchvision>=0.15.0
+transformers>=4.30.0
+scipy>=1.10.0
+Pillow>=10.0.0
+numpy>=1.26.0

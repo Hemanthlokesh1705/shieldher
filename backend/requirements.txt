@@ -1,0 +1,51 @@
+# ============================================================
+# ShieldHer Backend
+# Python 3.11+ · FastAPI · PostgreSQL · Redis
+# ============================================================
+
+# ----- Core framework -----
+fastapi==0.115.5
+uvicorn[standard]==0.32.1
+pydantic==2.10.3
+pydantic-settings==2.6.1
+
+# ----- Database -----
+sqlalchemy==2.0.36
+alembic==1.14.0
+asyncpg==0.30.0           # async PostgreSQL driver
+
+# ----- Cache / sessions -----
+redis[hiredis]==5.2.1
+
+# ----- HTTP client (for health checks, webhooks) -----
+httpx==0.28.1
+
+# ----- Utilities -----
+python-multipart==0.0.19  # file uploads
+python-dotenv==1.0.1
+structlog==24.4.0          # structured JSON logging
+cryptography>=43.0.0      # AES-256-GCM evidence encryption
+pyjwt>=2.9.0              # authenticated JWT tokens
+bcrypt>=4.2.0             # secure password hashing
+
+# ----- Image processing & face detection -----
+pillow>=10.0.0
+opencv-python-headless>=4.8.0
+numpy>=1.26.0
+scipy>=1.14.0
+pywavelets>=1.8.0
+mediapipe>=0.10.0
+
+# ----- Pretrained AI detection & ML inference -----
+sentence-transformers>=3.0.0
+huggingface-hub>=0.24.0
+
+# ----- Dev / test -----
+pytest==8.3.4
+pytest-asyncio==0.24.0
+httpx==0.28.1              # also used as async test client
+aiosqlite>=0.20.0          # async SQLite engine for in-memory testing
+
+# ----- Workflow Orchestration & Constrained LLM Drafting -----
+langgraph>=0.2.0
+mistralai>=1.0.0
