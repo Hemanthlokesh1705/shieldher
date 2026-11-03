@@ -9,10 +9,23 @@ import {
   loginUser,
   submitCaseReview,
 } from "../services/api";
+import {
+  Scale,
+  Lock,
+  CheckCircle2,
+  AlertTriangle,
+  History,
+  FileCheck,
+  LogOut,
+  Loader2,
+} from "lucide-react";
+import { cn } from "../lib/utils";
 
 export default function ReviewerPage() {
   const location = useLocation();
-  const [token, setToken] = useState<string | null>(() => localStorage.getItem("shieldher_token"));
+  const [token, setToken] = useState<string | null>(() =>
+    localStorage.getItem("shieldher_token")
+  );
   const [userProfile, setUserProfile] = useState<UserProfile | null>(null);
   const [cases, setCases] = useState<CaseItem[]>([]);
   const [selectedCase, setSelectedCase] = useState<CaseItem | null>(null);
@@ -44,7 +57,9 @@ export default function ReviewerPage() {
       setUserProfile(profile);
 
       if (profile.role === "VICTIM") {
-        setLoginError("Access denied: Your account role is VICTIM. Reviewer Portal requires EXAMINER, ADVOCATE, or ADMIN role.");
+        setLoginError(
+          "Access denied: Your account role is VICTIM. Reviewer Portal requires EXAMINER, ADVOCATE, or ADMIN role."
+        );
         return;
       }
 
@@ -84,10 +99,13 @@ export default function ReviewerPage() {
     try {
       const c = await getCase(caseId, token || undefined);
       setSelectedCase(c);
-      setDecision(c.review_status !== "UNREVIEWED" ? c.review_status : "CONFIRMED_MANIPULATION");
+      setDecision(
+        c.review_status !== "UNREVIEWED"
+          ? c.review_status
+          : "CONFIRMED_MANIPULATION"
+      );
       setExaminerNotes(c.examiner_notes || "");
 
-      // Load immutable audit trail
       const logs = await getCaseAuditLogs(caseId, token || undefined);
       setAuditLogs(logs);
     } catch (err: any) {
@@ -109,9 +127,10 @@ export default function ReviewerPage() {
         token
       );
       setSelectedCase(updated);
-      setReviewMessage("Human forensic review and override recorded successfully in case audit log.");
+      setReviewMessage(
+        "Human forensic review and override recorded successfully in case audit log."
+      );
 
-      // Refresh list and audit logs
       const logs = await getCaseAuditLogs(selectedCase.id, token);
       setAuditLogs(logs);
       const caseList = await listCases(token);
@@ -124,115 +143,111 @@ export default function ReviewerPage() {
   };
 
   return (
-    <div className="reviewer-page" style={{ minHeight: "100vh", backgroundColor: "var(--color-bg)", display: "flex", flexDirection: "column" }}>
+    <div className="min-h-screen bg-canvas flex flex-col selection:bg-brand-sage selection:text-brand-forest">
       {/* Top Application Header */}
-      <header className="app-header">
-        <div style={{ maxWidth: "1240px", margin: "0 auto", padding: "0.85rem 1.5rem", display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: "1rem" }}>
-          <div style={{ display: "flex", alignItems: "center", gap: "1rem" }}>
-            <div style={{ display: "flex", alignItems: "center", gap: "0.6rem" }}>
-              <div style={{ width: "36px", height: "36px", borderRadius: "10px", backgroundColor: "#ecfdf5", border: "1.5px solid #a7f3d0", display: "flex", alignItems: "center", justifyContent: "center", fontSize: "1.2rem", color: "#059669" }}>
-                🔬
-              </div>
-              <div>
-                <h1 style={{ fontSize: "1.25rem", fontWeight: 800, letterSpacing: "-0.02em", color: "#064e3b" }}>
-                  ShieldHer — Examiner & Reviewer Console
-                </h1>
-                <p style={{ fontSize: "0.725rem", color: "var(--color-text-muted)" }}>
-                  Authorized Forensic Case Adjudication & Oversight
-                </p>
-              </div>
-            </div>
+      <header className="h-16 px-6 bg-surface-pearl border-b border-ink-border flex items-center justify-between gap-4 sticky top-0 z-30 shadow-2xs">
+        <div className="flex items-center gap-3">
+          <div className="w-9 h-9 rounded-xl bg-brand-forest text-surface-pearl flex items-center justify-center shadow-xs">
+            <Scale className="w-5 h-5 text-accent-gold" />
           </div>
-
-          <nav style={{ display: "flex", gap: "0.4rem", alignItems: "center" }}>
-            <Link
-              to="/intake"
-              className={`nav-pill ${location.pathname === "/intake" ? "active" : ""}`}
-            >
-              Victim Intake
-            </Link>
-            <Link to="/" className="nav-pill">Home</Link>
-            <Link
-              to="/reviewer"
-              className={`nav-pill ${location.pathname === "/reviewer" ? "active" : ""}`}
-            >
-              Reviewer Portal
-            </Link>
-            <Link
-              to="/health"
-              className={`nav-pill ${location.pathname === "/health" ? "active" : ""}`}
-            >
-              System Health
-            </Link>
-            {userProfile && (
-              <button
-                onClick={handleLogout}
-                className="btn-emerald btn-secondary"
-                style={{ padding: "0.4rem 0.85rem", fontSize: "0.775rem", marginLeft: "0.5rem" }}
-              >
-                Sign Out ({userProfile.role})
-              </button>
-            )}
-          </nav>
+          <div>
+            <h1 className="text-base font-bold text-ink-primary font-heading tracking-tight leading-none">
+              ShieldHer &mdash; Examiner & Reviewer Console
+            </h1>
+            <p className="text-[11px] text-ink-muted mt-1 font-sans">
+              Authorized Forensic Case Adjudication & Oversight
+            </p>
+          </div>
         </div>
+
+        <nav className="flex items-center gap-2">
+          <Link
+            to="/intake"
+            className={cn(
+              "px-3 py-1.5 rounded-lg text-xs font-semibold transition-colors",
+              location.pathname === "/intake"
+                ? "bg-brand-sage/50 text-brand-forest"
+                : "text-ink-secondary hover:text-ink hover:bg-canvas-subtle"
+            )}
+          >
+            Victim Intake
+          </Link>
+          <Link
+            to="/"
+            className="px-3 py-1.5 rounded-lg text-xs font-semibold text-ink-secondary hover:text-ink hover:bg-canvas-subtle transition-colors"
+          >
+            Home
+          </Link>
+          <Link
+            to="/reviewer"
+            className={cn(
+              "px-3 py-1.5 rounded-lg text-xs font-semibold transition-colors",
+              location.pathname === "/reviewer"
+                ? "bg-brand-sage/50 text-brand-forest"
+                : "text-ink-secondary hover:text-ink hover:bg-canvas-subtle"
+            )}
+          >
+            Reviewer Portal
+          </Link>
+          <Link
+            to="/health"
+            className={cn(
+              "px-3 py-1.5 rounded-lg text-xs font-semibold transition-colors",
+              location.pathname === "/health"
+                ? "bg-brand-sage/50 text-brand-forest"
+                : "text-ink-secondary hover:text-ink hover:bg-canvas-subtle"
+            )}
+          >
+            System Health
+          </Link>
+          {userProfile && (
+            <button
+              onClick={handleLogout}
+              className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-ink-border bg-surface-pearl text-xs font-semibold text-ink hover:bg-canvas-subtle transition-colors shadow-2xs ml-2"
+            >
+              <LogOut className="w-3.5 h-3.5 text-ink-muted" />
+              <span>Sign Out ({userProfile.role})</span>
+            </button>
+          )}
+        </nav>
       </header>
 
-      <main style={{ maxWidth: "1240px", width: "100%", margin: "2rem auto", padding: "0 1.5rem", flex: 1 }}>
-        {/* Role Gate Check / Login Form */}
+      {/* Main Workspace */}
+      <main className="max-w-7xl w-full mx-auto p-4 sm:p-6 lg:p-8 flex-1">
         {!userProfile || userProfile.role === "VICTIM" ? (
-          <div
-            className="app-card animate-fade-in"
-            style={{
-              maxWidth: "460px",
-              margin: "4rem auto",
-              padding: "2.25rem",
-              backgroundColor: "#ffffff",
-              border: "1.5px solid #e2e8f0",
-              boxShadow: "0 10px 25px -5px rgba(0, 0, 0, 0.05), 0 8px 10px -6px rgba(0, 0, 0, 0.01)",
-            }}
-          >
-            <div style={{ display: "flex", alignItems: "center", gap: "0.75rem", marginBottom: "0.75rem" }}>
-              <div style={{ width: "40px", height: "40px", borderRadius: "10px", backgroundColor: "#ecfdf5", border: "1px solid #a7f3d0", display: "flex", alignItems: "center", justifyContent: "center", fontSize: "1.25rem", color: "#059669" }}>
-                🔐
+          <div className="max-w-md mx-auto my-12 bg-surface-pearl rounded-2xl border border-ink-border/80 p-7 sm:p-9 shadow-md shadow-ink-primary/5">
+            <div className="flex items-center gap-3 mb-3.5">
+              <div className="w-10 h-10 rounded-xl bg-brand-sage/40 text-brand-forest flex items-center justify-center border border-brand-border">
+                <Lock className="w-5 h-5" />
               </div>
               <div>
-                <h2 style={{ fontSize: "1.25rem", fontWeight: 800, color: "var(--color-text)" }}>
+                <h2 className="text-xl font-bold text-ink font-heading">
                   Reviewer Authentication
                 </h2>
-                <span className="badge-clean badge-emerald" style={{ fontSize: "0.65rem", padding: "0.1rem 0.45rem" }}>
+                <span className="inline-block text-[10px] font-bold text-brand-forest uppercase tracking-wider bg-brand-sage/40 px-2 py-0.5 rounded-full mt-0.5">
                   Authorized Personnel Only
                 </span>
               </div>
             </div>
 
-            <p style={{ fontSize: "0.85rem", color: "var(--color-text-muted)", marginBottom: "1.5rem", lineHeight: 1.5 }}>
-              Access restricted to certified forensic examiners, legal advocates, and administrators.
+            <p className="text-xs text-ink-secondary mb-6 leading-relaxed font-sans">
+              Access restricted to certified forensic examiners, legal
+              advocates, and platform administrators.
             </p>
 
             {loginError && (
               <div
-                className="animate-fade-in"
-                style={{
-                  backgroundColor: "var(--color-error-bg)",
-                  color: "var(--color-error)",
-                  border: "1px solid #fecaca",
-                  padding: "0.85rem 1rem",
-                  borderRadius: "10px",
-                  marginBottom: "1.25rem",
-                  fontSize: "0.85rem",
-                  display: "flex",
-                  alignItems: "center",
-                  gap: "0.5rem",
-                  fontWeight: 500,
-                }}
+                className="mb-5 p-3.5 rounded-xl bg-accent-coralSoft border border-accent-coral/30 text-accent-coral text-xs leading-relaxed flex items-start gap-2.5"
+                role="alert"
               >
-                <span>⚠️</span> <span>{loginError}</span>
+                <AlertTriangle className="w-4 h-4 flex-shrink-0 mt-0.5" />
+                <span className="flex-1 font-medium">{loginError}</span>
               </div>
             )}
 
-            <form onSubmit={handleLogin} style={{ display: "flex", flexDirection: "column", gap: "1.2rem" }}>
+            <form onSubmit={handleLogin} className="space-y-4">
               <div>
-                <label style={{ display: "block", fontSize: "0.825rem", color: "var(--color-text-secondary)", marginBottom: "0.35rem", fontWeight: 600 }}>
+                <label className="block text-xs font-semibold text-ink mb-1.5">
                   Examiner Email
                 </label>
                 <input
@@ -241,12 +256,12 @@ export default function ReviewerPage() {
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   placeholder="examiner@forensics.org"
-                  className="input-clean"
+                  className="w-full h-11 px-3.5 py-2.5 text-xs sm:text-sm text-ink placeholder:text-ink-muted bg-surface-pearl border border-ink-border rounded-xl focus:outline-none focus:ring-2 focus:ring-brand-rich focus:border-brand-rich transition-colors shadow-2xs"
                 />
               </div>
 
               <div>
-                <label style={{ display: "block", fontSize: "0.825rem", color: "var(--color-text-secondary)", marginBottom: "0.35rem", fontWeight: 600 }}>
+                <label className="block text-xs font-semibold text-ink mb-1.5">
                   Password
                 </label>
                 <input
@@ -255,67 +270,80 @@ export default function ReviewerPage() {
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   placeholder="••••••••••••"
-                  className="input-clean"
+                  className="w-full h-11 px-3.5 py-2.5 text-xs sm:text-sm text-ink placeholder:text-ink-muted bg-surface-pearl border border-ink-border rounded-xl focus:outline-none focus:ring-2 focus:ring-brand-rich focus:border-brand-rich transition-colors shadow-2xs"
                 />
               </div>
 
               <button
                 type="submit"
                 disabled={isLoggingIn}
-                className="btn-emerald"
-                style={{ width: "100%", padding: "0.85rem 1.5rem", marginTop: "0.5rem" }}
+                className="w-full h-11 inline-flex items-center justify-center px-4 rounded-xl bg-brand-forest hover:bg-brand-rich active:bg-brand-hover text-surface-pearl text-xs sm:text-sm font-semibold transition-all shadow-xs hover:shadow disabled:opacity-50 mt-2"
               >
-                {isLoggingIn ? "Authenticating..." : "Sign In to Reviewer Portal"}
+                {isLoggingIn && <Loader2 className="w-4 h-4 animate-spin mr-2" />}
+                <span>
+                  {isLoggingIn
+                    ? "Authenticating…"
+                    : "Sign In to Reviewer Portal"}
+                </span>
               </button>
             </form>
           </div>
         ) : (
-          /* Authorized Reviewer Workspace */
-          <div style={{ display: "grid", gridTemplateColumns: "380px 1fr", gap: "1.5rem" }} className="animate-fade-in">
-            {/* Left Column: Minimal Sensitive Data Case List */}
-            <div className="app-card" style={{ padding: "1.5rem", height: "fit-content" }}>
-              <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "0.75rem" }}>
-                <h3 style={{ fontSize: "1.1rem", fontWeight: 800, color: "var(--color-text)" }}>Triage Case List</h3>
-                <span className="badge-clean badge-emerald">
+          /* Authorized Examiner Workspace */
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
+            {/* Left Column: Triage Case List */}
+            <div className="lg:col-span-4 bg-surface-pearl rounded-2xl border border-ink-border/80 p-5 shadow-xs h-fit">
+              <div className="flex items-center justify-between mb-2">
+                <h3 className="text-base font-bold text-ink font-heading">
+                  Triage Case List
+                </h3>
+                <span className="px-2 py-0.5 rounded-full text-xs font-semibold bg-brand-sage/40 text-brand-forest">
                   {cases.length} Cases
                 </span>
               </div>
-              <p style={{ fontSize: "0.775rem", color: "var(--color-text-muted)", marginBottom: "1.25rem", lineHeight: 1.45 }}>
-                PII is redacted. Primary identifiers use pseudonymized case numbers and timestamps.
+              <p className="text-xs text-ink-muted mb-4 leading-relaxed font-sans">
+                PII is redacted. Primary identifiers use pseudonymized case
+                numbers and timestamps.
               </p>
 
-              <div style={{ display: "flex", flexDirection: "column", gap: "0.6rem", maxHeight: "70vh", overflowY: "auto", paddingRight: "0.25rem" }}>
+              <div className="space-y-2 max-h-[70vh] overflow-y-auto pr-1">
                 {cases.map((c) => {
                   const isSelected = selectedCase?.id === c.id;
                   return (
                     <div
                       key={c.id}
-                      className={`reviewer-case-item ${isSelected ? "selected" : ""}`}
                       onClick={() => handleSelectCase(c.id)}
-                      style={{
-                        padding: "0.85rem 1rem",
-                        backgroundColor: isSelected ? "#ecfdf5" : "#ffffff",
-                        border: `1.5px solid ${isSelected ? "#059669" : "#e2e8f0"}`,
-                        borderRadius: "10px",
-                        cursor: "pointer",
-                        transition: "all 0.15s ease",
-                        boxShadow: isSelected ? "0 2px 8px rgba(5, 150, 105, 0.15)" : "none",
-                      }}
+                      className={cn(
+                        "p-3.5 rounded-xl border cursor-pointer transition-all text-xs shadow-2xs",
+                        isSelected
+                          ? "bg-brand-sage/20 border-brand-forest ring-1 ring-brand-forest"
+                          : "bg-surface-pearl border-ink-border hover:bg-canvas-subtle hover:border-brand-rich/50"
+                      )}
                     >
-                      <div style={{ display: "flex", justifyContent: "space-between", marginBottom: "0.3rem" }}>
-                        <span style={{ fontWeight: 700, fontSize: "0.875rem", color: isSelected ? "#064e3b" : "#0f172a" }}>
+                      <div className="flex items-center justify-between mb-1.5">
+                        <span className="font-mono font-bold text-ink">
                           {c.case_number}
                         </span>
-                        <span className={`badge-clean ${statusBadgeClass(c.review_status)}`} style={{ fontSize: "0.68rem" }}>
+                        <span
+                          className={`text-[10px] font-semibold px-2 py-0.5 rounded-full ${
+                            c.review_status === "CONFIRMED_MANIPULATION"
+                              ? "bg-accent-goldSoft text-accent-gold"
+                              : c.review_status === "AUTHENTIC"
+                              ? "bg-brand-sage/50 text-brand-forest"
+                              : "bg-canvas-sand text-ink-secondary"
+                          }`}
+                        >
                           {c.review_status}
                         </span>
                       </div>
-                      <div style={{ fontSize: "0.825rem", color: "var(--color-text-secondary)", marginBottom: "0.4rem", fontWeight: 500 }}>
+                      <div className="font-semibold text-ink truncate mb-1">
                         {c.title}
                       </div>
-                      <div style={{ display: "flex", justifyContent: "space-between", fontSize: "0.72rem", color: "var(--color-text-muted)" }}>
+                      <div className="flex items-center justify-between text-[11px] text-ink-muted">
                         <span>Items: {c.evidence_count}</span>
-                        <span>{new Date(c.created_at).toLocaleDateString()}</span>
+                        <span>
+                          {new Date(c.created_at).toLocaleDateString()}
+                        </span>
                       </div>
                     </div>
                   );
@@ -323,144 +351,162 @@ export default function ReviewerPage() {
               </div>
             </div>
 
-            {/* Right Column: Case Inspection, Model Reports & Review Controls */}
-            <div>
+            {/* Right Column: Case Inspection, Manifest, Adjudication */}
+            <div className="lg:col-span-8 space-y-6">
               {selectedCase ? (
-                <div style={{ display: "flex", flexDirection: "column", gap: "1.5rem" }} className="animate-fade-in">
-                  {/* Case Header Card */}
-                  <div className="app-card" style={{ padding: "1.5rem" }}>
-                    <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: "0.75rem", flexWrap: "wrap", gap: "0.5rem" }}>
+                <>
+                  {/* Case Details Card */}
+                  <div className="bg-surface-pearl rounded-2xl border border-ink-border/80 p-6 sm:p-7 shadow-xs space-y-3">
+                    <div className="flex flex-wrap items-start justify-between gap-3">
                       <div>
-                        <h2 style={{ fontSize: "1.35rem", fontWeight: 800, color: "var(--color-text)" }}>{selectedCase.case_number}</h2>
-                        <span style={{ fontSize: "0.8rem", color: "var(--color-text-muted)", fontFamily: "var(--font-mono)" }}>UUID: {selectedCase.id}</span>
+                        <h2 className="text-xl font-bold text-ink font-mono">
+                          {selectedCase.case_number}
+                        </h2>
+                        <span className="font-mono text-[11px] text-ink-muted">
+                          UUID: {selectedCase.id}
+                        </span>
                       </div>
-                      <span className="badge-clean badge-emerald">
+                      <span className="px-2.5 py-0.5 rounded-full text-xs font-semibold bg-canvas-sand text-ink-secondary">
                         Policy: {selectedCase.retention_policy}
                       </span>
                     </div>
 
-                    <p style={{ fontSize: "0.875rem", color: "var(--color-text-secondary)", marginTop: "0.5rem", lineHeight: 1.55 }}>
-                      <strong style={{ color: "var(--color-text)" }}>Incident Description:</strong> {selectedCase.incident_description || "No description provided."}
+                    <p className="text-xs text-ink leading-relaxed">
+                      <strong className="text-ink-secondary">
+                        Incident Description:
+                      </strong>{" "}
+                      {selectedCase.incident_description ||
+                        "No description provided."}
                     </p>
 
-                    <div style={{ display: "flex", gap: "1.75rem", marginTop: "1rem", fontSize: "0.8rem", color: "var(--color-text-muted)", borderTop: "1px solid #f1f5f9", paddingTop: "0.75rem" }}>
-                      <span>Status: <strong style={{ color: "var(--color-text)" }}>{selectedCase.status}</strong></span>
+                    <div className="flex items-center gap-6 pt-3 border-t border-ink-border/60 text-xs text-ink-secondary">
+                      <span>
+                        Status:{" "}
+                        <strong className="text-ink">
+                          {selectedCase.status}
+                        </strong>
+                      </span>
                       <span>
                         Retention Expiry:{" "}
-                        <strong style={{ color: "var(--color-text)" }}>
+                        <strong className="text-ink">
                           {selectedCase.retention_expires_at
-                            ? new Date(selectedCase.retention_expires_at).toLocaleString()
+                            ? new Date(
+                                selectedCase.retention_expires_at
+                              ).toLocaleString()
                             : "None"}
                         </strong>
                       </span>
                     </div>
                   </div>
 
-                  {/* Evidence Items & Model Outputs */}
-                  <div className="app-card" style={{ padding: "1.5rem" }}>
-                    <h3 style={{ fontSize: "1.05rem", fontWeight: 800, color: "var(--color-text)", marginBottom: "1rem" }}>
+                  {/* Evidence Manifest & Model Outputs */}
+                  <div className="bg-surface-pearl rounded-2xl border border-ink-border/80 p-6 sm:p-7 shadow-xs space-y-4">
+                    <h3 className="text-base font-bold text-ink font-heading">
                       Evidence Manifest & Automated Model Outputs
                     </h3>
 
-                    {selectedCase.evidence_items && selectedCase.evidence_items.length > 0 ? (
+                    {selectedCase.evidence_items &&
+                    selectedCase.evidence_items.length > 0 ? (
                       selectedCase.evidence_items.map((item) => (
                         <div
                           key={item.id}
-                          style={{
-                            backgroundColor: "#f8fafc",
-                            padding: "1.15rem 1.25rem",
-                            borderRadius: "12px",
-                            marginBottom: "1rem",
-                            border: "1px solid #e2e8f0",
-                          }}
+                          className="p-4 rounded-xl bg-[#FAF8F5] border border-ink-border/80 space-y-3 text-xs"
                         >
-                          <div style={{ display: "flex", justifyContent: "space-between", marginBottom: "0.5rem", flexWrap: "wrap", gap: "0.5rem" }}>
-                            <span style={{ fontWeight: 700, fontSize: "0.925rem", color: "#065f46" }}>
+                          <div className="flex flex-wrap items-center justify-between gap-2">
+                            <span className="font-bold text-brand-forest">
                               {item.filename_sanitized}
                             </span>
-                            <span style={{ fontSize: "0.775rem", color: "var(--color-text-muted)", fontFamily: "var(--font-mono)" }}>
-                              SHA-256: {item.original_sha256.slice(0, 16)}...
+                            <span className="font-mono text-[11px] text-ink-muted">
+                              SHA-256: {item.original_sha256.slice(0, 16)}…
                             </span>
                           </div>
 
-                          {item.model_outputs && item.model_outputs.length > 0 ? (
-                            <div style={{ display: "flex", flexDirection: "column", gap: "0.5rem", marginTop: "0.75rem" }}>
+                          {item.model_outputs &&
+                          item.model_outputs.length > 0 ? (
+                            <div className="space-y-2">
                               {item.model_outputs.map((mo) => (
                                 <div
                                   key={mo.id}
-                                  style={{
-                                    display: "flex",
-                                    justifyContent: "space-between",
-                                    alignItems: "center",
-                                    fontSize: "0.8rem",
-                                    backgroundColor: "#ffffff",
-                                    border: "1px solid #e2e8f0",
-                                    padding: "0.65rem 0.85rem",
-                                    borderRadius: "8px",
-                                  }}
+                                  className="flex items-center justify-between p-2.5 rounded-lg bg-surface-pearl border border-ink-border/70 shadow-2xs"
                                 >
-                                  <span>
-                                    <strong style={{ color: "#065f46" }}>{mo.detector_name}:</strong> {mo.predicted_label || "No Label"} (Score: <span style={{ color: "#059669", fontWeight: 700 }}>{mo.raw_score?.toFixed(3) ?? "N/A"}</span>)
-                                  </span>
-                                  <span style={{ color: "var(--color-text-muted)" }}>
-                                    {mo.status} ({mo.execution_duration_ms?.toFixed(0)} ms)
+                                  <div>
+                                    <strong className="text-brand-forest">
+                                      {mo.detector_name}:
+                                    </strong>{" "}
+                                    <span>
+                                      {mo.predicted_label || "No Label"}
+                                    </span>{" "}
+                                    (Score:{" "}
+                                    <span className="font-bold text-ink">
+                                      {mo.raw_score?.toFixed(3) ?? "N/A"}
+                                    </span>
+                                    )
+                                  </div>
+                                  <span className="text-ink-muted text-[11px]">
+                                    {mo.status} (
+                                    {mo.execution_duration_ms?.toFixed(0)} ms)
                                   </span>
                                 </div>
                               ))}
                             </div>
                           ) : (
-                            <p style={{ fontSize: "0.8rem", color: "var(--color-text-muted)" }}>No model outputs attached to this evidence item.</p>
+                            <p className="text-ink-muted">
+                              No model outputs attached to this evidence item.
+                            </p>
                           )}
                         </div>
                       ))
                     ) : (
-                      <p style={{ fontSize: "0.85rem", color: "var(--color-text-muted)" }}>No evidence items recorded.</p>
+                      <p className="text-xs text-ink-muted">
+                        No evidence items recorded.
+                      </p>
                     )}
                   </div>
 
-                  {/* Human Annotations & Override Controls Form */}
-                  <div className="app-card" style={{ padding: "1.5rem" }}>
-                    <h3 style={{ fontSize: "1.05rem", fontWeight: 800, color: "var(--color-text)", marginBottom: "1rem" }}>
+                  {/* Examiner Adjudication & Override Controls */}
+                  <div className="bg-surface-pearl rounded-2xl border border-ink-border/80 p-6 sm:p-7 shadow-xs space-y-4">
+                    <h3 className="text-base font-bold text-ink font-heading">
                       Examiner Adjudication & Override Controls
                     </h3>
 
                     {reviewMessage && (
-                      <div
-                        className="animate-fade-in"
-                        style={{
-                          backgroundColor: "#f0fdf4",
-                          border: "1px solid #a7f3d0",
-                          color: "#065f46",
-                          padding: "0.85rem 1rem",
-                          borderRadius: "10px",
-                          marginBottom: "1.25rem",
-                          fontSize: "0.85rem",
-                          fontWeight: 500,
-                        }}
-                      >
-                        ℹ️ {reviewMessage}
+                      <div className="p-3.5 rounded-xl bg-brand-sage/30 border border-brand-border text-brand-forest text-xs flex items-center gap-2 font-medium">
+                        <CheckCircle2 className="w-4 h-4 text-brand-rich flex-shrink-0" />
+                        <span>{reviewMessage}</span>
                       </div>
                     )}
 
-                    <form onSubmit={handleSubmitReview} style={{ display: "flex", flexDirection: "column", gap: "1.25rem" }}>
+                    <form onSubmit={handleSubmitReview} className="space-y-4">
                       <div>
-                        <label style={{ display: "block", fontSize: "0.85rem", color: "var(--color-text-secondary)", marginBottom: "0.4rem", fontWeight: 600 }}>
+                        <label className="block text-xs font-semibold text-ink mb-1.5">
                           Review Decision
                         </label>
                         <select
                           value={decision}
                           onChange={(e) => setDecision(e.target.value)}
-                          className="select-clean"
+                          className="w-full h-11 px-3.5 py-2.5 text-xs sm:text-sm text-ink bg-surface-pearl border border-ink-border rounded-xl focus:outline-none focus:ring-2 focus:ring-brand-rich focus:border-brand-rich transition-colors shadow-2xs"
                         >
-                          <option value="CONFIRMED_MANIPULATION">CONFIRMED_MANIPULATION — Strong forensic artifacts detected</option>
-                          <option value="AUTHENTIC">AUTHENTIC — Consistent camera sensor & frequency baseline</option>
-                          <option value="INCONCLUSIVE">INCONCLUSIVE — High compression / low resolution limits determination</option>
-                          <option value="TAMPERING_EVIDENT">TAMPERING_EVIDENT — Metadata / boundary anomalies present</option>
+                          <option value="CONFIRMED_MANIPULATION">
+                            CONFIRMED_MANIPULATION — Strong forensic artifacts
+                            detected
+                          </option>
+                          <option value="AUTHENTIC">
+                            AUTHENTIC — Consistent camera sensor & frequency
+                            baseline
+                          </option>
+                          <option value="INCONCLUSIVE">
+                            INCONCLUSIVE — High compression / low resolution limits
+                            determination
+                          </option>
+                          <option value="TAMPERING_EVIDENT">
+                            TAMPERING_EVIDENT — Metadata / boundary anomalies
+                            present
+                          </option>
                         </select>
                       </div>
 
                       <div>
-                        <label style={{ display: "block", fontSize: "0.85rem", color: "var(--color-text-secondary)", marginBottom: "0.4rem", fontWeight: 600 }}>
+                        <label className="block text-xs font-semibold text-ink mb-1.5">
                           Examiner Notes & Technical Annotations
                         </label>
                         <textarea
@@ -469,58 +515,69 @@ export default function ReviewerPage() {
                           value={examinerNotes}
                           onChange={(e) => setExaminerNotes(e.target.value)}
                           placeholder="Document observations regarding facial boundary discontinuity, ELA error differences, or FFT spectral symmetry..."
-                          className="textarea-clean"
+                          className="w-full p-3.5 text-xs sm:text-sm text-ink placeholder:text-ink-muted bg-surface-pearl border border-ink-border rounded-xl focus:outline-none focus:ring-2 focus:ring-brand-rich focus:border-brand-rich transition-colors shadow-2xs"
                         />
                       </div>
 
-                      <label style={{ display: "flex", alignItems: "center", gap: "0.75rem", fontSize: "0.85rem", color: "var(--color-text)", cursor: "pointer", lineHeight: 1.45 }}>
+                      <label className="flex items-start gap-2.5 text-xs text-ink cursor-pointer select-none">
                         <input
                           type="checkbox"
                           checked={humanOverride}
                           onChange={(e) => setHumanOverride(e.target.checked)}
-                          style={{ accentColor: "#059669", width: "17px", height: "17px", cursor: "pointer" }}
+                          className="mt-0.5 rounded text-brand-forest focus:ring-brand-rich"
                         />
-                        <span>
-                          <strong>Human Override:</strong> Check this if your expert finding departs from or modifies automated model heuristics.
+                        <span className="leading-relaxed">
+                          <strong>Human Override:</strong> Check this if your
+                          expert finding departs from or modifies automated model
+                          heuristics.
                         </span>
                       </label>
 
                       <button
                         type="submit"
-                        disabled={isSubmittingReview || examinerNotes.trim().length < 3}
-                        className="btn-emerald btn-success"
-                        style={{ padding: "0.85rem 1.5rem" }}
+                        disabled={
+                          isSubmittingReview || examinerNotes.trim().length < 3
+                        }
+                        className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-brand-forest hover:bg-brand-rich active:bg-brand-hover text-surface-pearl text-xs sm:text-sm font-semibold transition-all shadow-xs hover:shadow disabled:opacity-50"
                       >
-                        {isSubmittingReview ? "Recording..." : "Save Examiner Adjudication"}
+                        {isSubmittingReview && (
+                          <Loader2 className="w-4 h-4 animate-spin" />
+                        )}
+                        <span>
+                          {isSubmittingReview
+                            ? "Recording…"
+                            : "Save Examiner Adjudication"}
+                        </span>
                       </button>
                     </form>
                   </div>
 
-                  {/* Audit Trail Card */}
-                  <div className="app-card" style={{ padding: "1.5rem" }}>
-                    <h3 style={{ fontSize: "1.05rem", fontWeight: 800, color: "var(--color-text)", marginBottom: "1rem" }}>
-                      Immutable Case Audit Trail
-                    </h3>
+                  {/* Case Audit Trail */}
+                  <div className="bg-surface-pearl rounded-2xl border border-ink-border/80 p-6 sm:p-7 shadow-xs space-y-4">
+                    <div className="flex items-center gap-2">
+                      <History className="w-4 h-4 text-brand-forest" />
+                      <h3 className="text-base font-bold text-ink font-heading">
+                        Immutable Case Audit Trail
+                      </h3>
+                    </div>
 
                     {auditLogs.length > 0 ? (
-                      <div style={{ display: "flex", flexDirection: "column", gap: "0.6rem" }}>
+                      <div className="space-y-2">
                         {auditLogs.map((log) => (
                           <div
                             key={log.id}
-                            style={{
-                              backgroundColor: "#f8fafc",
-                              border: "1px solid #e2e8f0",
-                              padding: "0.85rem 1rem",
-                              borderRadius: "10px",
-                              fontSize: "0.8rem",
-                            }}
+                            className="p-3.5 rounded-xl bg-[#FAF8F5] border border-ink-border text-xs space-y-1"
                           >
-                            <div style={{ display: "flex", justifyContent: "space-between", marginBottom: "0.3rem" }}>
-                              <strong style={{ color: "#065f46" }}>{log.action}</strong>
-                              <span style={{ color: "var(--color-text-muted)" }}>{new Date(log.created_at).toLocaleString()}</span>
+                            <div className="flex items-center justify-between">
+                              <strong className="text-brand-forest">
+                                {log.action}
+                              </strong>
+                              <span className="text-ink-muted text-[11px]">
+                                {new Date(log.created_at).toLocaleString()}
+                              </span>
                             </div>
                             {log.details_json && (
-                              <pre style={{ margin: 0, fontSize: "0.75rem", color: "var(--color-text-secondary)", whiteSpace: "pre-wrap", fontFamily: "var(--font-mono)" }}>
+                              <pre className="font-mono text-[11px] text-ink-secondary bg-surface-pearl p-2.5 rounded-lg border border-ink-border/50 overflow-x-auto shadow-2xs">
                                 {JSON.stringify(log.details_json, null, 2)}
                               </pre>
                             )}
@@ -528,26 +585,18 @@ export default function ReviewerPage() {
                         ))}
                       </div>
                     ) : (
-                      <p style={{ fontSize: "0.85rem", color: "var(--color-text-muted)" }}>No audit log entries recorded yet.</p>
+                      <p className="text-xs text-ink-muted">
+                        No audit log entries recorded yet.
+                      </p>
                     )}
                   </div>
-                </div>
+                </>
               ) : (
-                <div
-                  className="app-card"
-                  style={{
-                    padding: "4rem 2rem",
-                    textAlign: "center",
-                    color: "var(--color-text-muted)",
-                    display: "flex",
-                    flexDirection: "column",
-                    alignItems: "center",
-                    gap: "0.75rem",
-                  }}
-                >
-                  <span style={{ fontSize: "2.5rem" }}>📂</span>
-                  <p style={{ fontSize: "0.95rem" }}>
-                    Select a case from the triage list to inspect details and record examiner review.
+                <div className="p-16 text-center rounded-2xl bg-surface-pearl border border-ink-border/80 shadow-xs">
+                  <FileCheck className="w-10 h-10 text-ink-muted mx-auto mb-3" />
+                  <p className="text-xs sm:text-sm text-ink-secondary font-medium">
+                    Select a case from the triage list to inspect details and
+                    record examiner review.
                   </p>
                 </div>
               )}
@@ -557,17 +606,4 @@ export default function ReviewerPage() {
       </main>
     </div>
   );
-}
-
-function statusBadgeClass(status: string): string {
-  switch (status) {
-    case "CONFIRMED_MANIPULATION":
-      return "badge-red";
-    case "AUTHENTIC":
-      return "badge-emerald";
-    case "TAMPERING_EVIDENT":
-      return "badge-amber";
-    default:
-      return "badge-slate";
-  }
 }

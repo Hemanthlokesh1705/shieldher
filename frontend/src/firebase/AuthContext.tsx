@@ -89,10 +89,32 @@ export function AuthProvider({ children }: { children: ReactNode }) {
             photoURL: firebaseUser.photoURL,
             role: localStorage.getItem("shieldher_role") || "VICTIM",
           });
+          setLoading(false);
         } else {
-          setUser(null);
+          // Check if there is an active local backend token
+          const token = localStorage.getItem("shieldher_token");
+          if (token) {
+            getCurrentUser(token)
+              .then((profile) => {
+                setUser({
+                  uid: profile.id,
+                  email: profile.email,
+                  displayName: profile.full_name,
+                  role: profile.role,
+                });
+              })
+              .catch(() => {
+                localStorage.removeItem("shieldher_token");
+                localStorage.removeItem("shieldher_role");
+                localStorage.removeItem("shieldher_user_id");
+                setUser(null);
+              })
+              .finally(() => setLoading(false));
+          } else {
+            setUser(null);
+            setLoading(false);
+          }
         }
-        setLoading(false);
       });
       return unsub;
     } else {
@@ -131,20 +153,34 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     const cleanName = displayName?.trim() || cleanEmail.split("@")[0];
 
     if (isFirebaseConfigured && auth) {
-      // 1. Firebase user creation
-      const cred = await createUserWithEmailAndPassword(auth, cleanEmail, password);
-      if (cleanName) {
-        await updateProfile(cred.user, { displayName: cleanName });
-      }
-      // 2. Synchronize with backend database & issue JWT
-      await syncWithBackend(cleanEmail, password, cleanName, role);
+      try {
+        const cred = await createUserWithEmailAndPassword(auth, cleanEmail, password);
+        if (cleanName) {
+          await updateProfile(cred.user, { displayName: cleanName });
+        }
+        await syncWithBackend(cleanEmail, password, cleanName, role);
 
-      setUser({
-        uid: cred.user.uid,
-        email: cred.user.email,
-        displayName: cleanName,
-        role,
-      });
+        setUser({
+          uid: cred.user.uid,
+          email: cred.user.email,
+          displayName: cleanName,
+          role,
+        });
+      } catch (fbErr: any) {
+        // Fallback to backend registration if Firebase fails or is offline
+        try {
+          await registerUser(cleanEmail, password, cleanName, role);
+          const tokenRes = await loginUser(cleanEmail, password);
+          setUser({
+            uid: tokenRes.user_id,
+            email: tokenRes.email,
+            displayName: cleanName,
+            role: tokenRes.role,
+          });
+        } catch {
+          throw fbErr;
+        }
+      }
     } else {
       // Local backend user creation
       await registerUser(cleanEmail, password, cleanName, role);
@@ -162,16 +198,30 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     const cleanEmail = email.trim().toLowerCase();
 
     if (isFirebaseConfigured && auth) {
-      const cred = await signInWithEmailAndPassword(auth, cleanEmail, password);
-      // Synchronize backend token
-      await syncWithBackend(cleanEmail, password, cred.user.displayName || undefined);
-      setUser({
-        uid: cred.user.uid,
-        email: cred.user.email,
-        displayName: cred.user.displayName,
-        photoURL: cred.user.photoURL,
-        role: localStorage.getItem("shieldher_role") || "VICTIM",
-      });
+      try {
+        const cred = await signInWithEmailAndPassword(auth, cleanEmail, password);
+        await syncWithBackend(cleanEmail, password, cred.user.displayName || undefined);
+        setUser({
+          uid: cred.user.uid,
+          email: cred.user.email,
+          displayName: cred.user.displayName,
+          photoURL: cred.user.photoURL,
+          role: localStorage.getItem("shieldher_role") || "VICTIM",
+        });
+      } catch (fbErr: any) {
+        // Fallback to backend authentication if Firebase user doesn't exist
+        try {
+          const tokenRes = await loginUser(cleanEmail, password);
+          setUser({
+            uid: tokenRes.user_id,
+            email: tokenRes.email,
+            displayName: cleanEmail.split("@")[0],
+            role: tokenRes.role,
+          });
+        } catch {
+          throw fbErr;
+        }
+      }
     } else {
       const tokenRes = await loginUser(cleanEmail, password);
       setUser({

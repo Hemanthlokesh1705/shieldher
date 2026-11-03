@@ -261,6 +261,7 @@ export interface ReverseSearchResponse {
   visual_matches_count: number;
   exact_matches: SearchMatchItem[];
   visual_matches: SearchMatchItem[];
+  matches?: SearchMatchItem[];
   search_duration_ms?: number;
   disclaimer: string;
 }
@@ -291,6 +292,7 @@ export interface ComplaintDraftResponse {
   draft_status: "DRAFT_FOR_REVIEW" | "FINALIZED_FOR_EXPORT";
   generated_at: string;
   markdown_body: string;
+  draft_text?: string;
   statutory_provisions_cited: string[];
   evidence_custody_count: number;
   filing_portal_url: string;

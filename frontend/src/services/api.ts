@@ -399,7 +399,12 @@ export async function generateComplaintDraft(
     const err = await res.json().catch(() => ({ detail: "Failed to generate complaint draft" }));
     throw new Error(err.detail || `Failed to generate draft (${res.status})`);
   }
-  return res.json();
+  const data = await res.json();
+  return {
+    ...data,
+    draft_text: data.draft_text || data.markdown_body || data.complaint_text || "",
+    markdown_body: data.markdown_body || data.draft_text || data.complaint_text || "",
+  };
 }
 
 export async function getComplaintDraft(caseId: string, token?: string): Promise<ComplaintDraftResponse> {
@@ -409,7 +414,12 @@ export async function getComplaintDraft(caseId: string, token?: string): Promise
   if (!res.ok) {
     throw new Error(`Failed to load draft (${res.status})`);
   }
-  return res.json();
+  const data = await res.json();
+  return {
+    ...data,
+    draft_text: data.draft_text || data.markdown_body || data.complaint_text || "",
+    markdown_body: data.markdown_body || data.draft_text || data.complaint_text || "",
+  };
 }
 
 // ── Case Persistence & Evidence Management ───────────────────────────────────
