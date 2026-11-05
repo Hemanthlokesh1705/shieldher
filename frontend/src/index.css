@@ -169,58 +169,6 @@ button {
 }
 
 /* ============================================================
-   QUICK EXIT BAR (Trauma-Informed Safety Feature)
-   ============================================================ */
-.quick-exit-bar {
-  background: #1d2d2b;
-  color: var(--text-inverse);
-  padding: 10px 18px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 12px;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-}
-
-.quick-exit-bar-content {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  min-width: 0;
-}
-
-.quick-exit-btn {
-  border: none;
-  border-radius: 999px;
-  background: #d85b4a;
-  color: #fff;
-  padding: 8px 14px;
-  font-weight: 700;
-  font-size: 0.78rem;
-  letter-spacing: 0.02em;
-  min-height: 36px;
-}
-
-.quick-exit-btn:hover {
-  background: #bf4838;
-}
-
-.quick-exit-hint {
-  color: rgba(255, 255, 255, 0.76);
-  font-size: 0.74rem;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-
-.quick-exit-status {
-  font-size: 0.72rem;
-  color: rgba(255, 255, 255, 0.72);
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
-}
-
-/* ============================================================
    CALM AUTHENTICATION (Login / Register / Forgot Password)
    ============================================================ */
 .auth-page-container {
@@ -965,17 +913,4 @@ button {
     padding: 18px 16px;
   }
 
-  .quick-exit-bar {
-    padding: 10px 12px;
-    flex-wrap: wrap;
-  }
-
-  .quick-exit-bar-content {
-    width: 100%;
-    justify-content: space-between;
-  }
-
-  .quick-exit-hint {
-    display: none;
-  }
 }

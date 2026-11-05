@@ -71,8 +71,6 @@ export default function ReportingPage() {
     } catch (_) {}
   };
 
-  const handleQuickExit = () => window.location.replace("https://www.google.com");
-
   const handleUpload = async (file: File) => {
     setIsUploading(true);
     setPageError(null);
@@ -338,9 +336,6 @@ export default function ReportingPage() {
                 </Link>
               </div>
             )}
-            <button onClick={handleQuickExit} className="nav-exit-btn">
-              ✕ Quick Exit
-            </button>
           </div>
         </div>
       </header>

@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import { useAuth } from "../firebase/AuthContext";
-import QuickExitBar from "../components/common/QuickExitBar";
 import { Shield, KeyRound, CheckCircle2, ArrowLeft, ArrowRight } from "lucide-react";
 
 export default function ForgotPasswordPage() {
@@ -32,8 +31,6 @@ export default function ForgotPasswordPage() {
 
   return (
     <div className="min-h-screen bg-canvas flex flex-col justify-between selection:bg-brand-sage selection:text-brand-forest">
-      <QuickExitBar />
-
       <div className="flex-1 flex flex-col justify-center items-center px-4 py-12 sm:px-6 lg:px-8">
         {/* Brand Banner */}
         <div className="flex items-center gap-3 mb-8">

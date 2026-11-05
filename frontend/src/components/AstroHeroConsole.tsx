@@ -2,7 +2,6 @@ import { useState, useEffect } from "react";
 import { CaseItem, ForensicsResponse, UploadResponse, VerificationResponse } from "../types/models";
 
 interface AstroHeroConsoleProps {
-  onQuickExit: () => void;
   onNavigateSection?: (sectionId: string) => void;
   activeStage?: number;
   uploadData?: UploadResponse | null;
@@ -14,7 +13,6 @@ interface AstroHeroConsoleProps {
 }
 
 export function AstroHeroConsole({
-  onQuickExit,
   onNavigateSection,
   activeStage = 1,
   uploadData,
@@ -271,17 +269,6 @@ export function AstroHeroConsole({
             )}
           </div>
 
-          {/* Rail Bottom Tools */}
-          <div style={{ display: "flex", flexDirection: "column", gap: "0.6rem", alignItems: "center" }}>
-            <button
-              className="astro-rail-btn"
-              title="Emergency Quick Exit"
-              onClick={onQuickExit}
-              style={{ color: "#dc2626", background: "#fef2f2" }}
-            >
-              🚪
-            </button>
-          </div>
         </div>
 
         {/* Center Forensic Stage */}

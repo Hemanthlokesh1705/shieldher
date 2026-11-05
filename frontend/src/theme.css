@@ -1,0 +1,231 @@
+/*
+ * Dark "cyber" theme (navy / indigo / cyan).
+ * Applied ONLY inside the logged-in app: AppLayout adds the .theme-dark class.
+ * Login / Register / Consent / other public pages keep the original light theme.
+ *
+ * Import AFTER index.css in main.tsx.
+ */
+.theme-dark {
+  color-scheme: dark;
+
+  /* ── Tailwind tokens (space-separated RGB channels) ── */
+  --c-canvas: 6 9 25;
+  --c-canvas-pearl: 13 18 48;
+  --c-canvas-subtle: 20 26 63;
+  --c-canvas-sand: 27 34 80;
+
+  --c-surface: 13 18 48;
+  --c-surface-subtle: 15 21 54;
+  --c-surface-secondary: 20 26 63;
+  --c-surface-tertiary: 27 34 80;
+  --c-surface-tint: 15 26 58;
+
+  --c-brand-forest: 34 211 238;
+  --c-brand-rich: 103 232 249;
+  --c-brand-sage: 30 42 107;
+  --c-brand-hover: 14 165 198;
+  --c-brand-light: 18 26 69;
+  --c-brand-border: 42 52 120;
+
+  --c-ink: 241 245 255;
+  --c-ink-secondary: 169 180 214;
+  --c-ink-muted: 127 139 179;
+  --c-ink-subtle: 90 102 148;
+  --c-ink-border: 38 46 99;
+  --c-ink-border-strong: 58 68 136;
+
+  --c-accent-coral: 255 138 128;
+  --c-accent-gold: 251 146 60; /* warm orange, like the shield glow */
+  --c-accent-bluegrey: 27 34 80;
+  --c-accent-coral-soft: 58 22 32;
+  --c-accent-gold-soft: 58 36 14;
+
+  --c-status-success: 52 211 153;
+  --c-status-success-bg: 11 42 34;
+  --c-status-success-border: 20 81 63;
+  --c-status-warning: 251 191 36;
+  --c-status-warning-bg: 51 38 10;
+  --c-status-warning-border: 92 68 19;
+  --c-status-error: 248 113 113;
+  --c-status-error-bg: 54 19 26;
+  --c-status-error-border: 107 35 48;
+  --c-status-info: 56 189 248;
+  --c-status-info-bg: 10 36 51;
+  --c-status-info-border: 22 74 102;
+
+  --c-shadow: 0 0 0;
+
+  /* ── index.css variables (hex) for .panel, .btn, .sidebar-link, .data-table etc. ── */
+  --bg-main: #060919;
+  --surface-primary: #0d1230;
+  --surface-secondary: #141a3f;
+  --surface-tertiary: #1b2250;
+
+  --text-primary: #f1f5ff;
+  --text-secondary: #a9b4d6;
+  --text-muted: #7f8bb3;
+  --text-inverse: #060919;
+
+  --accent-primary: #22d3ee;
+  --accent-hover: #67e8f9;
+  --accent-active: #0ea5c6;
+  --accent-rich: #67e8f9;
+  --accent-sage: #1e2a6b;
+  --accent-surface: #121a45;
+  --accent-border: #2a3478;
+
+  --status-info-bg: #0a2433;
+  --status-info-border: #164a66;
+  --status-review: #fbbf24;
+  --status-review-bg: #33260a;
+  --status-review-border: #5c4413;
+  --status-ready: #34d399;
+  --status-ready-bg: #0b2a22;
+  --status-ready-border: #14513f;
+  --status-closed: #a9b4d6;
+  --status-closed-bg: #141a3f;
+  --status-closed-border: #262e63;
+  --status-error-bg: #36131a;
+  --status-error-border: #6b2330;
+
+  --border-light: #262e63;
+  --border-medium: #3a4488;
+  --border-strong: #7f8bb3;
+
+  --shadow-xs: 0 1px 2px rgba(0, 0, 0, 0.35);
+  --shadow-sm: 0 4px 16px -2px rgba(0, 0, 0, 0.45);
+  --shadow-md: 0 10px 25px -4px rgba(0, 0, 0, 0.5);
+  --shadow-lg: 0 20px 35px -6px rgba(0, 0, 0, 0.55);
+
+  /* Backward-compat aliases must be re-declared so they pick up the dark values */
+  --color-bg: var(--bg-main);
+  --color-bg-subtle: var(--surface-secondary);
+  --color-surface: var(--surface-primary);
+  --color-surface-hover: var(--surface-secondary);
+  --color-border: var(--border-light);
+  --color-border-strong: var(--border-medium);
+  --color-primary: var(--accent-primary);
+  --color-primary-hover: var(--accent-hover);
+  --color-primary-light: var(--accent-surface);
+  --color-primary-bg: var(--accent-surface);
+  --color-primary-border: var(--accent-border);
+  --color-text: var(--text-primary);
+  --color-text-secondary: var(--text-secondary);
+  --color-text-muted: var(--text-secondary);
+  --color-text-subtle: var(--text-muted);
+  --color-success: var(--status-ready);
+  --color-warning: var(--status-review);
+  --color-error: var(--status-error);
+  --color-error-bg: var(--status-error-bg);
+}
+
+/* Buttons: dark text on bright cyan */
+.theme-dark .btn-primary {
+  color: #060919;
+}
+.theme-dark .btn-primary:hover:not(:disabled) {
+  color: #060919;
+}
+
+/* Hard-coded light surfaces in index.css */
+.theme-dark .support-callout {
+  background: var(--surface-secondary);
+}
+.theme-dark .data-table tbody tr:hover {
+  background: var(--surface-secondary);
+}
+.theme-dark .form-input:focus,
+.theme-dark .form-select:focus,
+.theme-dark .form-textarea:focus {
+  box-shadow: 0 0 0 4px rgba(34, 211, 238, 0.18);
+}
+
+/* Soft cyan glow behind the page content */
+.theme-dark main {
+  background-image:
+    radial-gradient(60% 40% at 85% 0%, rgba(34, 211, 238, 0.07), transparent 70%),
+    radial-gradient(50% 35% at 0% 100%, rgba(251, 146, 60, 0.04), transparent 70%);
+}
+
+/*
+ * Compatibility: components that use hard-coded light colors instead of tokens.
+ */
+.theme-dark .bg-white {
+  background-color: rgb(var(--c-surface));
+}
+.theme-dark .bg-\[\#FAF8F5\],
+.theme-dark .bg-\[\#FAF9F6\],
+.theme-dark .bg-\[\#F8F6F1\],
+.theme-dark .bg-\[\#F5F2EC\],
+.theme-dark .bg-\[\#F4F1EC\],
+.theme-dark .bg-\[\#F8F6F0\],
+.theme-dark .bg-\[\#FAF9F5\] {
+  background-color: rgb(var(--c-surface-subtle));
+}
+.theme-dark .bg-\[\#EAE5DA\] {
+  background-color: rgb(var(--c-canvas-sand));
+}
+
+.theme-dark .bg-teal-50,
+.theme-dark .bg-teal-100 {
+  background-color: rgb(var(--c-brand-sage) / 0.5);
+}
+.theme-dark .text-teal-600,
+.theme-dark .text-teal-700,
+.theme-dark .text-teal-800 {
+  color: rgb(var(--c-brand-forest));
+}
+.theme-dark .border-teal-200,
+.theme-dark .border-teal-300 {
+  border-color: rgb(var(--c-brand-border));
+}
+.theme-dark .bg-rose-50 {
+  background-color: rgb(var(--c-status-error-bg));
+}
+.theme-dark .text-rose-600,
+.theme-dark .text-rose-700 {
+  color: rgb(var(--c-status-error));
+}
+.theme-dark .border-rose-200 {
+  border-color: rgb(var(--c-status-error-border));
+}
+.theme-dark .bg-amber-50 {
+  background-color: rgb(var(--c-status-warning-bg));
+}
+.theme-dark .text-amber-600,
+.theme-dark .text-amber-700 {
+  color: rgb(var(--c-status-warning));
+}
+.theme-dark .border-amber-200 {
+  border-color: rgb(var(--c-status-warning-border));
+}
+.theme-dark .bg-green-50 {
+  background-color: rgb(var(--c-status-success-bg));
+}
+.theme-dark .text-green-600,
+.theme-dark .text-green-700,
+.theme-dark .text-emerald-600,
+.theme-dark .text-emerald-700 {
+  color: rgb(var(--c-status-success));
+}
+.theme-dark .border-green-200 {
+  border-color: rgb(var(--c-status-success-border));
+}
+
+/* Button.tsx primary / destructive variants use Tailwind teal / rose + white text */
+.theme-dark .bg-teal-600 {
+  background-color: rgb(var(--c-brand-forest));
+  color: rgb(var(--c-canvas));
+}
+.theme-dark .hover\:bg-teal-700:hover,
+.theme-dark .active\:bg-teal-800:active {
+  background-color: rgb(var(--c-brand-rich));
+  color: rgb(var(--c-canvas));
+}
+.theme-dark .hover\:bg-teal-100:hover {
+  background-color: rgb(var(--c-brand-sage) / 0.8);
+}
+.theme-dark .bg-rose-600 {
+  background-color: rgb(var(--c-status-error));
+  color: rgb(var(--c-canvas));
+}

@@ -53,7 +53,7 @@ describe("LandingPage", () => {
     ).toBeInTheDocument();
     expect(screen.getAllByRole("link", { name: /create/i }).length).toBeGreaterThan(0);
     expect(
-      screen.getByRole("link", { name: "Sign in", exact: true }),
+      screen.getByRole("link", { name: /^Sign in$/ }),
     ).toHaveAttribute("href", "/login");
   });
 
