@@ -97,15 +97,47 @@ export default function DashboardPage() {
   };
 
   const userGreeting = user?.displayName ? `, ${user.displayName}` : "";
+  const shortcuts = [
+    {
+      to: "/verification/consent",
+      index: "01",
+      title: "9-Step Verification",
+      description:
+        "A guided face check, deepfake probability, and image noise diagnostics.",
+      action: "Start a private check",
+      icon: ShieldAlert,
+      className: "dashboard-shortcut-check",
+    },
+    {
+      to: "/help",
+      index: "02",
+      title: "Help & Safety",
+      description:
+        "Find national helplines, evidence preservation guides, and legal resources.",
+      action: "Explore safety resources",
+      icon: LifeBuoy,
+      className: "dashboard-shortcut-help",
+    },
+    {
+      to: "/settings",
+      index: "03",
+      title: "Account & Retention",
+      description:
+        "Manage retention preferences, pseudonyms, or permanent data erasure.",
+      action: "Manage your privacy",
+      icon: KeyRound,
+      className: "dashboard-shortcut-account",
+    },
+  ];
 
   return (
-    <div className="dashboard-page space-y-7 pb-10">
-      {/* Editorial Hero Welcome Banner */}
-      <motion.div
-        initial={{ opacity: 0, y: 10 }}
+    <div className="dashboard-page pb-10">
+      <motion.section
+        className="dashboard-hero-card"
+        initial={reduceMotion ? false : { opacity: 0, y: 18 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.3 }}
-        className="dashboard-hero-card bg-surface-pearl rounded-2xl border border-ink-border/80 p-6 sm:p-9 shadow-sm relative overflow-hidden"
+        transition={{ duration: reduceMotion ? 0 : 0.55, ease: "easeOut" }}
+        aria-labelledby="dashboard-welcome-title"
       >
         <div className="dashboard-hero-art" aria-hidden="true">
           <img src="/loginhero.jpeg" alt="" />
@@ -114,309 +146,270 @@ export default function DashboardPage() {
         <div className="dashboard-hero-orbit dashboard-hero-orbit-one" aria-hidden="true" />
         <div className="dashboard-hero-orbit dashboard-hero-orbit-two" aria-hidden="true" />
 
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center relative z-10">
-          <div className="dashboard-hero-copy lg:col-span-8 space-y-4">
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-brand-sage/40 border border-brand-border text-brand-forest text-xs font-semibold">
-              <Sparkles className="dashboard-sparkle w-3.5 h-3.5 text-accent-gold" />
+        <div className="dashboard-hero-content">
+          <div className="dashboard-hero-copy">
+            <motion.div
+              className="dashboard-eyebrow"
+              initial={reduceMotion ? false : { opacity: 0, x: -12 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: reduceMotion ? 0 : 0.4, delay: 0.12 }}
+            >
+              <span className="dashboard-eyebrow-pulse" aria-hidden="true" />
+              <Sparkles className="dashboard-sparkle" aria-hidden="true" />
               <span>Private & Confidential Sanctuary</span>
-            </div>
-
-            <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold tracking-tight text-ink font-heading leading-tight">
-              Welcome to your private space{userGreeting}
-            </h2>
-
-            <p className="text-sm sm:text-base text-ink-secondary font-sans leading-relaxed max-w-2xl">
-              You can verify suspicious imagery, examine objective forensic diagnostics,
-              and assemble court-admissible incident packages on your own terms.
-            </p>
-
-            <div className="pt-2 flex flex-wrap items-center gap-4">
-              <Link
-                to="/verification/consent"
-                className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-brand-forest hover:bg-brand-rich active:bg-brand-hover text-surface-pearl text-xs sm:text-sm font-semibold transition-all shadow-xs hover:shadow focus:outline-none focus:ring-2 focus:ring-brand-rich focus:ring-offset-2"
-              >
-                <PlusCircle className="w-4 h-4" />
-                <span>Check an image now</span>
+            </motion.div>
+            <motion.h2
+              id="dashboard-welcome-title"
+              initial={reduceMotion ? false : { opacity: 0, y: 12 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: reduceMotion ? 0 : 0.45, delay: 0.18 }}
+            >
+              Your space.
+              <br />
+              <span>Your next step.</span>
+              {userGreeting && (
+                <span className="dashboard-user-greeting">
+                  Welcome back{userGreeting}
+                </span>
+              )}
+            </motion.h2>
+            <motion.p
+              className="dashboard-hero-description"
+              initial={reduceMotion ? false : { opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: reduceMotion ? 0 : 0.45, delay: 0.24 }}
+            >
+              Verify suspicious imagery, review forensic diagnostics, and
+              prepare an incident package when you are ready. You remain in
+              control at every step.
+            </motion.p>
+            <motion.div
+              className="dashboard-hero-actions"
+              initial={reduceMotion ? false : { opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: reduceMotion ? 0 : 0.45, delay: 0.3 }}
+            >
+              <Link to="/verification/consent" className="dashboard-primary-action">
+                <PlusCircle aria-hidden="true" />
+                <span>Check an image</span>
+                <ArrowRight className="dashboard-action-arrow" aria-hidden="true" />
               </Link>
-
-              <Link
-                to="/cases"
-                className="inline-flex items-center gap-1.5 px-4 py-2.5 rounded-xl bg-surface-pearl border border-ink-border hover:bg-canvas-subtle text-ink font-medium text-xs sm:text-sm transition-colors"
-              >
-                <FileText className="w-4 h-4 text-ink-muted" />
-                <span>View My Requests</span>
+              <Link to="/cases" className="dashboard-secondary-action">
+                <FileText aria-hidden="true" />
+                <span>View my requests</span>
               </Link>
-            </div>
+            </motion.div>
           </div>
 
-          {/* Quick Security Snapshot Pill Box */}
-          <motion.div
-            className="dashboard-posture lg:col-span-4 bg-[#F8F6F0] rounded-xl p-5 border border-ink-border/70 space-y-3 shadow-2xs"
-            initial={reduceMotion ? false : { opacity: 0, x: 16 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: reduceMotion ? 0 : 0.5, delay: 0.14 }}
+          <motion.aside
+            className="dashboard-posture"
+            aria-label="Active privacy posture"
+            initial={reduceMotion ? false : { opacity: 0, x: 22, scale: 0.97 }}
+            animate={{ opacity: 1, x: 0, scale: 1 }}
+            transition={{ duration: reduceMotion ? 0 : 0.55, delay: 0.2 }}
           >
-            <div className="flex items-center gap-2 text-xs font-bold text-ink-primary font-heading uppercase tracking-wider">
-              <Shield className="dashboard-posture-icon w-4 h-4 text-brand-forest" />
-              <span>Active Privacy Posture</span>
-            </div>
-
-            <div className="space-y-2 text-xs text-ink-secondary">
-              <div className="flex items-center justify-between pb-1.5 border-b border-ink-border/50">
-                <span>Memory Buffering</span>
-                <span className="font-semibold text-brand-forest">Ephemeral</span>
+            <div className="dashboard-posture-heading">
+              <div className="dashboard-posture-icon">
+                <Shield aria-hidden="true" />
               </div>
-              <div className="flex items-center justify-between pb-1.5 border-b border-ink-border/50">
-                <span>Client-Side Blur</span>
-                <span className="font-semibold text-brand-forest">Enabled</span>
-              </div>
-              <div className="flex items-center justify-between">
-                <span>Privacy settings</span>
-                <Link
-                  to="/settings"
-                  className="font-semibold text-brand-forest hover:underline"
-                >
-                  Review anytime
-                </Link>
+              <div>
+                <span className="dashboard-posture-label">Privacy posture</span>
+                <span className="dashboard-posture-status">
+                  <span aria-hidden="true" />
+                  Your workspace is private
+                </span>
               </div>
             </div>
-          </motion.div>
+            <div className="dashboard-posture-row">
+              <span>Memory buffering</span>
+              <strong>Ephemeral</strong>
+            </div>
+            <div className="dashboard-posture-row">
+              <span>Client-side blur</span>
+              <strong>Enabled</strong>
+            </div>
+            <Link to="/settings" className="dashboard-posture-link">
+              Review privacy settings <ArrowRight aria-hidden="true" />
+            </Link>
+          </motion.aside>
         </div>
-      </motion.div>
 
-      {/* Reassuring Privacy Guarantees */}
-      <motion.div
-        className="dashboard-guarantee p-4 sm:p-5 rounded-xl bg-[#FAF9F5] border border-ink-border/70 flex items-start gap-3.5 text-xs sm:text-sm text-ink-secondary leading-relaxed shadow-2xs"
-        initial={reduceMotion ? false : { opacity: 0, y: 14 }}
+        <div className="dashboard-hero-footer" aria-hidden="true">
+          <span>SHIELDHER</span>
+          <span>01 / PRIVATE WORKSPACE</span>
+        </div>
+      </motion.section>
+
+      <motion.section
+        className="dashboard-guarantee"
+        aria-label="Confidentiality guarantee"
+        initial={reduceMotion ? false : { opacity: 0, y: 16 }}
         whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true, amount: 0.3 }}
-        transition={{ duration: reduceMotion ? 0 : 0.4 }}
+        viewport={{ once: true, amount: 0.35 }}
+        transition={{ duration: reduceMotion ? 0 : 0.45 }}
       >
-        <div className="w-8 h-8 rounded-lg bg-brand-sage/50 text-brand-forest flex items-center justify-center flex-shrink-0 mt-0.5">
-          <Lock className="w-4 h-4" />
+        <div className="dashboard-guarantee-icon">
+          <Lock aria-hidden="true" />
         </div>
-        <div>
-          <strong className="text-ink font-semibold">
-            Confidentiality Guarantee:
-          </strong>{" "}
-          Your uploads are analyzed solely for your own verification report. ShieldHer never exposes, indexes, or shares your media with external commercial aggregators or model trainers.
+        <div className="dashboard-guarantee-copy">
+          <span className="dashboard-section-eyebrow">Your media stays yours</span>
+          <p>
+            Uploads are analyzed solely for your verification report. ShieldHer
+            never exposes, indexes, or shares your media with external
+            commercial aggregators or model trainers.
+          </p>
         </div>
-      </motion.div>
+        <div className="dashboard-guarantee-mark" aria-hidden="true">
+          <Shield />
+          <span>PRIVATE<br />BY DESIGN</span>
+        </div>
+      </motion.section>
 
-      {/* 3 Core Action Cards */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
+      <section className="dashboard-shortcuts-section" aria-labelledby="dashboard-tools-title">
         <motion.div
-          initial={reduceMotion ? false : { opacity: 0, y: 20 }}
+          className="dashboard-section-heading"
+          initial={reduceMotion ? false : { opacity: 0, y: 12 }}
           whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, amount: 0.2 }}
-          transition={{ duration: reduceMotion ? 0 : 0.45 }}
-          whileHover={reduceMotion ? undefined : { y: -5 }}
-        >
-        <Link
-          to="/verification/consent"
-          className="dashboard-action-card p-5 rounded-2xl bg-surface-pearl border border-ink-border/80 hover:border-brand-rich/50 hover:shadow-md transition-all group flex flex-col justify-between"
+          viewport={{ once: true, amount: 0.5 }}
+          transition={{ duration: reduceMotion ? 0 : 0.4 }}
         >
           <div>
-            <div className="w-10 h-10 rounded-xl bg-brand-sage/40 text-brand-forest flex items-center justify-center mb-3 group-hover:scale-105 transition-transform">
-              <ShieldAlert className="w-5 h-5" />
-            </div>
-            <h4 className="text-sm font-bold text-ink font-heading group-hover:text-brand-forest flex items-center gap-1.5 transition-colors">
-              <span>9-Step Verification</span>
-              <ChevronRight className="w-3.5 h-3.5 text-ink-muted group-hover:translate-x-0.5 transition-transform" />
-            </h4>
-            <p className="text-xs text-ink-secondary mt-1.5 leading-relaxed">
-              Step-by-step human face check, deepfake probability, and ELA noise-residual diagnostic.
-            </p>
+            <span className="dashboard-section-eyebrow">A little at a time</span>
+            <h3 id="dashboard-tools-title">Choose what you need</h3>
           </div>
-          <span className="mt-4 text-xs font-semibold text-brand-forest flex items-center gap-1">
-            Start check <ArrowRight className="w-3 h-3" />
-          </span>
-        </Link>
+          <span className="dashboard-step-count">3 ways to continue</span>
         </motion.div>
+        <div className="dashboard-shortcuts">
+          {shortcuts.map((shortcut, index) => {
+            const Icon = shortcut.icon;
+            return (
+              <motion.div
+                key={shortcut.to}
+                className="dashboard-shortcut-wrap"
+                initial={reduceMotion ? false : { opacity: 0, y: 22 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, amount: 0.2 }}
+                transition={{
+                  duration: reduceMotion ? 0 : 0.45,
+                  delay: reduceMotion ? 0 : index * 0.1,
+                }}
+                whileHover={reduceMotion ? undefined : { y: -6 }}
+              >
+                <Link to={shortcut.to} className={`dashboard-shortcut ${shortcut.className}`}>
+                  <span className="dashboard-shortcut-index">{shortcut.index}</span>
+                  <span className="dashboard-shortcut-icon">
+                    <Icon aria-hidden="true" />
+                  </span>
+                  <h4>
+                    {shortcut.title}
+                    <ChevronRight aria-hidden="true" />
+                  </h4>
+                  <p>{shortcut.description}</p>
+                  <span className="dashboard-shortcut-action">
+                    {shortcut.action}
+                    <ArrowRight aria-hidden="true" />
+                  </span>
+                  <span className="dashboard-shortcut-glow" aria-hidden="true" />
+                </Link>
+              </motion.div>
+            );
+          })}
+        </div>
+      </section>
 
-        <motion.div
-          initial={reduceMotion ? false : { opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, amount: 0.2 }}
-          transition={{ duration: reduceMotion ? 0 : 0.45, delay: 0.08 }}
-          whileHover={reduceMotion ? undefined : { y: -5 }}
-        >
-        <Link
-          to="/help"
-          className="dashboard-action-card dashboard-action-card-cyan p-5 rounded-2xl bg-surface-pearl border border-ink-border/80 hover:border-brand-rich/50 hover:shadow-md transition-all group flex flex-col justify-between"
-        >
-          <div>
-            <div className="w-10 h-10 rounded-xl bg-brand-sage/40 text-brand-forest flex items-center justify-center mb-3 group-hover:scale-105 transition-transform">
-              <LifeBuoy className="w-5 h-5" />
-            </div>
-            <h4 className="text-sm font-bold text-ink font-heading group-hover:text-brand-forest flex items-center gap-1.5 transition-colors">
-              <span>Help & Safety Resources</span>
-              <ChevronRight className="w-3.5 h-3.5 text-ink-muted group-hover:translate-x-0.5 transition-transform" />
-            </h4>
-            <p className="text-xs text-ink-secondary mt-1.5 leading-relaxed">
-              National cyber helplines (1930 India, StopNCII, TakeItDown), preservation checklists, and legal guidance.
-            </p>
-          </div>
-          <span className="mt-4 text-xs font-semibold text-brand-forest flex items-center gap-1">
-            Access helplines <ArrowRight className="w-3 h-3" />
-          </span>
-        </Link>
-        </motion.div>
-
-        <motion.div
-          initial={reduceMotion ? false : { opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, amount: 0.2 }}
-          transition={{ duration: reduceMotion ? 0 : 0.45, delay: 0.16 }}
-          whileHover={reduceMotion ? undefined : { y: -5 }}
-        >
-        <Link
-          to="/settings"
-          className="dashboard-action-card p-5 rounded-2xl bg-surface-pearl border border-ink-border/80 hover:border-brand-rich/50 hover:shadow-md transition-all group flex flex-col justify-between"
-        >
-          <div>
-            <div className="w-10 h-10 rounded-xl bg-brand-sage/40 text-brand-forest flex items-center justify-center mb-3 group-hover:scale-105 transition-transform">
-              <KeyRound className="w-5 h-5" />
-            </div>
-            <h4 className="text-sm font-bold text-ink font-heading group-hover:text-brand-forest flex items-center gap-1.5 transition-colors">
-              <span>Account & Retention</span>
-              <ChevronRight className="w-3.5 h-3.5 text-ink-muted group-hover:translate-x-0.5 transition-transform" />
-            </h4>
-            <p className="text-xs text-ink-secondary mt-1.5 leading-relaxed">
-              Manage data retention timers, pseudonym preferences, or exercise your right to permanent data erasure.
-            </p>
-          </div>
-          <span className="mt-4 text-xs font-semibold text-brand-forest flex items-center gap-1">
-            Manage privacy <ArrowRight className="w-3 h-3" />
-          </span>
-        </Link>
-        </motion.div>
-      </div>
-
-      {/* Recent Requests Section */}
-      <motion.div
-        className="dashboard-requests bg-surface-pearl rounded-2xl border border-ink-border/80 shadow-xs overflow-hidden"
+      <motion.section
+        className="dashboard-requests"
+        aria-labelledby="dashboard-requests-title"
         initial={reduceMotion ? false : { opacity: 0, y: 18 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true, amount: 0.1 }}
         transition={{ duration: reduceMotion ? 0 : 0.45 }}
       >
-        <div className="p-5 sm:p-6 border-b border-ink-border/60 flex items-center justify-between gap-4 flex-wrap">
+        <div className="dashboard-requests-heading">
           <div>
-            <h3 className="text-base sm:text-lg font-bold text-ink font-heading">
-              My Requests
-            </h3>
-            <p className="text-xs text-ink-secondary mt-0.5">
-              Review previous image checks, preserved evidence hashes, and generated incident reports.
-            </p>
+            <span className="dashboard-section-eyebrow">Your saved work</span>
+            <h3 id="dashboard-requests-title">Recent requests</h3>
+            <p>Private image checks and preserved evidence in one place.</p>
           </div>
-
-          {requests.length > 0 && (
-            <Link
-              to="/cases"
-              className="inline-flex items-center gap-1 text-xs font-semibold text-brand-forest hover:text-brand-rich transition-colors"
-            >
-              <span>View all ({requests.length})</span>
-              <ArrowRight className="w-3 h-3" />
-            </Link>
-          )}
+          <Link to="/cases" className="dashboard-view-all">
+            View all requests <ArrowRight aria-hidden="true" />
+          </Link>
         </div>
 
         {error ? (
-          <div className="p-6">
-            <div className="p-4 rounded-xl bg-accent-goldSoft border border-accent-gold/40 text-ink flex items-center justify-between gap-4 text-xs">
-              <div className="flex items-center gap-2">
-                <AlertTriangle className="w-4 h-4 text-accent-gold flex-shrink-0" />
-                <span>{error}</span>
-              </div>
-              <button
-                type="button"
-                onClick={loadRequests}
-                className="inline-flex items-center gap-1 px-3 py-1 rounded-lg bg-surface-pearl border border-accent-gold/50 text-xs font-semibold text-ink hover:bg-canvas-subtle transition-colors flex-shrink-0"
-              >
-                <RotateCcw className="w-3 h-3" />
-                <span>Retry</span>
-              </button>
+          <div className="dashboard-request-message dashboard-request-error">
+            <div className="dashboard-request-message-icon">
+              <AlertTriangle aria-hidden="true" />
             </div>
+            <div>
+              <strong>We couldn’t load your requests</strong>
+              <p>{error}</p>
+            </div>
+            <button type="button" onClick={loadRequests} className="dashboard-retry-button">
+              <RotateCcw aria-hidden="true" />
+              Try again
+            </button>
           </div>
         ) : loading ? (
-          <div className="p-12 text-center text-xs text-ink-muted">
-            <Clock className="w-5 h-5 mx-auto mb-2 animate-spin text-brand-forest" />
+          <div className="dashboard-request-message dashboard-request-loading">
+            <Clock className="dashboard-loading-icon" aria-hidden="true" />
             <span>Loading your private records…</span>
           </div>
         ) : requests.length === 0 ? (
-          <div className="p-12 text-center">
-            <div className="w-12 h-12 rounded-2xl bg-brand-sage/40 text-brand-forest flex items-center justify-center mx-auto mb-3 shadow-2xs">
-              <Shield className="w-6 h-6" />
+          <div className="dashboard-request-empty">
+            <div className="dashboard-empty-orbit" aria-hidden="true">
+              <Shield />
             </div>
-            <h4 className="text-sm font-bold text-ink font-heading">
-              Nothing here yet.
-            </h4>
-            <p className="text-xs text-ink-secondary mt-1.5 max-w-sm mx-auto leading-relaxed mb-5">
-              Start by checking an image. You decide what information to provide
-              and whether to prepare an official report draft.
-            </p>
-            <Link
-              to="/verification/consent"
-              className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-brand-forest text-surface-pearl text-xs font-semibold hover:bg-brand-rich transition-all shadow-xs"
-            >
-              <PlusCircle className="w-3.5 h-3.5" />
-              <span>Check an image</span>
+            <div>
+              <h4>Your workspace is ready when you are.</h4>
+              <p>
+                Start with an image check. You decide what to share and whether
+                to prepare an incident report.
+              </p>
+            </div>
+            <Link to="/verification/consent" className="dashboard-empty-action">
+              <PlusCircle aria-hidden="true" />
+              Start a check
             </Link>
           </div>
         ) : (
-          <div className="overflow-x-auto">
-            <table className="w-full text-left text-xs">
-              <thead className="bg-[#FAF9F6] border-b border-ink-border text-ink-muted font-heading font-semibold uppercase tracking-wider text-[11px]">
-                <tr>
-                  <th className="py-3 px-4 sm:px-6">Reference</th>
-                  <th className="py-3 px-4 sm:px-6">Request Title</th>
-                  <th className="py-3 px-4 sm:px-6">Status</th>
-                  <th className="py-3 px-4 sm:px-6">Date Created</th>
-                  <th className="py-3 px-4 sm:px-6 text-right">Action</th>
-                </tr>
-              </thead>
-              <tbody className="divide-y divide-ink-border/50">
-                {requests.slice(0, 5).map((item) => (
-                  <tr
-                    key={item.id}
-                    className="hover:bg-canvas-subtle/60 transition-colors"
-                  >
-                    <td className="py-3.5 px-4 sm:px-6 font-mono text-ink">
-                      <span className="px-2 py-0.5 rounded bg-canvas-sand text-ink text-[11px] font-medium">
-                        {item.case_number || item.id.substring(0, 8)}
-                      </span>
-                    </td>
-                    <td className="py-3.5 px-4 sm:px-6 font-medium text-ink">
-                      <div className="flex items-center gap-2">
-                        <FileCheck className="w-3.5 h-3.5 text-brand-forest flex-shrink-0" />
-                        <span className="truncate max-w-xs font-semibold">
-                          {item.title || "Private Image Assessment"}
-                        </span>
-                      </div>
-                    </td>
-                    <td className="py-3.5 px-4 sm:px-6">
-                      {getStatusBadge(item)}
-                    </td>
-                    <td className="py-3.5 px-4 sm:px-6 text-ink-secondary whitespace-nowrap">
-                      {formatDate(item.created_at)}
-                    </td>
-                    <td className="py-3.5 px-4 sm:px-6 text-right whitespace-nowrap">
-                      <Link
-                        to={`/cases/${item.id}`}
-                        className="inline-flex items-center gap-1 px-3 py-1 rounded-lg border border-ink-border bg-surface-pearl text-ink text-xs font-semibold hover:border-brand-rich hover:text-brand-forest transition-colors shadow-2xs"
-                      >
-                        <span>View</span>
-                        <ArrowRight className="w-3 h-3 text-ink-muted" />
-                      </Link>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
+          <div className="dashboard-request-list">
+            {requests.slice(0, 5).map((item, index) => (
+              <motion.article
+                key={item.id}
+                className="dashboard-request-item"
+                initial={reduceMotion ? false : { opacity: 0, x: -12 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{
+                  duration: reduceMotion ? 0 : 0.35,
+                  delay: reduceMotion ? 0 : index * 0.07,
+                }}
+              >
+                <div className="dashboard-request-file-icon">
+                  <FileCheck aria-hidden="true" />
+                </div>
+                <div className="dashboard-request-details">
+                  <span className="dashboard-request-reference">
+                    {item.case_number || item.id.substring(0, 8)}
+                  </span>
+                  <h4>{item.title || "Private Image Assessment"}</h4>
+                </div>
+                <div className="dashboard-request-status">{getStatusBadge(item)}</div>
+                <time className="dashboard-request-date" dateTime={item.created_at}>
+                  {formatDate(item.created_at)}
+                </time>
+                <Link
+                  to={`/cases/${item.id}`}
+                  className="dashboard-request-open"
+                  aria-label={`View request ${item.case_number || item.id.substring(0, 8)}`}
+                >
+                  <ArrowRight aria-hidden="true" />
+                </Link>
+              </motion.article>
+            ))}
           </div>
         )}
-      </motion.div>
+      </motion.section>
     </div>
   );
 }
