@@ -26,6 +26,12 @@ from app.services.effort_adapter import get_effort_adapter
 from app.services.forensic_service import get_forensic_service
 from app.services.image_processor import get_image_processor
 from app.services.smaug_adapter import get_smaug_adapter
+from app.services.gend_adapter import get_gend_adapter
+from app.services.fsd_adapter import get_fsd_adapter
+from app.services.model_registry_service import (
+    evaluate_face_manipulation_agreement,
+    evaluate_ai_generation_agreement,
+)
 from app.workflows.state import (
     EvidenceWorkflowStatus,
     HumanReviewDecision,
@@ -409,6 +415,180 @@ def smaug_detection_node(state: ImageState) -> Dict[str, Any]:
     }
 
 
+# ── Node 3c: Parallel GenD Detection (Face Manipulation) ───────────────
+
+def gend_detection_node(state: ImageState) -> Dict[str, Any]:
+    """
+    Executes pretrained GenD model (CLIP-ViT-L/14 with LinearNorm probe) on the face crop.
+    Independent execution with fault isolation.
+    """
+    case_id = state.get("case_id", "case_unassigned")
+    audit_events: List[Dict[str, Any]] = []
+    errors: List[Dict[str, Any]] = []
+
+    if state.get("gend_result"):
+        audit_events.append({
+            "timestamp": _utc_now_iso(),
+            "event": "GEND_DETECTION_IDEMPOTENT_HIT",
+            "case_id": case_id,
+        })
+        return {"audit_events": audit_events}
+
+    settings = get_settings()
+    adapter = get_gend_adapter()
+
+    qa = state.get("quality_assessment") or {}
+    derivatives = qa.get("derivatives") or {}
+    face_crop_rel = derivatives.get("face_crop_path")
+
+    crop_img: Optional[np.ndarray] = None
+    input_source = "face_crop"
+
+    if face_crop_rel:
+        full_crop_path = settings.upload_dir / face_crop_rel
+        if full_crop_path.exists():
+            try:
+                pil_c = Image.open(full_crop_path).convert("RGB")
+                crop_img = np.array(pil_c)
+            except Exception as e:
+                logger.warning("Could not read face crop for GenD", error=str(e))
+
+    if crop_img is None:
+        norm_rel = derivatives.get("normalized_image_path")
+        if norm_rel:
+            full_norm_path = settings.upload_dir / norm_rel
+            if full_norm_path.exists():
+                try:
+                    pil_n = Image.open(full_norm_path).convert("RGB")
+                    crop_img = np.array(pil_n)
+                    input_source = "full_image_fallback"
+                except Exception as e:
+                    logger.warning("Could not read normalized image for GenD", error=str(e))
+
+    if crop_img is None and state.get("raw_bytes"):
+        try:
+            pil_raw = Image.open(io.BytesIO(state["raw_bytes"])).convert("RGB")
+            crop_img = np.array(pil_raw)
+            input_source = "raw_fallback"
+        except Exception as e:
+            logger.error("Could not decode raw bytes for GenD", error=str(e))
+
+    if crop_img is None:
+        err = {"node": "gend_detection_node", "error": "No image crop available for GenD inference"}
+        errors.append(err)
+        res_data = {
+            "status": ModelInferenceStatus.ERROR.value,
+            "error_message": "No valid image crop found for GenD inference",
+            "model_name": "GenD (CLIP-ViT-L/14)",
+        }
+        return {"gend_result": res_data, "errors": errors}
+
+    try:
+        detection = adapter.predict(image=crop_img, input_source_used=input_source)
+        res_data = detection.model_dump()
+        audit_events.append({
+            "timestamp": _utc_now_iso(),
+            "event": "GEND_DETECTION_EXECUTED",
+            "case_id": case_id,
+            "status": detection.status.value,
+            "fake_score": detection.fake_score,
+            "predicted_class": detection.predicted_class,
+        })
+    except Exception as exc:
+        logger.error("Unexpected failure in GenD node", error=str(exc))
+        errors.append({"node": "gend_detection_node", "error": str(exc)})
+        res_data = {
+            "status": ModelInferenceStatus.ERROR.value,
+            "error_message": f"GenD inference error: {exc}",
+            "model_name": "GenD (CLIP-ViT-L/14)",
+        }
+
+    return {
+        "gend_result": res_data,
+        "audit_events": audit_events,
+        "errors": errors,
+    }
+
+
+# ── Node 3d: Parallel FSD Detection (Forensic Residuals) ───────────────
+
+def fsd_detection_node(state: ImageState) -> Dict[str, Any]:
+    """
+    Executes pretrained FSD detector (FRE + GMM) on the validated original image.
+    Independent execution with licensing guard and fault isolation.
+    """
+    case_id = state.get("case_id", "case_unassigned")
+    audit_events: List[Dict[str, Any]] = []
+    errors: List[Dict[str, Any]] = []
+
+    if state.get("fsd_result"):
+        audit_events.append({
+            "timestamp": _utc_now_iso(),
+            "event": "FSD_DETECTION_IDEMPOTENT_HIT",
+            "case_id": case_id,
+        })
+        return {"audit_events": audit_events}
+
+    settings = get_settings()
+    adapter = get_fsd_adapter()
+
+    qa = state.get("quality_assessment") or {}
+    derivatives = qa.get("derivatives") or {}
+    norm_rel = derivatives.get("normalized_image_path")
+
+    full_pil: Optional[Image.Image] = None
+
+    if norm_rel:
+        full_norm_path = settings.upload_dir / norm_rel
+        if full_norm_path.exists():
+            try:
+                full_pil = Image.open(full_norm_path).convert("RGB")
+            except Exception as e:
+                logger.warning("Could not read normalized image for FSD", error=str(e))
+
+    if full_pil is None and state.get("raw_bytes"):
+        try:
+            full_pil = Image.open(io.BytesIO(state["raw_bytes"])).convert("RGB")
+        except Exception as e:
+            logger.error("Could not decode raw bytes for FSD", error=str(e))
+
+    if full_pil is None:
+        err = {"node": "fsd_detection_node", "error": "No full image available for FSD inference"}
+        errors.append(err)
+        res_data = {
+            "status": ModelInferenceStatus.ERROR.value,
+            "error_message": "No valid full image found for FSD inference",
+            "model_name": "Forensic-Self-Descriptions (FSD)",
+        }
+        return {"fsd_result": res_data, "errors": errors}
+
+    try:
+        detection = adapter.predict(image=full_pil)
+        res_data = detection.model_dump()
+        audit_events.append({
+            "timestamp": _utc_now_iso(),
+            "event": "FSD_DETECTION_EXECUTED",
+            "case_id": case_id,
+            "status": detection.status.value,
+            "native_z_score": detection.native_z_score,
+            "model_derived_decision": detection.model_derived_decision,
+        })
+    except Exception as exc:
+        logger.error("Unexpected failure in FSD node", error=str(exc))
+        errors.append({"node": "fsd_detection_node", "error": str(exc)})
+        res_data = {
+            "status": ModelInferenceStatus.ERROR.value,
+            "error_message": f"FSD inference error: {exc}",
+            "model_name": "Forensic-Self-Descriptions (FSD)",
+        }
+
+    return {
+        "fsd_result": res_data,
+        "audit_events": audit_events,
+        "errors": errors,
+    }
+
+
 # ── Node 4: Deterministic Forensic Analysis ───────────────────────────
 
 def forensic_analysis_node(state: ImageState) -> Dict[str, Any]:
@@ -530,13 +710,19 @@ def evidence_summary_node(state: ImageState) -> Dict[str, Any]:
     q_status = qa.get("status")
 
     effort_res = state.get("face_manipulation_result") or {}
+    gend_res = state.get("gend_result") or {}
     smaug_res = state.get("ai_generation_result") or {}
+    fsd_res = state.get("fsd_result") or {}
 
     effort_status = effort_res.get("status")
+    gend_status = gend_res.get("status")
     smaug_status = smaug_res.get("status")
+    fsd_status = fsd_res.get("status")
 
     effort_score = effort_res.get("manipulation_score")
+    gend_score = gend_res.get("fake_score")
     smaug_score = smaug_res.get("ai_generation_score")
+    fsd_z = fsd_res.get("native_z_score")
 
     # 1. Check Quality Gateway gates
     if q_status == AssessmentStatus.UNSUPPORTED_INPUT.value:
@@ -634,12 +820,26 @@ def evidence_summary_node(state: ImageState) -> Dict[str, Any]:
                 "model_identifier": effort_res.get("checkpoint_identifier"),
                 "paper": "ICML 2025 Oral (Effort-AIGI-Detection)",
             },
+            "gend": {
+                "evaluated": gend_status is not None,
+                "status": gend_status,
+                "fake_score": gend_score,
+                "model_identifier": "yermandy/GenD_CLIP_L_14",
+                "paper": "WACV 2026 (Deepfake Detection that Generalizes Across Benchmarks)",
+            },
             "smaug": {
                 "evaluated": smaug_status is not None,
                 "status": smaug_status,
                 "score": smaug_score,
                 "model_identifier": smaug_res.get("checkpoint_identifier"),
                 "architecture": "Vision-only EmbeddingGemma-2",
+            },
+            "fsd": {
+                "evaluated": fsd_status is not None,
+                "status": fsd_status,
+                "native_z_score": fsd_z,
+                "model_identifier": "ductai199x/Forensic-Self-Descriptions-CVPR25",
+                "paper": "CVPR 2025 (Forensic Self-Descriptions)",
             },
         },
         "deterministic_forensics_included": state.get("forensic_results") is not None,

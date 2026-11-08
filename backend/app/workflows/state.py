@@ -65,7 +65,10 @@ class ImageState(TypedDict, total=False):
 
     # ── Pretrained Model Inference (Independent) ───────────────────────
     face_manipulation_result: Optional[Dict[str, Any]]  # EFFORT (FaceForensics++)
+    gend_result: Optional[Dict[str, Any]]               # GenD (CLIP-ViT-L/14)
     ai_generation_result: Optional[Dict[str, Any]]      # Smaug (EmbeddingGemma-2)
+    fsd_result: Optional[Dict[str, Any]]                # FSD (Forensic Self-Descriptions)
+    category_agreement: Optional[Dict[str, Any]]        # Agreement analysis across categories
 
     # ── Deterministic Forensic Analysis ────────────────────────────────
     include_forensics: bool

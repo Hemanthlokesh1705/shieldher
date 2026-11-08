@@ -126,6 +126,27 @@ class Settings(BaseSettings):
     smaug_decision_threshold: float = 0.50  # Provisional threshold (0.5 recommended by Abacus.AI)
     smaug_num_crops: int = 3  # 3 native-resolution 528x528 crops (start, centre, end) or 1 (centre only)
 
+    # ── GenD Deepfake Detector Settings ────────────────────────
+    # Official Hugging Face model: yermandy/GenD_CLIP_L_14 (WACV 2026, MIT license)
+    gend_weights_path: Path = (
+        Path("/app/models/weights/gend")
+        if Path("/app").exists()
+        else Path(__file__).resolve().parent.parent / "models" / "weights" / "gend"
+    )
+    gend_device: str = "cpu"
+    gend_decision_threshold: float = 0.50
+
+    # ── FSD Forensic Self-Descriptions Settings ────────────────
+    # Official CVPR 2025: ductai199x/Forensic-Self-Descriptions-CVPR25 (CC BY-NC-SA 4.0 Non-Commercial)
+    enable_fsd: bool = True  # Configuration option to enable/disable FSD per non-commercial licensing terms
+    fsd_weights_path: Path = (
+        Path("/app/models/weights/fsd")
+        if Path("/app").exists()
+        else Path(__file__).resolve().parent.parent / "models" / "weights" / "fsd"
+    )
+    fsd_device: str = "cpu"
+    fsd_decision_threshold: float = -2.0  # More negative indicates AI-generated (standard threshold = -2.0)
+
     # ── Forensic Analysis Module Settings ──────────────────────
     forensic_diagnostics_dir: Path = (
         Path("/app/uploads/diagnostics")
@@ -135,7 +156,6 @@ class Settings(BaseSettings):
     ela_jpeg_quality: int = 90  # Standard recompression quality for Error Level Analysis
     ela_scale_factor: float = 10.0  # Amplification multiplier for ELA visual difference
     # Optional pretrained forensic models: disabled by default pending legal/usage terms review
-    enable_fsd: bool = False  # CVPR 2025 FSD (CC BY-NC-SA 4.0)
     enable_trufor: bool = False  # CVPR 2023 TruFor (Academic non-profit license)
 
     # ── Authentication & Security ──────────────────────────────
