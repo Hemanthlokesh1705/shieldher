@@ -1,6 +1,6 @@
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
-import { motion, useReducedMotion } from "framer-motion";
+import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import {
   ArrowDown,
   ArrowRight,
@@ -25,6 +25,8 @@ const workflowSteps = [
       "Review what the process does, choose what to share, and continue at your own pace.",
     icon: LockKeyhole,
     status: "You stay in control",
+    visual: "/images/shieldher-dawn.png",
+    visualAlt: "A calm sunrise over a quiet landscape",
   },
   {
     number: "02",
@@ -34,6 +36,8 @@ const workflowSteps = [
       "Explore image quality, forensic signals, and analysis notes together—not as a verdict.",
     icon: Search,
     status: "Signals, clearly explained",
+    visual: "/images/shieldher-orbit.png",
+    visualAlt: "A luminous network surrounding a glass sphere",
   },
   {
     number: "03",
@@ -43,6 +47,8 @@ const workflowSteps = [
       "Review your case, decide whether to search further, and approve any draft yourself.",
     icon: FileCheck2,
     status: "No automatic submission",
+    visual: "/loginhero.jpeg",
+    visualAlt: "ShieldHer's digital safety artwork",
   },
 ];
 
@@ -105,6 +111,41 @@ export default function LandingPage() {
   const reduceMotion = useReducedMotion();
   const currentStep = workflowSteps[activeStep];
   const StepIcon = currentStep.icon;
+  const stepRefs = useRef<(HTMLElement | null)[]>([]);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        const visibleEntry = entries
+          .filter((entry) => entry.isIntersecting)
+          .sort((first, second) => second.intersectionRatio - first.intersectionRatio)[0];
+        if (!visibleEntry) return;
+
+        const index = stepRefs.current.findIndex(
+          (step) => step === visibleEntry.target,
+        );
+        if (index >= 0) setActiveStep(index);
+      },
+      {
+        rootMargin: "-40% 0px -40% 0px",
+        threshold: 0,
+      },
+    );
+
+    stepRefs.current.forEach((step) => {
+      if (step) observer.observe(step);
+    });
+
+    return () => observer.disconnect();
+  }, []);
+
+  const selectStep = (index: number) => {
+    setActiveStep(index);
+    stepRefs.current[index]?.scrollIntoView?.({
+      behavior: reduceMotion ? "auto" : "smooth",
+      block: "center",
+    });
+  };
 
   return (
     <div className="investor-page">
@@ -290,63 +331,99 @@ export default function LandingPage() {
             </p>
           </Reveal>
 
-          <div className="investor-workflow-layout">
+          <div className="investor-insights-grid">
             <div
-              className="investor-step-list"
+              className="investor-insights-list"
               role="group"
-              aria-label="Workflow preview steps"
+              aria-label="ShieldHer workflow"
             >
               {workflowSteps.map((step, index) => {
                 const Icon = step.icon;
                 const isActive = activeStep === index;
                 return (
-                  <button
+                  <article
                     key={step.number}
-                    className={`investor-step-tab${isActive ? " is-active" : ""}`}
-                    type="button"
-                    aria-pressed={isActive}
-                    onClick={() => setActiveStep(index)}
+                    ref={(element) => {
+                      stepRefs.current[index] = element;
+                    }}
+                    className={`investor-insight-row${isActive ? " is-active" : ""}`}
                   >
-                    <span className="investor-step-icon">
-                      <Icon size={19} aria-hidden="true" />
-                    </span>
-                    <span className="investor-step-label">
-                      <small>STEP {step.number}</small>
-                      <strong>{step.label}</strong>
-                    </span>
-                    <ArrowRight size={17} aria-hidden="true" />
-                  </button>
+                    <button
+                      className="investor-insight-trigger"
+                      type="button"
+                      aria-expanded={isActive}
+                      aria-controls={`workflow-detail-${index}`}
+                      onClick={() => selectStep(index)}
+                    >
+                      <span className="investor-insight-icon">
+                        <Icon size={19} aria-hidden="true" />
+                      </span>
+                      <span className="investor-insight-label">
+                        <small>STEP {step.number}</small>
+                        <strong>{step.label}</strong>
+                      </span>
+                      <ArrowRight size={17} aria-hidden="true" />
+                    </button>
+                    <AnimatePresence initial={false}>
+                      {isActive && (
+                        <motion.div
+                          id={`workflow-detail-${index}`}
+                          className="investor-insight-detail"
+                          initial={reduceMotion ? false : { opacity: 0, height: 0 }}
+                          animate={{ opacity: 1, height: "auto" }}
+                          exit={{ opacity: 0, height: 0 }}
+                          transition={{ duration: reduceMotion ? 0 : 0.3 }}
+                        >
+                          <p>{step.description}</p>
+                          <span>
+                            <Check size={14} aria-hidden="true" />
+                            {step.status}
+                          </span>
+                        </motion.div>
+                      )}
+                    </AnimatePresence>
+                  </article>
                 );
               })}
             </div>
 
-            <motion.div
-              className="investor-workflow-panel"
-              id="workflow-panel"
+            <div
+              className="investor-insights-visual"
               role="region"
-              aria-label={`${currentStep.label} workflow preview`}
-              key={currentStep.number}
-              initial={reduceMotion ? false : { opacity: 0, x: 14 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: reduceMotion ? 0 : 0.25 }}
+              aria-label={`${currentStep.label} visual preview`}
+              aria-live="polite"
             >
-              <div className="investor-panel-topline">
-                <span>THE SHIELDHER APPROACH</span>
-                <span>{currentStep.number} / 03</span>
-              </div>
-              <div className="investor-panel-icon">
-                <StepIcon size={24} aria-hidden="true" />
-              </div>
-              <h3>{currentStep.title}</h3>
-              <p>{currentStep.description}</p>
-              <div className="investor-panel-status">
-                <Check size={16} aria-hidden="true" />
-                {currentStep.status}
-              </div>
-              <div className="investor-panel-progress" aria-hidden="true">
+              <AnimatePresence initial={false}>
+                <motion.div
+                  className="investor-insights-image"
+                  key={currentStep.visual}
+                  initial={reduceMotion ? false : { opacity: 0, scale: 1.035 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  exit={{ opacity: 0, scale: 0.985 }}
+                  transition={{ duration: reduceMotion ? 0 : 0.45, ease: "easeOut" }}
+                >
+                  <img src={currentStep.visual} alt={currentStep.visualAlt} />
+                  <div className="investor-insights-image-shade" />
+                  <div className="investor-insights-image-topline">
+                    <span>THE SHIELDHER APPROACH</span>
+                    <span>{currentStep.number} / 03</span>
+                  </div>
+                  <div className="investor-insights-image-caption">
+                    <span className="investor-insights-image-icon">
+                      <StepIcon size={19} aria-hidden="true" />
+                    </span>
+                    <span className="investor-insights-image-label">
+                      {currentStep.label}, on your terms
+                    </span>
+                    <h3>{currentStep.title}</h3>
+                    <p>{currentStep.description}</p>
+                  </div>
+                </motion.div>
+              </AnimatePresence>
+              <div className="investor-insights-progress" aria-hidden="true">
                 {workflowSteps.map((step, index) => (
                   <span
-                    className={index <= activeStep ? "is-complete" : ""}
+                    className={index === activeStep ? "is-active" : ""}
                     key={step.number}
                   />
                 ))}
@@ -354,7 +431,7 @@ export default function LandingPage() {
               <p className="investor-prototype-caption">
                 Interactive product concept · sample content, not a live case
               </p>
-            </motion.div>
+            </div>
           </div>
         </section>
 

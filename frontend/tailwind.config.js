@@ -1,8 +1,7 @@
 /** @type {import('tailwindcss').Config} */
 
 // Each color reads a CSS variable (space-separated RGB channels) and falls back
-// to the original light value. `.theme-dark` in src/theme.css overrides the
-// variables, so the same classes (bg-canvas, text-ink...) switch palettes.
+// to the original light value. src/theme.css selects tokens from the OS theme.
 // <alpha-value> keeps opacity utilities such as bg-brand-sage/40 working.
 const c = (name, fallback) => `rgb(var(--c-${name}, ${fallback}) / <alpha-value>)`;
 
@@ -69,9 +68,9 @@ export default {
         },
       },
       fontFamily: {
-        sans: ['"Plus Jakarta Sans"', '"DM Sans"', "-apple-system", "BlinkMacSystemFont", "sans-serif"],
-        heading: ['"Plus Jakarta Sans"', "sans-serif"],
-        editorial: ['"Newsreader"', "Georgia", "serif"],
+        sans: ['"Inter"', '"Segoe UI"', "-apple-system", "BlinkMacSystemFont", "sans-serif"],
+        heading: ['"Inter"', '"Segoe UI"', "sans-serif"],
+        editorial: ['"Inter"', '"Segoe UI"', "sans-serif"],
         mono: ['"JetBrains Mono"', "Consolas", "monospace"],
       },
       fontSize: {

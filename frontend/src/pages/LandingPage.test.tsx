@@ -60,10 +60,17 @@ describe("LandingPage", () => {
   it("lets visitors explore the interactive workflow preview", () => {
     renderLandingPage();
 
-    fireEvent.click(screen.getByRole("button", { name: /understand/i }));
+    const understandButton = screen.getByRole("button", { name: /understand/i });
+    fireEvent.click(understandButton);
 
+    expect(understandButton).toHaveAttribute("aria-expanded", "true");
     expect(
       screen.getByRole("heading", { name: "See the evidence in context." }),
+    ).toBeInTheDocument();
+    expect(
+      screen.getByRole("img", {
+        name: "A luminous network surrounding a glass sphere",
+      }),
     ).toBeInTheDocument();
     expect(
       screen.getByText(/sample content, not a live case/i),

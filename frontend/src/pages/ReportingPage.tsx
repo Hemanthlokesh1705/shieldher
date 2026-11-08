@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import {
   CaseItem,
@@ -40,12 +40,6 @@ const STEPS = [
 export default function ReportingPage() {
   const location = useLocation();
   const { user, logout } = useAuth();
-
-  useEffect(() => {
-    document.documentElement.classList.remove("theme-dark");
-    document.documentElement.classList.add("theme-light");
-    localStorage.setItem("shieldher_theme", "light");
-  }, []);
 
   const [currentFile, setCurrentFile] = useState<File | null>(null);
   const [activeCase, setActiveCase] = useState<CaseItem | null>(null);

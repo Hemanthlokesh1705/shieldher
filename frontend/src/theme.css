@@ -1,103 +1,95 @@
 /*
- * Dark "cyber" theme (navy / indigo / cyan).
- * Applied ONLY inside the logged-in app: AppLayout adds the .theme-dark class.
- * Login / Register / Consent / other public pages keep the original light theme.
- *
- * Import AFTER index.css in main.tsx.
+ * ShieldHer high-assurance system theme.
+ * The OS color preference selects paper or midnight; no JavaScript theme state
+ * is needed, and all Tailwind surfaces share the same design tokens.
  */
-.theme-dark {
-  color-scheme: dark;
+:root {
+  color-scheme: light;
 
-  /* ── Tailwind tokens (space-separated RGB channels) ── */
-  --c-canvas: 6 9 25;
-  --c-canvas-pearl: 13 18 48;
-  --c-canvas-subtle: 20 26 63;
-  --c-canvas-sand: 27 34 80;
+  --c-canvas: 248 250 252;
+  --c-canvas-pearl: 255 255 255;
+  --c-canvas-subtle: 241 245 249;
+  --c-canvas-sand: 226 232 240;
 
-  --c-surface: 13 18 48;
-  --c-surface-subtle: 15 21 54;
-  --c-surface-secondary: 20 26 63;
-  --c-surface-tertiary: 27 34 80;
-  --c-surface-tint: 15 26 58;
+  --c-surface: 255 255 255;
+  --c-surface-subtle: 248 250 252;
+  --c-surface-secondary: 241 245 249;
+  --c-surface-tertiary: 226 232 240;
+  --c-surface-tint: 239 246 255;
 
-  --c-brand-forest: 34 211 238;
-  --c-brand-rich: 103 232 249;
-  --c-brand-sage: 30 42 107;
-  --c-brand-hover: 14 165 198;
-  --c-brand-light: 18 26 69;
-  --c-brand-border: 42 52 120;
+  --c-brand-forest: 37 99 235;
+  --c-brand-rich: 29 78 216;
+  --c-brand-sage: 219 234 254;
+  --c-brand-hover: 29 78 216;
+  --c-brand-light: 239 246 255;
+  --c-brand-border: 191 219 254;
 
-  --c-ink: 241 245 255;
-  --c-ink-secondary: 169 180 214;
-  --c-ink-muted: 127 139 179;
-  --c-ink-subtle: 90 102 148;
-  --c-ink-border: 38 46 99;
-  --c-ink-border-strong: 58 68 136;
+  --c-ink: 15 23 42;
+  --c-ink-secondary: 71 85 105;
+  --c-ink-muted: 100 116 139;
+  --c-ink-subtle: 148 163 184;
+  --c-ink-border: 226 232 240;
+  --c-ink-border-strong: 203 213 225;
 
-  --c-accent-coral: 255 138 128;
-  --c-accent-gold: 251 146 60; /* warm orange, like the shield glow */
-  --c-accent-bluegrey: 27 34 80;
-  --c-accent-coral-soft: 58 22 32;
-  --c-accent-gold-soft: 58 36 14;
+  --c-accent-coral: 220 38 38;
+  --c-accent-gold: 217 119 6;
+  --c-accent-bluegrey: 226 232 240;
+  --c-accent-coral-soft: 254 242 242;
+  --c-accent-gold-soft: 255 251 235;
 
-  --c-status-success: 52 211 153;
-  --c-status-success-bg: 11 42 34;
-  --c-status-success-border: 20 81 63;
-  --c-status-warning: 251 191 36;
-  --c-status-warning-bg: 51 38 10;
-  --c-status-warning-border: 92 68 19;
-  --c-status-error: 248 113 113;
-  --c-status-error-bg: 54 19 26;
-  --c-status-error-border: 107 35 48;
-  --c-status-info: 56 189 248;
-  --c-status-info-bg: 10 36 51;
-  --c-status-info-border: 22 74 102;
+  --c-status-success: 5 150 105;
+  --c-status-success-bg: 236 253 245;
+  --c-status-success-border: 167 243 208;
+  --c-status-warning: 180 83 9;
+  --c-status-warning-bg: 255 251 235;
+  --c-status-warning-border: 253 230 138;
+  --c-status-error: 220 38 38;
+  --c-status-error-bg: 254 242 242;
+  --c-status-error-border: 254 202 202;
+  --c-status-info: 37 99 235;
+  --c-status-info-bg: 239 246 255;
+  --c-status-info-border: 191 219 254;
 
-  --c-shadow: 0 0 0;
+  --c-shadow: 15 23 42;
 
-  /* ── index.css variables (hex) for .panel, .btn, .sidebar-link, .data-table etc. ── */
-  --bg-main: #060919;
-  --surface-primary: #0d1230;
-  --surface-secondary: #141a3f;
-  --surface-tertiary: #1b2250;
+  --bg-main: #f8fafc;
+  --surface-primary: #ffffff;
+  --surface-secondary: #f1f5f9;
+  --surface-tertiary: #e2e8f0;
+  --text-primary: #0f172a;
+  --text-secondary: #475569;
+  --text-muted: #64748b;
+  --text-inverse: #ffffff;
+  --accent-primary: #2563eb;
+  --accent-hover: #1d4ed8;
+  --accent-active: #1e40af;
+  --accent-rich: #1d4ed8;
+  --accent-sage: #dbeafe;
+  --accent-surface: #eff6ff;
+  --accent-border: #bfdbfe;
+  --status-info-bg: #eff6ff;
+  --status-info-border: #bfdbfe;
+  --status-info: #2563eb;
+  --status-review: #b45309;
+  --status-review-bg: #fffbeb;
+  --status-review-border: #fde68a;
+  --status-ready: #059669;
+  --status-ready-bg: #ecfdf5;
+  --status-ready-border: #a7f3d0;
+  --status-closed: #475569;
+  --status-closed-bg: #f1f5f9;
+  --status-closed-border: #e2e8f0;
+  --status-error: #dc2626;
+  --status-error-bg: #fef2f2;
+  --status-error-border: #fecaca;
+  --border-light: #e2e8f0;
+  --border-medium: #cbd5e1;
+  --border-strong: #94a3b8;
+  --shadow-xs: 0 1px 2px rgb(15 23 42 / 0.035);
+  --shadow-sm: 0 2px 6px rgb(15 23 42 / 0.045);
+  --shadow-md: 0 8px 18px rgb(15 23 42 / 0.07);
+  --shadow-lg: 0 12px 28px rgb(15 23 42 / 0.09);
 
-  --text-primary: #f1f5ff;
-  --text-secondary: #a9b4d6;
-  --text-muted: #7f8bb3;
-  --text-inverse: #060919;
-
-  --accent-primary: #22d3ee;
-  --accent-hover: #67e8f9;
-  --accent-active: #0ea5c6;
-  --accent-rich: #67e8f9;
-  --accent-sage: #1e2a6b;
-  --accent-surface: #121a45;
-  --accent-border: #2a3478;
-
-  --status-info-bg: #0a2433;
-  --status-info-border: #164a66;
-  --status-review: #fbbf24;
-  --status-review-bg: #33260a;
-  --status-review-border: #5c4413;
-  --status-ready: #34d399;
-  --status-ready-bg: #0b2a22;
-  --status-ready-border: #14513f;
-  --status-closed: #a9b4d6;
-  --status-closed-bg: #141a3f;
-  --status-closed-border: #262e63;
-  --status-error-bg: #36131a;
-  --status-error-border: #6b2330;
-
-  --border-light: #262e63;
-  --border-medium: #3a4488;
-  --border-strong: #7f8bb3;
-
-  --shadow-xs: 0 1px 2px rgba(0, 0, 0, 0.35);
-  --shadow-sm: 0 4px 16px -2px rgba(0, 0, 0, 0.45);
-  --shadow-md: 0 10px 25px -4px rgba(0, 0, 0, 0.5);
-  --shadow-lg: 0 20px 35px -6px rgba(0, 0, 0, 0.55);
-
-  /* Backward-compat aliases must be re-declared so they pick up the dark values */
   --color-bg: var(--bg-main);
   --color-bg-subtle: var(--surface-secondary);
   --color-surface: var(--surface-primary);
@@ -117,115 +109,239 @@
   --color-warning: var(--status-review);
   --color-error: var(--status-error);
   --color-error-bg: var(--status-error-bg);
+
+  --font-sans: Inter, "Segoe UI", -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-heading: Inter, "Segoe UI", -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-editorial: Inter, "Segoe UI", -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-mono: "JetBrains Mono", "Cascadia Code", Consolas, monospace;
+
+  --radius-sm: 6px;
+  --radius-md: 8px;
+  --radius-lg: 12px;
 }
 
-/* Buttons: dark text on bright cyan */
-.theme-dark .btn-primary {
-  color: #060919;
-}
-.theme-dark .btn-primary:hover:not(:disabled) {
-  color: #060919;
+@media (prefers-color-scheme: dark) {
+  :root {
+    color-scheme: dark;
+
+    --c-canvas: 9 13 22;
+    --c-canvas-pearl: 17 24 39;
+    --c-canvas-subtle: 15 23 42;
+    --c-canvas-sand: 31 41 55;
+
+    --c-surface: 17 24 39;
+    --c-surface-subtle: 15 23 42;
+    --c-surface-secondary: 17 24 39;
+    --c-surface-tertiary: 31 41 55;
+    --c-surface-tint: 23 37 59;
+
+    --c-brand-forest: 96 165 250;
+    --c-brand-rich: 147 197 253;
+    --c-brand-sage: 30 58 99;
+    --c-brand-hover: 59 130 246;
+    --c-brand-light: 23 37 59;
+    --c-brand-border: 37 74 119;
+
+    --c-ink: 226 232 240;
+    --c-ink-secondary: 148 163 184;
+    --c-ink-muted: 148 163 184;
+    --c-ink-subtle: 100 116 139;
+    --c-ink-border: 31 41 55;
+    --c-ink-border-strong: 51 65 85;
+
+    --c-accent-coral: 248 113 113;
+    --c-accent-gold: 245 158 11;
+    --c-accent-bluegrey: 31 41 55;
+    --c-accent-coral-soft: 69 26 26;
+    --c-accent-gold-soft: 69 45 14;
+
+    --c-status-success: 52 211 153;
+    --c-status-success-bg: 8 44 36;
+    --c-status-success-border: 20 83 65;
+    --c-status-warning: 245 158 11;
+    --c-status-warning-bg: 61 42 13;
+    --c-status-warning-border: 111 75 20;
+    --c-status-error: 248 113 113;
+    --c-status-error-bg: 69 26 26;
+    --c-status-error-border: 127 39 39;
+    --c-status-info: 96 165 250;
+    --c-status-info-bg: 19 39 66;
+    --c-status-info-border: 37 74 119;
+
+    --c-shadow: 0 0 0;
+
+    --bg-main: #090d16;
+    --surface-primary: #111827;
+    --surface-secondary: #111827;
+    --surface-tertiary: #1f2937;
+    --text-primary: #e2e8f0;
+    --text-secondary: #94a3b8;
+    --text-muted: #94a3b8;
+    --text-inverse: #090d16;
+    --accent-primary: #60a5fa;
+    --accent-hover: #93c5fd;
+    --accent-active: #3b82f6;
+    --accent-rich: #93c5fd;
+    --accent-sage: #1e3a63;
+    --accent-surface: #17253b;
+    --accent-border: #254a77;
+    --status-info-bg: #132742;
+    --status-info-border: #254a77;
+    --status-info: #60a5fa;
+    --status-review: #f59e0b;
+    --status-review-bg: #3d2a0d;
+    --status-review-border: #6f4b14;
+    --status-ready: #34d399;
+    --status-ready-bg: #082c24;
+    --status-ready-border: #145341;
+    --status-closed: #94a3b8;
+    --status-closed-bg: #111827;
+    --status-closed-border: #1f2937;
+    --status-error: #f87171;
+    --status-error-bg: #451a1a;
+    --status-error-border: #7f2727;
+    --border-light: #1f2937;
+    --border-medium: #334155;
+    --border-strong: #64748b;
+    --shadow-xs: 0 1px 2px rgb(0 0 0 / 0.22);
+    --shadow-sm: 0 2px 6px rgb(0 0 0 / 0.24);
+    --shadow-md: 0 8px 18px rgb(0 0 0 / 0.28);
+    --shadow-lg: 0 12px 28px rgb(0 0 0 / 0.32);
+  }
 }
 
-/* Hard-coded light surfaces in index.css */
-.theme-dark .support-callout {
-  background: var(--surface-secondary);
-}
-.theme-dark .data-table tbody tr:hover {
-  background: var(--surface-secondary);
-}
-.theme-dark .form-input:focus,
-.theme-dark .form-select:focus,
-.theme-dark .form-textarea:focus {
-  box-shadow: 0 0 0 4px rgba(34, 211, 238, 0.18);
+html {
+  color-scheme: light dark;
 }
 
-/* Soft cyan glow behind the page content */
-.theme-dark main {
-  background-image:
-    radial-gradient(60% 40% at 85% 0%, rgba(34, 211, 238, 0.07), transparent 70%),
-    radial-gradient(50% 35% at 0% 100%, rgba(251, 146, 60, 0.04), transparent 70%);
+body {
+  transition:
+    background-color 180ms ease,
+    color 180ms ease;
 }
 
-/*
- * Compatibility: components that use hard-coded light colors instead of tokens.
- */
-.theme-dark .bg-white {
-  background-color: rgb(var(--c-surface));
+:where(button, a, input, select, textarea):focus-visible {
+  outline: 2px solid rgb(var(--c-brand-forest));
+  outline-offset: 2px;
 }
-.theme-dark .bg-\[\#FAF8F5\],
-.theme-dark .bg-\[\#FAF9F6\],
-.theme-dark .bg-\[\#F8F6F1\],
-.theme-dark .bg-\[\#F5F2EC\],
-.theme-dark .bg-\[\#F4F1EC\],
-.theme-dark .bg-\[\#F8F6F0\],
-.theme-dark .bg-\[\#FAF9F5\] {
+
+:where(button, a, input, select, textarea) {
+  transition:
+    color 160ms ease,
+    background-color 160ms ease,
+    border-color 160ms ease,
+    box-shadow 160ms ease;
+}
+
+/* Preserve intentional paper surfaces while allowing system dark mode. */
+@media (prefers-color-scheme: dark) {
+  .bg-white {
+    background-color: rgb(var(--c-surface));
+  }
+
+  .support-callout,
+  .data-table tbody tr:hover {
+    background: rgb(var(--c-surface-secondary));
+  }
+
+  .form-input:focus,
+  .form-select:focus,
+  .form-textarea:focus {
+    box-shadow: 0 0 0 3px rgb(var(--c-brand-forest) / 0.18);
+  }
+}
+
+.bg-\[\#FAF8F5\],
+.bg-\[\#FAF9F6\],
+.bg-\[\#F8F6F1\],
+.bg-\[\#F5F2EC\],
+.bg-\[\#F4F1EC\],
+.bg-\[\#F8F6F0\],
+.bg-\[\#FAF9F5\] {
   background-color: rgb(var(--c-surface-subtle));
 }
-.theme-dark .bg-\[\#EAE5DA\] {
+
+.bg-\[\#EAE5DA\] {
   background-color: rgb(var(--c-canvas-sand));
 }
 
-.theme-dark .bg-teal-50,
-.theme-dark .bg-teal-100 {
+.bg-teal-50,
+.bg-teal-100 {
   background-color: rgb(var(--c-brand-sage) / 0.5);
 }
-.theme-dark .text-teal-600,
-.theme-dark .text-teal-700,
-.theme-dark .text-teal-800 {
+
+.text-teal-600,
+.text-teal-700,
+.text-teal-800 {
   color: rgb(var(--c-brand-forest));
 }
-.theme-dark .border-teal-200,
-.theme-dark .border-teal-300 {
+
+.border-teal-200,
+.border-teal-300 {
   border-color: rgb(var(--c-brand-border));
 }
-.theme-dark .bg-rose-50 {
+
+.bg-rose-50 {
   background-color: rgb(var(--c-status-error-bg));
 }
-.theme-dark .text-rose-600,
-.theme-dark .text-rose-700 {
+
+.text-rose-600,
+.text-rose-700 {
   color: rgb(var(--c-status-error));
 }
-.theme-dark .border-rose-200 {
+
+.border-rose-200 {
   border-color: rgb(var(--c-status-error-border));
 }
-.theme-dark .bg-amber-50 {
+
+.bg-amber-50 {
   background-color: rgb(var(--c-status-warning-bg));
 }
-.theme-dark .text-amber-600,
-.theme-dark .text-amber-700 {
+
+.text-amber-600,
+.text-amber-700 {
   color: rgb(var(--c-status-warning));
 }
-.theme-dark .border-amber-200 {
+
+.border-amber-200 {
   border-color: rgb(var(--c-status-warning-border));
 }
-.theme-dark .bg-green-50 {
+
+.bg-green-50 {
   background-color: rgb(var(--c-status-success-bg));
 }
-.theme-dark .text-green-600,
-.theme-dark .text-green-700,
-.theme-dark .text-emerald-600,
-.theme-dark .text-emerald-700 {
+
+.text-green-600,
+.text-green-700,
+.text-emerald-600,
+.text-emerald-700 {
   color: rgb(var(--c-status-success));
 }
-.theme-dark .border-green-200 {
+
+.border-green-200 {
   border-color: rgb(var(--c-status-success-border));
 }
 
-/* Button.tsx primary / destructive variants use Tailwind teal / rose + white text */
-.theme-dark .bg-teal-600 {
-  background-color: rgb(var(--c-brand-forest));
-  color: rgb(var(--c-canvas));
+.bg-teal-600 {
+  background-color: #2563eb;
 }
-.theme-dark .hover\:bg-teal-700:hover,
-.theme-dark .active\:bg-teal-800:active {
-  background-color: rgb(var(--c-brand-rich));
-  color: rgb(var(--c-canvas));
+
+.hover\:bg-teal-700:hover,
+.active\:bg-teal-800:active {
+  background-color: #1d4ed8;
 }
-.theme-dark .hover\:bg-teal-100:hover {
-  background-color: rgb(var(--c-brand-sage) / 0.8);
+
+.bg-rose-600 {
+  background-color: #dc2626;
 }
-.theme-dark .bg-rose-600 {
-  background-color: rgb(var(--c-status-error));
-  color: rgb(var(--c-canvas));
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
 }

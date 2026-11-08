@@ -35,6 +35,8 @@ function friendlyError(err: FirebaseError): string {
       return "Password is too weak. Please use at least 8 characters.";
     case "auth/network-request-failed":
       return "Network connection error. Please check your connection and try again.";
+    case "auth/unauthorized-domain":
+      return "This site is not authorized for Firebase sign-in. Add this hostname to Firebase Console under Authentication → Settings → Authorized domains, then reload.";
     default:
       return (
         err.message || "Registration could not be completed. Please try again."
@@ -70,7 +72,7 @@ const labelRowClass = "flex items-baseline justify-between gap-2 mb-1.5 min-w-0"
 const labelClass = "block text-[13px] font-medium text-ink truncate";
 const statusClass = "text-[11px] font-medium whitespace-nowrap";
 const helperClass =
-  "mt-1.5 text-[11px] leading-snug text-[#5E8A82] [@media(max-height:800px)]:!hidden";
+  "mt-1.5 text-[11px] leading-snug text-ink-muted [@media(max-height:800px)]:!hidden";
 
 export default function RegisterPage() {
   const navigate = useNavigate();
@@ -151,9 +153,9 @@ export default function RegisterPage() {
   };
 
   return (
-    <div className="min-h-screen bg-canvas flex flex-col lg:grid lg:grid-cols-12 selection:bg-brand-sage selection:text-brand-forest">
+    <div className="auth-shell min-h-screen bg-canvas flex flex-col lg:grid lg:grid-cols-12 selection:bg-brand-sage selection:text-brand-forest">
       {/* ───────── Left: photo brand panel ───────── */}
-      <aside className="relative isolate overflow-hidden bg-[#071F1C] text-white lg:col-span-5 lg:self-start lg:sticky lg:top-0 lg:h-screen">
+      <aside className="relative isolate overflow-hidden bg-[#090D16] text-white lg:col-span-5 lg:self-start lg:sticky lg:top-0 lg:h-screen">
         {/* Photo (top 62% on desktop, full banner on mobile) */}
         <div
           className="absolute inset-x-0 top-0 h-full lg:h-[62%] -z-20"
@@ -170,7 +172,7 @@ export default function RegisterPage() {
 
         {/* Mobile overlay */}
         <div
-          className="absolute inset-0 -z-10 lg:hidden bg-gradient-to-b from-[#071F1C]/65 via-[#0B2F2B]/60 to-[#071F1C]/90"
+          className="absolute inset-0 -z-10 lg:hidden bg-gradient-to-b from-[#090D16]/65 via-[#111827]/60 to-[#090D16]/90"
           aria-hidden="true"
         />
         {/* Desktop overlay: fade photo into solid panel */}
@@ -179,12 +181,12 @@ export default function RegisterPage() {
           aria-hidden="true"
           style={{
             background:
-              "linear-gradient(to bottom, rgba(7,31,28,0.75) 0%, rgba(11,47,43,0.25) 18%, rgba(11,47,43,0.15) 38%, rgba(7,31,28,0.92) 58%, #071F1C 66%)",
+              "linear-gradient(to bottom, rgba(9,13,22,0.75) 0%, rgba(17,24,39,0.25) 18%, rgba(17,24,39,0.15) 38%, rgba(9,13,22,0.92) 58%, #090D16 66%)",
           }}
         />
         {/* Brand tint */}
         <div
-          className="absolute inset-0 -z-10 bg-[#145B53]/20 mix-blend-multiply"
+          className="absolute inset-0 -z-10 bg-[#2563EB]/20 mix-blend-multiply"
           aria-hidden="true"
         />
 
@@ -208,7 +210,7 @@ export default function RegisterPage() {
           {/* Bottom copy block */}
           <div className="space-y-4 lg:space-y-5">
             <div className="space-y-3 lg:space-y-4">
-              <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white/10 border border-white/20 backdrop-blur-md text-xs font-semibold text-[#BDEFE5]">
+              <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white/10 border border-white/20 backdrop-blur-md text-xs font-semibold text-[#BFDBFE]">
                 <Sparkles className="w-3.5 h-3.5 text-accent-gold" />
                 <span>Your Privacy, Preserved</span>
               </div>
@@ -227,7 +229,7 @@ export default function RegisterPage() {
             <div className="[@media(max-height:680px)]:!hidden">
               <div className="hidden lg:block space-y-3.5 max-w-md">
                 <div className="flex items-start gap-3.5">
-                  <div className="w-9 h-9 rounded-lg bg-white/10 border border-white/15 text-[#7EE8D8] flex items-center justify-center flex-shrink-0">
+                  <div className="w-9 h-9 rounded-lg bg-white/10 border border-white/15 text-[#93C5FD] flex items-center justify-center flex-shrink-0">
                     <Lock className="w-4 h-4" />
                   </div>
                   <div className="self-center">
@@ -242,7 +244,7 @@ export default function RegisterPage() {
                 </div>
 
                 <div className="flex items-start gap-3.5">
-                  <div className="w-9 h-9 rounded-lg bg-white/10 border border-white/15 text-[#7EE8D8] flex items-center justify-center flex-shrink-0">
+                  <div className="w-9 h-9 rounded-lg bg-white/10 border border-white/15 text-[#93C5FD] flex items-center justify-center flex-shrink-0">
                     <FileCheck2 className="w-4 h-4" />
                   </div>
                   <div className="self-center">
@@ -257,7 +259,7 @@ export default function RegisterPage() {
                 </div>
 
                 <div className="flex items-start gap-3.5">
-                  <div className="w-9 h-9 rounded-lg bg-white/10 border border-white/15 text-[#7EE8D8] flex items-center justify-center flex-shrink-0">
+                  <div className="w-9 h-9 rounded-lg bg-white/10 border border-white/15 text-[#93C5FD] flex items-center justify-center flex-shrink-0">
                     <CheckCircle2 className="w-4 h-4" />
                   </div>
                   <div className="self-center">
@@ -283,7 +285,7 @@ export default function RegisterPage() {
       </aside>
 
       {/* ───────── Right: registration card (matches reference design) ───────── */}
-      <main className="flex-1 lg:col-span-7 flex items-center justify-center px-4 py-5 sm:px-8 sm:py-6 lg:px-10 xl:px-14 lg:min-h-screen bg-[#EFF3F1]">
+      <main className="flex-1 lg:col-span-7 flex items-center justify-center px-4 py-5 sm:px-8 sm:py-6 lg:px-10 xl:px-14 lg:min-h-screen bg-surface-subtle">
         <motion.div
           initial={{ opacity: 0, y: 12 }}
           animate={{ opacity: 1, y: 0 }}
@@ -300,10 +302,10 @@ export default function RegisterPage() {
                 />
                 Confidential &amp; Secure
               </p>
-              <h1 className="text-[1.7rem] sm:text-3xl font-bold text-[#12332E] font-heading tracking-tight">
+              <h1 className="text-[1.7rem] sm:text-3xl font-bold text-ink font-heading tracking-tight">
                 Create your account
               </h1>
-              <p className="mt-2 text-[13px] leading-relaxed text-[#4C7A72] [@media(max-height:800px)]:!hidden">
+              <p className="mt-2 text-[13px] leading-relaxed text-ink-secondary [@media(max-height:800px)]:!hidden">
                 You&apos;re in control. You choose what information you share
                 and when. Your account is private to you.
               </p>
@@ -470,14 +472,14 @@ export default function RegisterPage() {
                     <li
                       key={r.label}
                       className={`flex items-center gap-2 text-[11px] transition-colors ${
-                        r.ok ? "text-status-success font-medium" : "text-[#5E8A82]"
+                        r.ok ? "text-status-success font-medium" : "text-ink-muted"
                       }`}
                     >
                       <span
                         className={`w-3 h-3 rounded-full flex items-center justify-center flex-shrink-0 transition-colors ${
                           r.ok
                             ? "bg-status-success text-white"
-                            : "border border-[#9DBDB5]"
+                            : "border border-ink-border"
                         }`}
                         aria-hidden="true"
                       >
@@ -555,7 +557,7 @@ export default function RegisterPage() {
                 />
                 <label
                   htmlFor="terms"
-                  className="text-[12px] leading-snug text-[#4C7A72] cursor-pointer"
+                  className="text-[12px] leading-snug text-ink-secondary cursor-pointer"
                 >
                   I agree to the{" "}
                   <span className="font-semibold text-ink">Terms of Service</span>{" "}
@@ -585,7 +587,7 @@ export default function RegisterPage() {
             </form>
 
             <div className="mt-5 pt-4 border-t border-brand-border/60 text-center">
-              <p className="text-[13px] text-[#4C7A72]">
+              <p className="text-[13px] text-ink-secondary">
                 Already have an account?{" "}
                 <Link
                   to="/login"
@@ -597,7 +599,7 @@ export default function RegisterPage() {
             </div>
           </div>
 
-          <p className="mt-3 flex items-center justify-center gap-1.5 text-center text-[11px] text-[#5E8A82] leading-relaxed [@media(max-height:820px)]:!hidden">
+          <p className="mt-3 flex items-center justify-center gap-1.5 text-center text-[11px] text-ink-muted leading-relaxed [@media(max-height:820px)]:!hidden">
             <Lock className="w-3 h-3 flex-shrink-0" aria-hidden="true" />
             <span>
               Your information is kept private. You are always in control of

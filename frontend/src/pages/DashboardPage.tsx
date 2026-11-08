@@ -9,7 +9,6 @@ import {
   PlusCircle,
   Lock,
   ArrowRight,
-  Clock,
   FileCheck,
   AlertTriangle,
   LifeBuoy,
@@ -20,6 +19,7 @@ import {
   FileText,
   KeyRound,
 } from "lucide-react";
+import DashboardSkeleton from "./DashboardSkeleton";
 import "./DashboardPage.css";
 
 export default function DashboardPage() {
@@ -47,6 +47,10 @@ export default function DashboardPage() {
   useEffect(() => {
     loadRequests();
   }, []);
+
+  if (loading) {
+    return <DashboardSkeleton />;
+  }
 
   const getStatusBadge = (item: CaseItem) => {
     if (item.status === "CLOSED") {
@@ -349,11 +353,6 @@ export default function DashboardPage() {
               <RotateCcw aria-hidden="true" />
               Try again
             </button>
-          </div>
-        ) : loading ? (
-          <div className="dashboard-request-message dashboard-request-loading">
-            <Clock className="dashboard-loading-icon" aria-hidden="true" />
-            <span>Loading your private records…</span>
           </div>
         ) : requests.length === 0 ? (
           <div className="dashboard-request-empty">

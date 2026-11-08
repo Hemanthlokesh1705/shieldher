@@ -34,6 +34,8 @@ function friendlyError(err: FirebaseError): string {
       return "Too many sign-in attempts. Please wait a few moments and try again.";
     case "auth/network-request-failed":
       return "Network connection issue. Please check your connection and try again.";
+    case "auth/unauthorized-domain":
+      return "This site is not authorized for Firebase sign-in. Add this hostname to Firebase Console under Authentication → Settings → Authorized domains, then reload.";
     default:
       return err.message || "Sign in failed. Please verify your credentials.";
   }
@@ -93,9 +95,9 @@ export default function LoginPage() {
     "w-full h-12 pl-10 pr-3.5 text-sm text-ink placeholder:text-ink-muted bg-white border border-ink-border rounded-xl hover:border-ink-borderStrong focus:outline-none focus:ring-4 focus:ring-brand-rich/15 focus:border-brand-rich transition-all disabled:bg-canvas-subtle disabled:cursor-not-allowed";
 
   return (
-    <div className="min-h-screen bg-canvas flex flex-col lg:grid lg:grid-cols-12 selection:bg-brand-sage selection:text-brand-forest">
+    <div className="auth-shell min-h-screen bg-canvas flex flex-col lg:grid lg:grid-cols-12 selection:bg-brand-sage selection:text-brand-forest">
       {/* ───────── Left: photo brand panel ───────── */}
-      <aside className="relative isolate overflow-hidden bg-[#071F1C] text-white lg:col-span-5 lg:self-start lg:sticky lg:top-0 lg:h-screen">
+      <aside className="relative isolate overflow-hidden bg-[#090D16] text-white lg:col-span-5 lg:self-start lg:sticky lg:top-0 lg:h-screen">
         {/* Photo (top 62% on desktop, full banner on mobile) */}
         <div
           className="absolute inset-x-0 top-0 h-full lg:h-[62%] -z-20"
@@ -112,7 +114,7 @@ export default function LoginPage() {
 
         {/* Mobile overlay: even darkening for text legibility */}
         <div
-          className="absolute inset-0 -z-10 lg:hidden bg-gradient-to-b from-[#071F1C]/65 via-[#0B2F2B]/60 to-[#071F1C]/90"
+          className="absolute inset-0 -z-10 lg:hidden bg-gradient-to-b from-[#090D16]/65 via-[#111827]/60 to-[#090D16]/90"
           aria-hidden="true"
         />
         {/* Desktop overlay: top shade + fade photo into solid panel */}
@@ -121,12 +123,12 @@ export default function LoginPage() {
           aria-hidden="true"
           style={{
             background:
-              "linear-gradient(to bottom, rgba(7,31,28,0.75) 0%, rgba(11,47,43,0.25) 18%, rgba(11,47,43,0.15) 38%, rgba(7,31,28,0.92) 58%, #071F1C 66%)",
+              "linear-gradient(to bottom, rgba(9,13,22,0.75) 0%, rgba(17,24,39,0.25) 18%, rgba(17,24,39,0.15) 38%, rgba(9,13,22,0.92) 58%, #090D16 66%)",
           }}
         />
         {/* Brand tint */}
         <div
-          className="absolute inset-0 -z-10 bg-[#145B53]/20 mix-blend-multiply"
+          className="absolute inset-0 -z-10 bg-[#2563EB]/20 mix-blend-multiply"
           aria-hidden="true"
         />
 
@@ -150,7 +152,7 @@ export default function LoginPage() {
           {/* Bottom copy block */}
           <div className="space-y-4 lg:space-y-5">
             <div className="space-y-3 lg:space-y-4">
-              <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white/10 border border-white/20 backdrop-blur-md text-xs font-semibold text-[#BDEFE5]">
+              <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white/10 border border-white/20 backdrop-blur-md text-xs font-semibold text-[#BFDBFE]">
                 <Sparkles className="w-3.5 h-3.5 text-accent-gold" />
                 <span>Trauma-Informed NCII Protection</span>
               </div>
@@ -167,7 +169,7 @@ export default function LoginPage() {
             {/* Trust pillars (desktop only; descriptions collapse on short screens) */}
             <div className="hidden lg:block space-y-3.5 max-w-md [@media(max-height:680px)]:!hidden">
               <div className="flex items-start gap-3.5">
-                <div className="w-9 h-9 rounded-lg bg-white/10 border border-white/15 text-[#7EE8D8] flex items-center justify-center flex-shrink-0">
+                <div className="w-9 h-9 rounded-lg bg-white/10 border border-white/15 text-[#93C5FD] flex items-center justify-center flex-shrink-0">
                   <Lock className="w-4 h-4" />
                 </div>
                 <div>
@@ -182,7 +184,7 @@ export default function LoginPage() {
               </div>
 
               <div className="flex items-start gap-3.5">
-                <div className="w-9 h-9 rounded-lg bg-white/10 border border-white/15 text-[#7EE8D8] flex items-center justify-center flex-shrink-0">
+                <div className="w-9 h-9 rounded-lg bg-white/10 border border-white/15 text-[#93C5FD] flex items-center justify-center flex-shrink-0">
                   <FileCheck2 className="w-4 h-4" />
                 </div>
                 <div>
@@ -197,7 +199,7 @@ export default function LoginPage() {
               </div>
 
               <div className="flex items-start gap-3.5">
-                <div className="w-9 h-9 rounded-lg bg-white/10 border border-white/15 text-[#7EE8D8] flex items-center justify-center flex-shrink-0">
+                <div className="w-9 h-9 rounded-lg bg-white/10 border border-white/15 text-[#93C5FD] flex items-center justify-center flex-shrink-0">
                   <CheckCircle2 className="w-4 h-4" />
                 </div>
                 <div>
@@ -222,7 +224,7 @@ export default function LoginPage() {
       </aside>
 
       {/* ───────── Right: authentication card ───────── */}
-      <main className="flex-1 lg:col-span-7 flex items-center justify-center px-4 py-10 sm:px-8 lg:px-10 xl:px-16 lg:min-h-screen bg-[radial-gradient(ellipse_at_top_right,_#ffffff_0%,_#F7F6F2_60%)]">
+      <main className="flex-1 lg:col-span-7 flex items-center justify-center px-4 py-10 sm:px-8 lg:px-10 xl:px-16 lg:min-h-screen bg-surface-subtle">
         <motion.div
           initial={{ opacity: 0, y: 12 }}
           animate={{ opacity: 1, y: 0 }}
