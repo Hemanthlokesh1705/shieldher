@@ -10,7 +10,7 @@ export const AppLayout: React.FC = () => {
   const reduceMotion = useReducedMotion() ?? false;
 
   return (
-    <div className="workspace-theme min-h-screen bg-canvas flex flex-col selection:bg-brand-sage selection:text-brand-forest">
+    <div className="workspace-theme min-h-screen bg-canvas flex flex-col selection:bg-surface-subtle selection:text-brand-forest">
       <div className="flex-1 flex overflow-hidden">
         {/* Responsive Sidebar */}
         <Sidebar

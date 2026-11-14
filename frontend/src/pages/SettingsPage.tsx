@@ -71,14 +71,14 @@ export default function SettingsPage() {
       </div>
 
       {resetSuccess && (
-        <div className="p-4 rounded-xl bg-brand-sage/30 border border-brand-border text-ink text-xs flex items-center gap-2" role="status">
+        <div className="p-4 rounded-xl bg-surface-subtle/30 border border-brand-border text-ink text-xs flex items-center gap-2" role="status">
           <CheckCircle2 className="w-4 h-4 text-brand-rich flex-shrink-0" />
           <span className="font-medium">Password reset instructions were sent to your email.</span>
         </div>
       )}
 
       {downloadSuccess && (
-        <div className="p-4 rounded-xl bg-brand-sage/30 border border-brand-border text-ink text-xs flex items-center gap-2" role="status">
+        <div className="p-4 rounded-xl bg-surface-subtle/30 border border-brand-border text-ink text-xs flex items-center gap-2" role="status">
           <CheckCircle2 className="w-4 h-4 text-brand-rich flex-shrink-0" />
           <span className="font-medium">Your account profile data has been downloaded.</span>
         </div>
@@ -100,7 +100,7 @@ export default function SettingsPage() {
             <input
               id="account-display-name"
               type="text"
-              className="w-full h-11 px-3.5 py-2.5 text-xs sm:text-sm text-ink bg-[#FAF8F5] border border-ink-border rounded-xl cursor-not-allowed select-all"
+              className="w-full h-11 px-3.5 py-2.5 text-xs sm:text-sm text-ink bg-surface-subtle border border-ink-border rounded-xl cursor-not-allowed select-all"
               value={user?.displayName || ""}
               placeholder="Not provided"
               readOnly
@@ -114,7 +114,7 @@ export default function SettingsPage() {
             <input
               id="account-email"
               type="email"
-              className="w-full h-11 px-3.5 py-2.5 text-xs sm:text-sm text-ink bg-[#FAF8F5] border border-ink-border rounded-xl cursor-not-allowed select-all"
+              className="w-full h-11 px-3.5 py-2.5 text-xs sm:text-sm text-ink bg-surface-subtle border border-ink-border rounded-xl cursor-not-allowed select-all"
               value={user?.email || ""}
               placeholder="Not available"
               readOnly
@@ -124,7 +124,7 @@ export default function SettingsPage() {
 
         <div className="pt-2 flex items-center gap-2">
           <span className="text-xs text-ink-muted">Account Tier:</span>
-          <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-xs font-semibold bg-brand-sage/40 text-brand-forest border border-brand-border">
+          <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-xs font-semibold bg-surface-subtle/40 text-brand-forest border border-brand-border">
             <Lock className="w-3 h-3 text-brand-forest" />
             <span>Private Support Account</span>
           </span>

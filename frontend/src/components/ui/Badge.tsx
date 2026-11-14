@@ -11,7 +11,7 @@ export function Badge({
   ...props
 }: BadgeProps) {
   const variantStyles = {
-    default: "bg-brand-sage text-brand-forest border-brand-border",
+    default: "bg-surface-subtle text-brand-forest border-brand-border",
     secondary: "bg-canvas-subtle text-ink-secondary border-ink-border",
     success: "bg-status-successBg text-status-success border-status-successBorder",
     warning: "bg-status-warningBg text-status-warning border-status-warningBorder",

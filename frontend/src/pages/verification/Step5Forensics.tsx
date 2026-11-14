@@ -69,7 +69,7 @@ export default function Step5Forensics() {
         </p>
         <Link
           to="/verification/upload"
-          className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-brand-forest text-surface-pearl text-xs font-semibold hover:bg-brand-rich transition-colors shadow-2xs"
+          className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-action text-action-ink text-xs font-semibold hover:bg-action-hover transition-colors shadow-2xs"
         >
           <ArrowLeft className="w-3.5 h-3.5" />
           <span>Choose an Image</span>
@@ -101,11 +101,11 @@ export default function Step5Forensics() {
       </div>
 
       {error && (
-        <div className="p-4 rounded-xl bg-accent-coralSoft border border-accent-coral/30 text-ink text-xs flex items-center justify-between gap-4" role="alert">
+        <div className="p-4 rounded-xl bg-surface-subtle border border-ink-border text-ink text-xs flex items-center justify-between gap-4" role="alert">
           <span>{error}</span>
           <button
             type="button"
-            className="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg bg-surface-pearl border border-accent-gold/50 text-ink font-semibold hover:bg-canvas-subtle transition-colors shadow-2xs"
+            className="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg bg-surface-pearl border border-ink-border text-ink font-semibold hover:bg-canvas-subtle transition-colors shadow-2xs"
             onClick={() => {
               setForensicsData(null);
               setRetryCount((count) => count + 1);
@@ -131,7 +131,7 @@ export default function Step5Forensics() {
       ) : forensicsData ? (
         <div className="space-y-4">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div className="p-5 rounded-2xl bg-[#FAF8F5] border border-ink-border/80 shadow-2xs">
+            <div className="p-5 rounded-2xl bg-surface-subtle border border-ink-border/80 shadow-2xs">
               <div className="flex items-center gap-2 text-ink-muted text-[11px] font-bold uppercase tracking-wider mb-2 font-heading">
                 <Grid className="w-4 h-4 text-brand-forest" />
                 <span>Compression Structure</span>
@@ -146,7 +146,7 @@ export default function Step5Forensics() {
               </p>
             </div>
 
-            <div className="p-5 rounded-2xl bg-[#FAF8F5] border border-ink-border/80 shadow-2xs">
+            <div className="p-5 rounded-2xl bg-surface-subtle border border-ink-border/80 shadow-2xs">
               <div className="flex items-center gap-2 text-ink-muted text-[11px] font-bold uppercase tracking-wider mb-2 font-heading">
                 <Activity className="w-4 h-4 text-brand-forest" />
                 <span>Edge Transition Gradient</span>
@@ -168,7 +168,7 @@ export default function Step5Forensics() {
               onClick={() => setShowTechDetails((v) => !v)}
               aria-expanded={showTechDetails}
               aria-controls="forensics-tech-details"
-              className="w-full flex items-center justify-between p-4 bg-[#FAF9F6] hover:bg-canvas-subtle text-xs font-bold text-ink transition-colors font-heading"
+              className="w-full flex items-center justify-between p-4 bg-surface-subtle hover:bg-canvas-subtle text-xs font-bold text-ink transition-colors font-heading"
             >
               <span>Deterministic signal metrics</span>
               {showTechDetails ? (
@@ -228,7 +228,7 @@ export default function Step5Forensics() {
 
         <button
           type="button"
-          className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-brand-forest hover:bg-brand-rich active:bg-brand-hover text-surface-pearl text-xs sm:text-sm font-semibold transition-all shadow-xs hover:shadow disabled:opacity-50 disabled:pointer-events-none"
+          className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-action hover:bg-action-hover active:bg-action-hover text-action-ink text-xs sm:text-sm font-semibold transition-all shadow-xs hover:shadow disabled:opacity-50 disabled:pointer-events-none"
           onClick={() => navigate("/verification/online-search")}
           disabled={loading}
         >

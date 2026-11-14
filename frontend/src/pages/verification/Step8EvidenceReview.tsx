@@ -50,7 +50,7 @@ export default function Step8EvidenceReview() {
       </div>
 
       {/* Case Identity Box */}
-      <div className="p-5 rounded-2xl bg-[#FAF8F5] border border-ink-border/80 flex flex-wrap items-center justify-between gap-4 shadow-2xs">
+      <div className="p-5 rounded-2xl bg-surface-subtle border border-ink-border/80 flex flex-wrap items-center justify-between gap-4 shadow-2xs">
         <div>
           <span className="text-[10px] font-bold uppercase tracking-wider text-ink-muted block font-heading">
             Request Reference
@@ -64,7 +64,7 @@ export default function Step8EvidenceReview() {
           <span className="text-[10px] font-bold uppercase tracking-wider text-ink-muted block mb-1 font-heading">
             Retention Mode
           </span>
-          <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold bg-brand-sage/50 text-brand-forest border border-brand-border">
+          <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold bg-surface-subtle/50 text-brand-forest border border-brand-border">
             {consent.retentionPolicy === "PRESERVED"
               ? "Saved for reporting (365 days)"
               : "Temporary check (7 days)"}
@@ -148,8 +148,8 @@ export default function Step8EvidenceReview() {
       </div>
 
       {/* Digest explanation */}
-      <div className="p-4 sm:p-5 rounded-2xl bg-brand-sage/20 border border-brand-border flex items-start gap-3.5 text-xs text-ink-secondary leading-relaxed">
-        <div className="w-8 h-8 rounded-xl bg-brand-sage/60 text-brand-forest flex items-center justify-center flex-shrink-0 mt-0.5 border border-brand-border">
+      <div className="p-4 sm:p-5 rounded-2xl bg-surface-subtle/20 border border-brand-border flex items-start gap-3.5 text-xs text-ink-secondary leading-relaxed">
+        <div className="w-8 h-8 rounded-xl bg-surface-subtle/60 text-brand-forest flex items-center justify-center flex-shrink-0 mt-0.5 border border-brand-border">
           <Shield className="w-4 h-4" />
         </div>
         <div>
@@ -176,7 +176,7 @@ export default function Step8EvidenceReview() {
 
         <button
           type="button"
-          className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-brand-forest hover:bg-brand-rich active:bg-brand-hover text-surface-pearl text-xs sm:text-sm font-semibold transition-all shadow-xs hover:shadow"
+          className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-action hover:bg-action-hover active:bg-action-hover text-action-ink text-xs sm:text-sm font-semibold transition-all shadow-xs hover:shadow"
           onClick={() => navigate("/verification/report")}
         >
           <span>Continue to Complaint Preparation</span>

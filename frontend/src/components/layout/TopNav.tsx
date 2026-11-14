@@ -57,7 +57,7 @@ export const TopNav: React.FC<TopNavProps> = ({ onMenuClick }) => {
           <button
             type="button"
             onClick={onMenuClick}
-            className="p-1.5 rounded-lg border border-ink-border text-ink-secondary hover:text-ink hover:bg-canvas-subtle md:hidden focus:outline-none focus:ring-2 focus:ring-brand-rich transition-colors"
+            className="p-1.5 rounded-lg border border-ink-border text-ink-secondary hover:text-ink hover:bg-canvas-subtle md:hidden focus:outline-none focus:ring-2 focus:ring-action transition-colors"
             aria-label="Open sidebar menu"
           >
             <Menu className="w-5 h-5" />
@@ -83,7 +83,7 @@ export const TopNav: React.FC<TopNavProps> = ({ onMenuClick }) => {
         {!isChecking && (
           <Link
             to="/verification/consent"
-            className="inline-flex min-h-10 items-center gap-2 px-3.5 py-2 rounded-lg bg-brand-forest hover:bg-brand-hover active:bg-brand-hover text-white text-sm font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-brand-rich focus:ring-offset-2"
+            className="inline-flex min-h-10 items-center gap-2 px-3.5 py-2 rounded-lg bg-action hover:bg-action-hover active:bg-action-hover text-action-ink text-sm font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-action focus:ring-offset-2"
           >
             <Plus className="w-4 h-4" />
             <span>Check an Image</span>

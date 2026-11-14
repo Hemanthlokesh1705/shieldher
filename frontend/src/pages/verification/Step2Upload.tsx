@@ -156,7 +156,7 @@ export default function Step2Upload() {
 
       {error && (
         <div
-          className="mb-5 p-4 rounded-xl bg-accent-coralSoft border border-accent-coral/30 text-accent-coral text-xs leading-relaxed flex items-start gap-2.5"
+          className="mb-5 p-4 rounded-xl bg-surface-subtle border border-ink-border text-ink-primary text-xs leading-relaxed flex items-start gap-2.5"
           role="alert"
         >
           <AlertCircle className="w-4 h-4 flex-shrink-0 mt-0.5" />
@@ -175,7 +175,7 @@ export default function Step2Upload() {
           </label>
           <input
             id="request-title"
-            className="w-full max-w-lg h-11 px-3.5 py-2.5 text-xs sm:text-sm text-ink placeholder:text-ink-muted bg-surface-pearl border border-ink-border rounded-xl focus:outline-none focus:ring-2 focus:ring-brand-rich focus:border-brand-rich transition-colors shadow-2xs"
+            className="w-full max-w-lg h-11 px-3.5 py-2.5 text-xs sm:text-sm text-ink placeholder:text-ink-muted bg-surface-pearl border border-ink-border rounded-xl focus:outline-none focus:ring-2 focus:ring-action focus:border-brand-rich transition-colors shadow-2xs"
             type="text"
             value={requestTitle}
             onChange={(e) => setRequestTitle(e.target.value)}
@@ -215,13 +215,13 @@ export default function Step2Upload() {
               onClick={() => fileInputRef.current?.click()}
               className={cn(
                 "border-2 border-dashed rounded-2xl p-10 text-center cursor-pointer transition-colors",
-                "focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-forest",
+                "focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-action",
                 dragActive
-                  ? "border-brand-forest bg-brand-sage/20"
-                  : "border-ink-border bg-[#FAF9F6] hover:bg-[#F5F2EC] hover:border-brand-rich/50"
+                  ? "border-brand-forest bg-surface-subtle/20"
+                  : "border-ink-border bg-surface-subtle hover:bg-canvas hover:border-brand-rich/50"
               )}
             >
-              <div className="w-14 h-14 rounded-2xl bg-brand-sage/40 text-brand-forest flex items-center justify-center mx-auto mb-3.5 border border-brand-border shadow-2xs">
+              <div className="w-14 h-14 rounded-2xl bg-surface-subtle/40 text-brand-forest flex items-center justify-center mx-auto mb-3.5 border border-brand-border shadow-2xs">
                 <UploadCloud className="w-7 h-7" />
               </div>
               <h4 className="text-sm font-bold text-ink font-heading">
@@ -239,7 +239,7 @@ export default function Step2Upload() {
             </div>
           </>
         ) : (
-          <div className="p-4 sm:p-5 rounded-2xl bg-[#FAF9F6] border border-ink-border/80 flex flex-wrap items-center justify-between gap-4 shadow-2xs">
+          <div className="p-4 sm:p-5 rounded-2xl bg-surface-subtle border border-ink-border/80 flex flex-wrap items-center justify-between gap-4 shadow-2xs">
             <div className="flex items-center gap-4 min-w-0">
               {/* Privacy Blurred Thumbnail */}
               {filePreviewUrl && (
@@ -298,7 +298,7 @@ export default function Step2Upload() {
               </button>
               <button
                 type="button"
-                className="inline-flex items-center gap-1 px-3 py-1.5 rounded-xl text-xs font-semibold text-accent-coral hover:bg-accent-coralSoft transition-colors"
+                className="inline-flex items-center gap-1 px-3 py-1.5 rounded-xl text-xs font-semibold text-ink-primary hover:bg-surface-subtle transition-colors"
                 onClick={handleClear}
                 disabled={uploading}
               >
@@ -330,7 +330,7 @@ export default function Step2Upload() {
 
           <button
             type="submit"
-            className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-brand-forest hover:bg-brand-rich active:bg-brand-hover text-surface-pearl text-xs sm:text-sm font-semibold transition-all shadow-xs hover:shadow disabled:opacity-50 disabled:pointer-events-none"
+            className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-action hover:bg-action-hover active:bg-action-hover text-action-ink text-xs sm:text-sm font-semibold transition-all shadow-xs hover:shadow disabled:opacity-50 disabled:pointer-events-none"
             disabled={!selectedFile || uploading}
           >
             {uploading && <Loader2 className="w-4 h-4 animate-spin" />}

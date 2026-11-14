@@ -114,18 +114,18 @@
   justify-content: center;
   gap: 9px;
   padding: 0 18px;
-  border: 1px solid var(--accent-primary);
+  border: 1px solid var(--action-primary);
   border-radius: 8px;
-  background: var(--accent-primary);
-  color: var(--text-inverse);
+  background: var(--action-primary);
+  color: var(--action-ink);
   font-size: 14px;
   font-weight: 500;
   transition: background-color 160ms ease, border-color 160ms ease;
 }
 
 .investor-button:hover {
-  border-color: var(--accent-hover);
-  background: var(--accent-hover);
+  border-color: var(--action-hover);
+  background: var(--action-hover);
 }
 
 .investor-button-small {

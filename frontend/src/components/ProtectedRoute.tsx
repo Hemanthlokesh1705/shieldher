@@ -22,7 +22,7 @@ export function ProtectedRoute({ children }: Props) {
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
-          background: "#fff",
+          background: "var(--surface-primary)",
         }}
       >
         <div style={{ textAlign: "center" }}>
@@ -30,14 +30,14 @@ export function ProtectedRoute({ children }: Props) {
             style={{
               width: 40,
               height: 40,
-              border: "3px solid #e2e8f0",
-              borderTopColor: "#16a34a",
+              border: "3px solid var(--border-light)",
+              borderTopColor: "var(--accent-primary)",
               borderRadius: "50%",
               animation: "spin 0.7s linear infinite",
               margin: "0 auto 1rem",
             }}
           />
-          <p style={{ color: "#64748b", fontSize: "0.875rem" }}>
+          <p style={{ color: "var(--text-secondary)", fontSize: "0.875rem" }}>
             Verifying session…
           </p>
         </div>

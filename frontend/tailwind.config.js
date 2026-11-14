@@ -1,8 +1,8 @@
 /** @type {import('tailwindcss').Config} */
 
-// Each color reads a CSS variable (space-separated RGB channels) and falls back
-// to the warm light palette. The interface stays light regardless of OS theme.
-// <alpha-value> keeps opacity utilities such as bg-brand-sage/40 working.
+// Each color reads a CSS variable and falls back to the cream-and-teal palette.
+// The interface stays light regardless of OS theme.
+// <alpha-value> keeps opacity modifiers available on the palette tokens.
 const c = (name, fallback) => `rgb(var(--c-${name}, ${fallback}) / <alpha-value>)`;
 
 export default {
@@ -11,60 +11,55 @@ export default {
     extend: {
       colors: {
         canvas: {
-          DEFAULT: c("canvas", "250 249 246"),
-          ivory: c("canvas", "250 249 246"),
+          DEFAULT: c("canvas", "241 238 232"),
+          ivory: c("canvas", "241 238 232"),
           pearl: c("canvas-pearl", "255 255 255"),
-          subtle: c("canvas-subtle", "248 250 252"),
-          sand: c("canvas-sand", "241 241 236"),
+          subtle: c("canvas-subtle", "250 248 245"),
+          sand: c("canvas-sand", "221 215 204"),
         },
         surface: {
           DEFAULT: c("surface", "255 255 255"),
           pearl: c("surface", "255 255 255"),
           card: c("surface", "255 255 255"),
-          subtle: c("surface-subtle", "248 250 252"),
-          secondary: c("surface-secondary", "248 250 252"),
-          tertiary: c("surface-tertiary", "241 241 236"),
-          tint: c("surface-tint", "232 240 235"),
+          subtle: c("surface-subtle", "250 248 245"),
+          secondary: c("surface-secondary", "250 248 245"),
+          tertiary: c("surface-tertiary", "241 238 232"),
+          tint: c("surface-tint", "250 248 245"),
         },
         brand: {
-          forest: c("brand-forest", "46 111 94"),
-          DEFAULT: c("brand-forest", "46 111 94"),
-          rich: c("brand-rich", "59 122 107"),
-          sage: c("brand-sage", "232 240 235"),
-          hover: c("brand-hover", "36 91 77"),
-          light: c("brand-light", "232 240 235"),
-          border: c("brand-border", "198 217 206"),
+          forest: c("brand-forest", "14 79 74"),
+          DEFAULT: c("brand-forest", "14 79 74"),
+          rich: c("brand-rich", "66 99 96"),
+          hover: c("brand-hover", "10 60 56"),
+          border: c("brand-border", "221 215 204"),
         },
         ink: {
-          DEFAULT: c("ink", "30 41 59"),
-          primary: c("ink", "30 41 59"),
-          slate: c("ink-secondary", "71 85 105"),
-          secondary: c("ink-secondary", "71 85 105"),
-          muted: c("ink-muted", "100 116 139"),
-          subtle: c("ink-subtle", "100 116 139"),
-          border: c("ink-border", "226 232 240"),
-          borderStrong: c("ink-border-strong", "203 213 225"),
+          DEFAULT: c("ink", "14 79 74"),
+          primary: c("ink", "14 79 74"),
+          secondary: c("ink-secondary", "66 99 96"),
+          muted: c("ink-muted", "66 99 96"),
+          subtle: c("ink-subtle", "66 99 96"),
+          border: c("ink-border", "221 215 204"),
+          borderStrong: c("ink-border-strong", "66 99 96"),
         },
-        accent: {
-          coral: c("accent-coral", "199 125 112"),
-          gold: c("accent-gold", "194 154 89"),
-          bluegrey: c("accent-bluegrey", "230 236 235"),
-          coralSoft: c("accent-coral-soft", "249 236 233"),
-          goldSoft: c("accent-gold-soft", "249 244 235"),
+        action: {
+          DEFAULT: c("action-primary", "255 111 94"),
+          hover: c("action-hover", "244 95 80"),
+          ink: c("action-ink", "9 47 45"),
         },
         status: {
-          success: c("status-success", "31 122 89"),
-          successBg: c("status-success-bg", "237 247 242"),
-          successBorder: c("status-success-border", "200 232 216"),
-          warning: c("status-warning", "164 116 44"),
-          warningBg: c("status-warning-bg", "253 248 238"),
-          warningBorder: c("status-warning-border", "238 221 187"),
-          error: c("status-error", "184 74 62"),
-          errorBg: c("status-error-bg", "253 242 240"),
-          errorBorder: c("status-error-border", "243 202 196"),
-          info: c("status-info", "44 110 128"),
-          infoBg: c("status-info-bg", "238 246 248"),
-          infoBorder: c("status-info-border", "203 228 236"),
+          success: c("status-success", "14 79 74"),
+          successBg: c("status-success-bg", "250 248 245"),
+          successBorder: c("status-success-border", "221 215 204"),
+          warning: c("status-warning", "66 99 96"),
+          warningBg: c("status-warning-bg", "250 248 245"),
+          warningBorder: c("status-warning-border", "221 215 204"),
+          error: c("status-error", "14 79 74"),
+          errorBg: c("status-error-bg", "250 248 245"),
+          errorBorder: c("status-error-border", "221 215 204"),
+          info: c("status-info", "14 79 74"),
+          infoBg: c("status-info-bg", "250 248 245"),
+          infoBorder: c("status-info-border", "221 215 204"),
         },
       },
       fontFamily: {
@@ -83,10 +78,10 @@ export default {
         label: ["0.6875rem", { lineHeight: "1.4", letterSpacing: "0.06em" }],
       },
       boxShadow: {
-        subtle: "0 1px 2px rgb(var(--c-shadow, 25 43 41) / 0.03), 0 1px 1px rgb(var(--c-shadow, 25 43 41) / 0.02)",
-        card: "0 2px 8px -2px rgb(var(--c-shadow, 25 43 41) / 0.05), 0 1px 3px -1px rgb(var(--c-shadow, 25 43 41) / 0.03)",
-        elevated: "0 8px 24px -4px rgb(var(--c-shadow, 25 43 41) / 0.07), 0 4px 10px -2px rgb(var(--c-shadow, 25 43 41) / 0.03)",
-        popover: "0 16px 36px -6px rgb(var(--c-shadow, 25 43 41) / 0.1), 0 6px 14px -3px rgb(var(--c-shadow, 25 43 41) / 0.04)",
+        subtle: "0 1px 2px rgb(var(--c-shadow, 14 79 74) / 0.03), 0 1px 1px rgb(var(--c-shadow, 14 79 74) / 0.02)",
+        card: "0 2px 8px -2px rgb(var(--c-shadow, 14 79 74) / 0.05), 0 1px 3px -1px rgb(var(--c-shadow, 14 79 74) / 0.03)",
+        elevated: "0 8px 24px -4px rgb(var(--c-shadow, 14 79 74) / 0.07), 0 4px 10px -2px rgb(var(--c-shadow, 14 79 74) / 0.03)",
+        popover: "0 16px 36px -6px rgb(var(--c-shadow, 14 79 74) / 0.1), 0 6px 14px -3px rgb(var(--c-shadow, 14 79 74) / 0.04)",
       },
       borderRadius: {
         sm: "0.4375rem",

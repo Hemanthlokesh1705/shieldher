@@ -14,7 +14,7 @@ export default function NotFoundPage() {
         </p>
         <Link
           to="/"
-          className="mt-6 inline-flex min-h-11 items-center gap-2 rounded-lg bg-brand-forest px-4 py-2 text-sm font-medium text-white hover:bg-brand-hover"
+          className="mt-6 inline-flex min-h-11 items-center gap-2 rounded-lg bg-action px-4 py-2 text-sm font-medium text-action-ink hover:bg-action-hover"
         >
           <ArrowLeft size={16} aria-hidden="true" />
           Return to ShieldHer

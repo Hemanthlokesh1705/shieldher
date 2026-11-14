@@ -1,93 +1,91 @@
 /*
- * ShieldHer's light-only warm paper theme.
+ * ShieldHer's light-only cream and deep-teal theme.
  * Shared tokens keep Tailwind surfaces and CSS components consistent.
  */
 :root {
   color-scheme: light;
 
-  --c-canvas: 250 249 246;
+  --c-canvas: 241 238 232;
   --c-canvas-pearl: 255 255 255;
-  --c-canvas-subtle: 248 250 252;
-  --c-canvas-sand: 241 241 236;
+  --c-canvas-subtle: 250 248 245;
+  --c-canvas-sand: 221 215 204;
 
   --c-surface: 255 255 255;
-  --c-surface-subtle: 248 250 252;
-  --c-surface-secondary: 248 250 252;
-  --c-surface-tertiary: 241 241 236;
-  --c-surface-tint: 232 240 235;
+  --c-surface-subtle: 250 248 245;
+  --c-surface-secondary: 250 248 245;
+  --c-surface-tertiary: 241 238 232;
+  --c-surface-tint: 250 248 245;
 
-  --c-brand-forest: 46 111 94;
-  --c-brand-rich: 59 122 107;
-  --c-brand-sage: 232 240 235;
-  --c-brand-hover: 36 91 77;
-  --c-brand-light: 232 240 235;
-  --c-brand-border: 198 217 206;
+  --c-brand-forest: 14 79 74;
+  --c-brand-rich: 66 99 96;
+  --c-brand-hover: 10 60 56;
+  --c-brand-border: 221 215 204;
 
-  --c-ink: 30 41 59;
-  --c-ink-secondary: 71 85 105;
-  --c-ink-muted: 100 116 139;
-  --c-ink-subtle: 100 116 139;
-  --c-ink-border: 226 232 240;
-  --c-ink-border-strong: 203 213 225;
+  --c-ink: 14 79 74;
+  --c-ink-secondary: 66 99 96;
+  --c-ink-muted: 66 99 96;
+  --c-ink-subtle: 66 99 96;
+  --c-ink-border: 221 215 204;
+  --c-ink-border-strong: 66 99 96;
 
-  --c-accent-coral: 184 74 62;
-  --c-accent-gold: 164 116 44;
-  --c-accent-bluegrey: 230 236 235;
-  --c-accent-coral-soft: 253 242 240;
-  --c-accent-gold-soft: 253 248 238;
+  --c-action-ink: 9 47 45;
+  --c-action-primary: 255 111 94;
+  --c-action-hover: 244 95 80;
 
-  --c-status-success: 46 111 94;
-  --c-status-success-bg: 237 245 240;
-  --c-status-success-border: 198 217 206;
-  --c-status-warning: 139 99 39;
-  --c-status-warning-bg: 250 246 235;
-  --c-status-warning-border: 232 220 185;
-  --c-status-error: 153 67 57;
-  --c-status-error-bg: 250 241 239;
-  --c-status-error-border: 231 204 199;
-  --c-status-info: 57 93 117;
-  --c-status-info-bg: 240 246 249;
-  --c-status-info-border: 205 222 232;
+  --c-status-success: 14 79 74;
+  --c-status-success-bg: 250 248 245;
+  --c-status-success-border: 221 215 204;
+  --c-status-warning: 66 99 96;
+  --c-status-warning-bg: 250 248 245;
+  --c-status-warning-border: 221 215 204;
+  --c-status-error: 14 79 74;
+  --c-status-error-bg: 250 248 245;
+  --c-status-error-border: 221 215 204;
+  --c-status-info: 14 79 74;
+  --c-status-info-bg: 250 248 245;
+  --c-status-info-border: 221 215 204;
 
-  --c-shadow: 30 41 59;
+  --c-shadow: 14 79 74;
 
-  --bg-main: #faf9f6;
+  --bg-main: #f1eee8;
   --surface-primary: #ffffff;
-  --surface-secondary: #f8fafc;
-  --surface-tertiary: #f1f1ec;
-  --text-primary: #1e293b;
-  --text-secondary: #475569;
-  --text-muted: #64748b;
+  --surface-secondary: #faf8f5;
+  --surface-tertiary: #f1eee8;
+  --text-primary: #0e4f4a;
+  --text-secondary: #426360;
+  --text-muted: #426360;
   --text-inverse: #ffffff;
-  --accent-primary: #2e6f5e;
-  --accent-hover: #245b4d;
-  --accent-active: #1d4b40;
-  --accent-rich: #3b7a6b;
-  --accent-sage: #e8f0eb;
-  --accent-surface: #e8f0eb;
-  --accent-border: #c6d9ce;
-  --status-info-bg: #f0f6f9;
-  --status-info-border: #cddee8;
-  --status-info: #395d75;
-  --status-review: #8b6327;
-  --status-review-bg: #faf6eb;
-  --status-review-border: #e8dcb9;
-  --status-ready: #2e6f5e;
-  --status-ready-bg: #edf5f0;
-  --status-ready-border: #c6d9ce;
-  --status-closed: #475569;
-  --status-closed-bg: #f8fafc;
-  --status-closed-border: #e2e8f0;
-  --status-error: #994339;
-  --status-error-bg: #faf1ef;
-  --status-error-border: #e7ccc7;
-  --border-light: #e2e8f0;
-  --border-medium: #cbd5e1;
-  --border-strong: #64748b;
-  --shadow-xs: 0 1px 2px rgb(30 41 59 / 0.04);
-  --shadow-sm: 0 2px 6px rgb(30 41 59 / 0.05);
-  --shadow-md: 0 8px 24px rgb(30 41 59 / 0.06);
-  --shadow-lg: 0 12px 28px rgb(30 41 59 / 0.08);
+  --accent-primary: #0e4f4a;
+  --accent-hover: #0a3c38;
+  --accent-active: #082f2c;
+  --accent-rich: #426360;
+  --accent-surface: #faf8f5;
+  --accent-border: #ddd7cc;
+  --action-primary: #ff6f5e;
+  --action-hover: #f45f50;
+  --action-ink: #092f2d;
+  --status-info-bg: #faf8f5;
+  --status-info-border: #ddd7cc;
+  --status-info: #0e4f4a;
+  --status-review: #426360;
+  --status-review-bg: #faf8f5;
+  --status-review-border: #ddd7cc;
+  --status-ready: #0e4f4a;
+  --status-ready-bg: #faf8f5;
+  --status-ready-border: #ddd7cc;
+  --status-closed: #426360;
+  --status-closed-bg: #faf8f5;
+  --status-closed-border: #ddd7cc;
+  --status-error: #0e4f4a;
+  --status-error-bg: #faf8f5;
+  --status-error-border: #ddd7cc;
+  --border-light: #ddd7cc;
+  --border-medium: #ddd7cc;
+  --border-strong: #426360;
+  --shadow-xs: 0 1px 2px rgb(14 79 74 / 0.04);
+  --shadow-sm: 0 2px 6px rgb(14 79 74 / 0.05);
+  --shadow-md: 0 8px 24px rgb(14 79 74 / 0.06);
+  --shadow-lg: 0 12px 28px rgb(14 79 74 / 0.08);
 
   --color-bg: var(--bg-main);
   --color-bg-subtle: var(--surface-secondary);
@@ -199,8 +197,9 @@ body {
 }
 
 :where(button, a, input, select, textarea):focus-visible {
-  outline: 2px solid rgb(var(--c-brand-forest));
+  outline: 2px solid var(--action-primary);
   outline-offset: 2px;
+  box-shadow: 0 0 0 4px var(--accent-primary) !important;
 }
 
 :where(button, a, input, select, textarea) {
@@ -215,6 +214,12 @@ body {
   background-color: rgb(var(--c-surface));
 }
 
+input:not([type="checkbox"]):not([type="radio"]),
+select,
+textarea {
+  background-color: rgb(var(--c-surface-subtle));
+}
+
 .support-callout,
 .data-table tbody tr:hover {
   background: rgb(var(--c-surface-secondary));
@@ -224,90 +229,6 @@ body {
 .form-select:focus,
 .form-textarea:focus {
   box-shadow: 0 0 0 3px rgb(var(--c-brand-forest) / 0.18);
-}
-
-.bg-\[\#FAF8F5\],
-.bg-\[\#FAF9F6\],
-.bg-\[\#F8F6F1\],
-.bg-\[\#F5F2EC\],
-.bg-\[\#F4F1EC\],
-.bg-\[\#F8F6F0\],
-.bg-\[\#FAF9F5\] {
-  background-color: rgb(var(--c-surface-subtle));
-}
-
-.bg-\[\#EAE5DA\] {
-  background-color: rgb(var(--c-canvas-sand));
-}
-
-.bg-teal-50,
-.bg-teal-100 {
-  background-color: rgb(var(--c-brand-sage) / 0.5);
-}
-
-.text-teal-600,
-.text-teal-700,
-.text-teal-800 {
-  color: rgb(var(--c-brand-forest));
-}
-
-.border-teal-200,
-.border-teal-300 {
-  border-color: rgb(var(--c-brand-border));
-}
-
-.bg-rose-50 {
-  background-color: rgb(var(--c-status-error-bg));
-}
-
-.text-rose-600,
-.text-rose-700 {
-  color: rgb(var(--c-status-error));
-}
-
-.border-rose-200 {
-  border-color: rgb(var(--c-status-error-border));
-}
-
-.bg-amber-50 {
-  background-color: rgb(var(--c-status-warning-bg));
-}
-
-.text-amber-600,
-.text-amber-700 {
-  color: rgb(var(--c-status-warning));
-}
-
-.border-amber-200 {
-  border-color: rgb(var(--c-status-warning-border));
-}
-
-.bg-green-50 {
-  background-color: rgb(var(--c-status-success-bg));
-}
-
-.text-green-600,
-.text-green-700,
-.text-emerald-600,
-.text-emerald-700 {
-  color: rgb(var(--c-status-success));
-}
-
-.border-green-200 {
-  border-color: rgb(var(--c-status-success-border));
-}
-
-.bg-teal-600 {
-  background-color: rgb(var(--c-brand-forest));
-}
-
-.hover\:bg-teal-700:hover,
-.active\:bg-teal-800:active {
-  background-color: rgb(var(--c-brand-hover));
-}
-
-.bg-rose-600 {
-  background-color: rgb(var(--c-status-error));
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -333,7 +254,7 @@ body {
 }
 
 .confirmation-dialog::backdrop {
-  background: rgb(30 41 59 / 0.3);
+  background: rgb(var(--c-brand-forest) / 0.3);
   backdrop-filter: blur(2px);
 }
 
@@ -447,12 +368,12 @@ body {
 }
 
 .confirmation-dialog-confirm-primary {
-  background: var(--accent-primary);
-  color: var(--text-inverse);
+  background: var(--action-primary);
+  color: var(--action-ink);
 }
 
 .confirmation-dialog-confirm-primary:hover:not(:disabled) {
-  background: var(--accent-hover);
+  background: var(--action-hover);
 }
 
 .confirmation-dialog-confirm-destructive {
@@ -461,5 +382,5 @@ body {
 }
 
 .confirmation-dialog-confirm-destructive:hover:not(:disabled) {
-  background: #7f342c;
+  background: var(--accent-hover);
 }

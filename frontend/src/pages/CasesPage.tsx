@@ -59,7 +59,7 @@ export default function CasesPage() {
       item.review_status === "AUTHENTIC"
     ) {
       return (
-        <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-xs font-semibold bg-brand-sage/50 text-brand-forest border border-brand-border">
+        <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-xs font-semibold bg-surface-subtle/50 text-brand-forest border border-brand-border">
           <span className="w-1.5 h-1.5 rounded-full bg-brand-rich" />
           Report ready
         </span>
@@ -67,8 +67,8 @@ export default function CasesPage() {
     }
     if (item.review_status === "UNDER_REVIEW") {
       return (
-        <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-xs font-semibold bg-accent-goldSoft text-accent-gold border border-accent-gold/30">
-          <span className="w-1.5 h-1.5 rounded-full bg-accent-gold" />
+        <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-xs font-semibold bg-surface-subtle text-ink-secondary border border-ink-border">
+          <span className="w-1.5 h-1.5 rounded-full bg-brand-rich" />
           In review
         </span>
       );
@@ -115,7 +115,7 @@ export default function CasesPage() {
 
         <Link
           to="/verification/consent"
-          className="inline-flex items-center gap-1.5 px-4 py-2.5 rounded-xl bg-brand-forest hover:bg-brand-rich active:bg-brand-hover text-surface-pearl text-xs sm:text-sm font-semibold transition-all shadow-xs hover:shadow"
+          className="inline-flex items-center gap-1.5 px-4 py-2.5 rounded-xl bg-action hover:bg-action-hover active:bg-action-hover text-action-ink text-xs sm:text-sm font-semibold transition-all shadow-xs hover:shadow"
         >
           <PlusCircle className="w-4 h-4" />
           <span>Check an Image</span>
@@ -128,7 +128,7 @@ export default function CasesPage() {
           <Search className="w-4 h-4 text-ink-muted absolute left-3.5 top-1/2 -translate-y-1/2" />
           <input
             type="text"
-            className="w-full h-11 pl-10 pr-3.5 py-2.5 text-xs sm:text-sm text-ink placeholder:text-ink-muted bg-surface-pearl border border-ink-border rounded-xl focus:outline-none focus:ring-2 focus:ring-brand-rich focus:border-brand-rich transition-colors shadow-2xs"
+            className="w-full h-11 pl-10 pr-3.5 py-2.5 text-xs sm:text-sm text-ink placeholder:text-ink-muted bg-surface-pearl border border-ink-border rounded-xl focus:outline-none focus:ring-2 focus:ring-action focus:border-brand-rich transition-colors shadow-2xs"
             placeholder="Search by reference code or label…"
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
@@ -137,11 +137,11 @@ export default function CasesPage() {
       )}
 
       {error ? (
-        <div className="p-4 rounded-xl bg-accent-goldSoft border border-accent-gold/40 text-ink text-xs flex items-center justify-between gap-4">
+        <div className="p-4 rounded-xl bg-surface-subtle border border-ink-border text-ink text-xs flex items-center justify-between gap-4">
           <span>{error}</span>
           <button
             type="button"
-            className="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg bg-surface-pearl border border-accent-gold/50 text-ink font-semibold hover:bg-canvas-subtle transition-colors shadow-2xs"
+            className="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg bg-surface-pearl border border-ink-border text-ink font-semibold hover:bg-canvas-subtle transition-colors shadow-2xs"
             onClick={loadRequests}
           >
             <RotateCcw className="w-3 h-3" />
@@ -155,7 +155,7 @@ export default function CasesPage() {
         </div>
       ) : filteredRequests.length === 0 ? (
         <div className="p-12 text-center rounded-2xl bg-surface-pearl border border-ink-border/80 shadow-xs">
-          <div className="w-12 h-12 rounded-2xl bg-brand-sage/40 text-brand-forest flex items-center justify-center mx-auto mb-3 shadow-2xs">
+          <div className="w-12 h-12 rounded-2xl bg-surface-subtle/40 text-brand-forest flex items-center justify-center mx-auto mb-3 shadow-2xs">
             <Shield className="w-6 h-6" />
           </div>
           <h4 className="text-base font-bold text-ink font-heading">Nothing here yet</h4>
@@ -166,7 +166,7 @@ export default function CasesPage() {
           </p>
           <Link
             to="/verification/consent"
-            className="inline-flex items-center gap-1.5 px-4 py-2.5 rounded-xl bg-brand-forest text-surface-pearl text-xs font-semibold hover:bg-brand-rich transition-all shadow-xs"
+            className="inline-flex items-center gap-1.5 px-4 py-2.5 rounded-xl bg-action text-action-ink text-xs font-semibold hover:bg-action-hover transition-all shadow-xs"
           >
             <PlusCircle className="w-3.5 h-3.5" />
             <span>Check an image</span>
@@ -176,7 +176,7 @@ export default function CasesPage() {
         <div className="bg-surface-pearl rounded-2xl border border-ink-border/80 shadow-xs overflow-hidden">
           <div className="overflow-x-auto">
             <table className="w-full text-left text-xs">
-              <thead className="bg-[#FAF9F6] border-b border-ink-border text-ink-muted font-heading font-semibold uppercase tracking-wider text-[11px]">
+              <thead className="bg-surface-subtle border-b border-ink-border text-ink-muted font-heading font-semibold uppercase tracking-wider text-[11px]">
                 <tr>
                   <th className="py-3 px-4 sm:px-6">Reference</th>
                   <th className="py-3 px-4 sm:px-6">Request Title</th>

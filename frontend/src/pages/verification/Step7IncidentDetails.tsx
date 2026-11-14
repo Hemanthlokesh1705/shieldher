@@ -125,7 +125,7 @@ export default function Step7IncidentDetails() {
           <div className="relative max-w-xs">
             <input
               id="discovery-date"
-              className="w-full h-11 px-3.5 py-2.5 text-xs sm:text-sm text-ink bg-surface-pearl border border-ink-border rounded-xl focus:outline-none focus:ring-2 focus:ring-brand-rich focus:border-brand-rich transition-colors shadow-2xs"
+              className="w-full h-11 px-3.5 py-2.5 text-xs sm:text-sm text-ink bg-surface-pearl border border-ink-border rounded-xl focus:outline-none focus:ring-2 focus:ring-action focus:border-brand-rich transition-colors shadow-2xs"
               type="date"
               value={discoveryDate}
               onChange={(e) => setDiscoveryDate(e.target.value)}
@@ -147,15 +147,15 @@ export default function Step7IncidentDetails() {
                   className={cn(
                     "flex items-center gap-2.5 px-3.5 py-2.5 rounded-xl border text-xs cursor-pointer transition-all select-none shadow-2xs",
                     selected
-                      ? "bg-brand-sage/30 border-brand-forest text-brand-forest font-semibold ring-1 ring-brand-forest"
-                      : "bg-[#FAF8F5] border-ink-border text-ink hover:bg-canvas-subtle"
+                      ? "bg-surface-subtle/30 border-brand-forest text-brand-forest font-semibold ring-1 ring-brand-forest"
+                      : "bg-surface-subtle border-ink-border text-ink hover:bg-canvas-subtle"
                   )}
                 >
                   <input
                     type="checkbox"
                     checked={selected}
                     onChange={() => togglePlatform(p)}
-                    className="rounded text-brand-forest focus:ring-brand-rich"
+                    className="rounded text-brand-forest focus:ring-action"
                   />
                   <span>{p}</span>
                 </label>
@@ -174,7 +174,7 @@ export default function Step7IncidentDetails() {
           </label>
           <select
             id="relationship"
-            className="w-full max-w-md h-11 px-3.5 py-2.5 text-xs sm:text-sm text-ink bg-surface-pearl border border-ink-border rounded-xl focus:outline-none focus:ring-2 focus:ring-brand-rich focus:border-brand-rich transition-colors shadow-2xs"
+            className="w-full max-w-md h-11 px-3.5 py-2.5 text-xs sm:text-sm text-ink bg-surface-pearl border border-ink-border rounded-xl focus:outline-none focus:ring-2 focus:ring-action focus:border-brand-rich transition-colors shadow-2xs"
             value={relationship}
             onChange={(e) => setRelationship(e.target.value)}
           >
@@ -202,15 +202,15 @@ export default function Step7IncidentDetails() {
                   className={cn(
                     "flex items-center gap-2.5 px-3.5 py-2.5 rounded-xl border text-xs cursor-pointer transition-all select-none shadow-2xs",
                     selected
-                      ? "bg-brand-sage/30 border-brand-forest text-brand-forest font-semibold ring-1 ring-brand-forest"
-                      : "bg-[#FAF8F5] border-ink-border text-ink hover:bg-canvas-subtle"
+                      ? "bg-surface-subtle/30 border-brand-forest text-brand-forest font-semibold ring-1 ring-brand-forest"
+                      : "bg-surface-subtle border-ink-border text-ink hover:bg-canvas-subtle"
                   )}
                 >
                   <input
                     type="checkbox"
                     checked={selected}
                     onChange={() => toggleThreat(t)}
-                    className="rounded text-brand-forest focus:ring-brand-rich"
+                    className="rounded text-brand-forest focus:ring-action"
                   />
                   <span>{t}</span>
                 </label>
@@ -230,7 +230,7 @@ export default function Step7IncidentDetails() {
           <textarea
             id="narrative"
             rows={4}
-            className="w-full p-3.5 text-xs sm:text-sm text-ink placeholder:text-ink-muted bg-surface-pearl border border-ink-border rounded-xl focus:outline-none focus:ring-2 focus:ring-brand-rich focus:border-brand-rich transition-colors shadow-2xs"
+            className="w-full p-3.5 text-xs sm:text-sm text-ink placeholder:text-ink-muted bg-surface-pearl border border-ink-border rounded-xl focus:outline-none focus:ring-2 focus:ring-action focus:border-brand-rich transition-colors shadow-2xs"
             value={narrative}
             onChange={(e) => setNarrative(e.target.value)}
             placeholder="You can write down what happened in your own words. Specific details (such as account handles, timestamps, or messages) can be helpful if you decide to file a complaint."
@@ -251,7 +251,7 @@ export default function Step7IncidentDetails() {
 
           <button
             type="submit"
-            className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-brand-forest hover:bg-brand-rich active:bg-brand-hover text-surface-pearl text-xs sm:text-sm font-semibold transition-all shadow-xs hover:shadow disabled:opacity-50 disabled:pointer-events-none"
+            className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-action hover:bg-action-hover active:bg-action-hover text-action-ink text-xs sm:text-sm font-semibold transition-all shadow-xs hover:shadow disabled:opacity-50 disabled:pointer-events-none"
             disabled={submitting}
           >
             {submitting && <Loader2 className="w-4 h-4 animate-spin" />}

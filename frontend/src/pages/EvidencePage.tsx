@@ -60,7 +60,7 @@ export default function EvidencePage() {
           </div>
           <Link
             to="/verification/consent"
-            className="inline-flex min-h-11 items-center gap-2 rounded-lg bg-brand-forest px-4 py-2 text-sm font-medium text-white hover:bg-brand-hover"
+            className="inline-flex min-h-11 items-center gap-2 rounded-lg bg-action px-4 py-2 text-sm font-medium text-action-ink hover:bg-action-hover"
           >
             Add an image
           </Link>
@@ -86,7 +86,7 @@ export default function EvidencePage() {
         </div>
       ) : evidenceList.length === 0 ? (
         <section className="rounded-2xl border border-ink-border bg-surface-pearl px-6 py-12 text-center">
-          <div className="mx-auto mb-4 grid h-11 w-11 place-items-center rounded-xl bg-brand-sage text-brand-forest">
+          <div className="mx-auto mb-4 grid h-11 w-11 place-items-center rounded-xl bg-surface-subtle text-brand-forest">
             <Archive size={20} aria-hidden="true" />
           </div>
           <h2 className="text-lg font-medium text-ink">No saved evidence yet</h2>
@@ -95,7 +95,7 @@ export default function EvidencePage() {
           </p>
           <Link
             to="/verification/consent"
-            className="mt-5 inline-flex min-h-10 items-center gap-2 rounded-lg bg-brand-forest px-4 py-2 text-sm font-medium text-white hover:bg-brand-hover"
+            className="mt-5 inline-flex min-h-10 items-center gap-2 rounded-lg bg-action px-4 py-2 text-sm font-medium text-action-ink hover:bg-action-hover"
           >
             Start an image check
           </Link>

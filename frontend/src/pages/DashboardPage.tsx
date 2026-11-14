@@ -60,7 +60,7 @@ export default function DashboardPage() {
       item.review_status === "AUTHENTIC"
     ) {
       return (
-        <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-xs font-semibold bg-brand-sage/50 text-brand-forest border border-brand-border">
+        <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-xs font-semibold bg-surface-subtle/50 text-brand-forest border border-brand-border">
           <span className="w-1.5 h-1.5 rounded-full bg-brand-rich" />
           Report ready
         </span>
@@ -68,8 +68,8 @@ export default function DashboardPage() {
     }
     if (item.review_status === "UNDER_REVIEW") {
       return (
-        <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-xs font-semibold bg-accent-goldSoft text-accent-gold border border-accent-gold/30">
-          <span className="w-1.5 h-1.5 rounded-full bg-accent-gold" />
+        <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-xs font-semibold bg-surface-subtle text-ink-secondary border border-ink-border">
+          <span className="w-1.5 h-1.5 rounded-full bg-brand-rich" />
           Review available
         </span>
       );

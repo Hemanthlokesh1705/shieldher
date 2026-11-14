@@ -66,7 +66,7 @@ export default function HealthPage() {
       <header className="border-b border-ink-border bg-surface-pearl">
         <div className="mx-auto flex max-w-7xl flex-wrap items-center justify-between gap-4 px-5 py-4 sm:px-8">
           <a href="/" className="flex items-center gap-3 text-ink no-underline">
-            <span className="grid h-9 w-9 place-items-center rounded-lg bg-brand-sage text-brand-forest">
+            <span className="grid h-9 w-9 place-items-center rounded-lg bg-surface-subtle text-brand-forest">
               <ShieldCheck size={19} aria-hidden="true" />
             </span>
             <span>
@@ -177,7 +177,7 @@ export default function HealthPage() {
             <button
               onClick={checkHealth}
               disabled={loading}
-              className="inline-flex min-h-10 items-center gap-2 rounded-lg bg-brand-forest px-4 py-2 text-sm font-medium text-white hover:bg-brand-hover disabled:cursor-wait disabled:opacity-60"
+              className="inline-flex min-h-10 items-center gap-2 rounded-lg bg-action px-4 py-2 text-sm font-medium text-action-ink hover:bg-action-hover disabled:cursor-wait disabled:opacity-60"
               type="button"
             >
               <RefreshCw size={16} aria-hidden="true" />

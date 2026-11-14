@@ -51,8 +51,8 @@ export default function HelpPage() {
     >
       {/* Intro Panel */}
       <div className="bg-surface-pearl rounded-2xl border border-ink-border/80 p-6 sm:p-8 shadow-xs">
-        <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-brand-sage/40 border border-brand-border text-brand-forest text-xs font-semibold mb-3">
-          <HeartHandshake className="w-3.5 h-3.5 text-accent-gold" />
+        <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-surface-subtle/40 border border-brand-border text-brand-forest text-xs font-semibold mb-3">
+          <HeartHandshake className="w-3.5 h-3.5 text-ink-secondary" />
           <span>Trauma-Informed Support & Guidance</span>
         </div>
         <h2 className="text-2xl sm:text-3xl font-bold text-ink tracking-tight font-heading">
@@ -78,9 +78,9 @@ export default function HelpPage() {
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-          <div className="p-5 rounded-2xl bg-[#FAF8F5] border border-ink-border/80 flex flex-col justify-between shadow-2xs">
+          <div className="p-5 rounded-2xl bg-surface-subtle border border-ink-border/80 flex flex-col justify-between shadow-2xs">
             <div>
-              <div className="w-10 h-10 rounded-xl bg-brand-sage/40 text-brand-forest flex items-center justify-center mb-3.5 border border-brand-border">
+              <div className="w-10 h-10 rounded-xl bg-surface-subtle/40 text-brand-forest flex items-center justify-center mb-3.5 border border-brand-border">
                 <Camera className="w-5 h-5" />
               </div>
               <h4 className="text-sm font-bold text-ink font-heading">
@@ -94,9 +94,9 @@ export default function HelpPage() {
             </div>
           </div>
 
-          <div className="p-5 rounded-2xl bg-[#FAF8F5] border border-ink-border/80 flex flex-col justify-between shadow-2xs">
+          <div className="p-5 rounded-2xl bg-surface-subtle border border-ink-border/80 flex flex-col justify-between shadow-2xs">
             <div>
-              <div className="w-10 h-10 rounded-xl bg-accent-coralSoft text-accent-coral flex items-center justify-center mb-3.5 border border-accent-coral/30">
+              <div className="w-10 h-10 rounded-xl bg-surface-subtle text-ink-primary flex items-center justify-center mb-3.5 border border-ink-border">
                 <ShieldAlert className="w-5 h-5" />
               </div>
               <h4 className="text-sm font-bold text-ink font-heading">
@@ -110,9 +110,9 @@ export default function HelpPage() {
             </div>
           </div>
 
-          <div className="p-5 rounded-2xl bg-[#FAF8F5] border border-ink-border/80 flex flex-col justify-between shadow-2xs">
+          <div className="p-5 rounded-2xl bg-surface-subtle border border-ink-border/80 flex flex-col justify-between shadow-2xs">
             <div>
-              <div className="w-10 h-10 rounded-xl bg-brand-sage/40 text-brand-forest flex items-center justify-center mb-3.5 border border-brand-border">
+              <div className="w-10 h-10 rounded-xl bg-surface-subtle/40 text-brand-forest flex items-center justify-center mb-3.5 border border-brand-border">
                 <ShieldCheck className="w-5 h-5" />
               </div>
               <h4 className="text-sm font-bold text-ink font-heading">
@@ -165,7 +165,7 @@ export default function HelpPage() {
               </a>
               <a
                 href="tel:1930"
-                className="inline-flex items-center gap-1 text-xs font-bold text-accent-coral hover:text-accent-coral/80"
+                className="inline-flex items-center gap-1 text-xs font-bold text-ink-primary hover:text-ink"
               >
                 <PhoneCall className="w-3.5 h-3.5" />
                 <span>Call 1930</span>
@@ -240,14 +240,14 @@ export default function HelpPage() {
           {faqs.map((faq, idx) => (
             <div
               key={idx}
-              className="rounded-xl border border-ink-border/80 bg-[#FAF8F5] overflow-hidden"
+              className="rounded-xl border border-ink-border/80 bg-surface-subtle overflow-hidden"
             >
               <button
                 type="button"
                 onClick={() => toggleFaq(idx)}
                 aria-expanded={openFaq === idx}
                 aria-controls={`help-faq-${idx}`}
-                className="w-full text-left p-4 flex items-center justify-between gap-3 text-xs sm:text-sm font-bold text-ink hover:bg-[#F4F1EC] transition-colors font-heading"
+                className="w-full text-left p-4 flex items-center justify-between gap-3 text-xs sm:text-sm font-bold text-ink hover:bg-canvas transition-colors font-heading"
               >
                 <span>{faq.q}</span>
                 {openFaq === idx ? (
@@ -271,8 +271,8 @@ export default function HelpPage() {
       </div>
 
       {/* Reassurance Alert */}
-      <div className="p-4 sm:p-5 rounded-2xl bg-brand-sage/20 border border-brand-border flex items-start gap-3.5 text-xs text-ink-secondary leading-relaxed">
-        <div className="w-8 h-8 rounded-xl bg-brand-sage/60 text-brand-forest flex items-center justify-center flex-shrink-0 mt-0.5 border border-brand-border">
+      <div className="p-4 sm:p-5 rounded-2xl bg-surface-subtle/20 border border-brand-border flex items-start gap-3.5 text-xs text-ink-secondary leading-relaxed">
+        <div className="w-8 h-8 rounded-xl bg-surface-subtle/60 text-brand-forest flex items-center justify-center flex-shrink-0 mt-0.5 border border-brand-border">
           <AlertCircle className="w-4 h-4" />
         </div>
         <div>

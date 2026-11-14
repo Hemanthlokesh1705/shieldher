@@ -35,7 +35,7 @@ export default function Step3Quality() {
         </p>
         <Link
           to="/verification/upload"
-          className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-brand-forest text-surface-pearl text-xs font-semibold hover:bg-brand-rich transition-colors shadow-2xs"
+          className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-action text-action-ink text-xs font-semibold hover:bg-action-hover transition-colors shadow-2xs"
         >
           <ArrowLeft className="w-3.5 h-3.5" />
           <span>Choose an Image</span>
@@ -71,7 +71,7 @@ export default function Step3Quality() {
             reliable forensic conclusions.
           </p>
         </div>
-        <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-brand-sage/50 text-brand-forest border border-brand-border">
+        <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-surface-subtle/50 text-brand-forest border border-brand-border">
           <CheckCircle2 className="w-3.5 h-3.5" />
           <span>Suitable for Analysis</span>
         </div>
@@ -79,7 +79,7 @@ export default function Step3Quality() {
 
       {/* Human-Friendly Suitability Grid */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-        <div className="p-5 rounded-2xl bg-[#FAF8F5] border border-ink-border/70 shadow-2xs">
+        <div className="p-5 rounded-2xl bg-surface-subtle border border-ink-border/70 shadow-2xs">
           <div className="flex items-center gap-2 text-ink-muted text-[11px] font-bold uppercase tracking-wider mb-2 font-heading">
             <UserCheck className="w-4 h-4 text-brand-forest" />
             <span>Face Detection</span>
@@ -96,7 +96,7 @@ export default function Step3Quality() {
           </p>
         </div>
 
-        <div className="p-5 rounded-2xl bg-[#FAF8F5] border border-ink-border/70 shadow-2xs">
+        <div className="p-5 rounded-2xl bg-surface-subtle border border-ink-border/70 shadow-2xs">
           <div className="flex items-center gap-2 text-ink-muted text-[11px] font-bold uppercase tracking-wider mb-2 font-heading">
             <Maximize2 className="w-4 h-4 text-brand-forest" />
             <span>Resolution</span>
@@ -109,7 +109,7 @@ export default function Step3Quality() {
           </p>
         </div>
 
-        <div className="p-5 rounded-2xl bg-[#FAF8F5] border border-ink-border/70 shadow-2xs">
+        <div className="p-5 rounded-2xl bg-surface-subtle border border-ink-border/70 shadow-2xs">
           <div className="flex items-center gap-2 text-ink-muted text-[11px] font-bold uppercase tracking-wider mb-2 font-heading">
             <Focus className="w-4 h-4 text-brand-forest" />
             <span>Clarity & Focus</span>
@@ -132,7 +132,7 @@ export default function Step3Quality() {
           onClick={() => setShowTechDetails((v) => !v)}
           aria-expanded={showTechDetails}
           aria-controls="quality-tech-details"
-          className="w-full flex items-center justify-between p-4 bg-[#FAF9F6] hover:bg-canvas-subtle text-xs font-bold text-ink transition-colors font-heading"
+          className="w-full flex items-center justify-between p-4 bg-surface-subtle hover:bg-canvas-subtle text-xs font-bold text-ink transition-colors font-heading"
         >
           <span>Technical image properties</span>
           {showTechDetails ? (
@@ -181,7 +181,7 @@ export default function Step3Quality() {
 
         <button
           type="button"
-          className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-brand-forest hover:bg-brand-rich active:bg-brand-hover text-surface-pearl text-xs sm:text-sm font-semibold transition-all shadow-xs hover:shadow"
+          className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-action hover:bg-action-hover active:bg-action-hover text-action-ink text-xs sm:text-sm font-semibold transition-all shadow-xs hover:shadow"
           onClick={() => navigate("/verification/analysis")}
         >
           <span>Continue to Image Analysis</span>

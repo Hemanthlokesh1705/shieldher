@@ -72,7 +72,7 @@ export default function Step4Analysis() {
         </p>
         <Link
           to="/verification/upload"
-          className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-brand-forest text-surface-pearl text-xs font-semibold hover:bg-brand-rich transition-colors shadow-2xs"
+          className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-action text-action-ink text-xs font-semibold hover:bg-action-hover transition-colors shadow-2xs"
         >
           <ArrowLeft className="w-3.5 h-3.5" />
           <span>Choose an Image</span>
@@ -112,11 +112,11 @@ export default function Step4Analysis() {
       </div>
 
       {error && (
-        <div className="p-4 rounded-xl bg-accent-coralSoft border border-accent-coral/30 text-ink text-xs flex items-center justify-between gap-4" role="alert">
+        <div className="p-4 rounded-xl bg-surface-subtle border border-ink-border text-ink text-xs flex items-center justify-between gap-4" role="alert">
           <span>{error}</span>
           <button
             type="button"
-            className="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg bg-surface-pearl border border-accent-gold/50 text-ink font-semibold hover:bg-canvas-subtle transition-colors shadow-2xs"
+            className="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg bg-surface-pearl border border-ink-border text-ink font-semibold hover:bg-canvas-subtle transition-colors shadow-2xs"
             onClick={() => {
               setVerificationData(null);
               setRetryCount((count) => count + 1);
@@ -142,10 +142,10 @@ export default function Step4Analysis() {
       ) : verificationData ? (
         <div className="space-y-4">
           {/* Assessment 1: Face Manipulation */}
-          <div className="p-5 sm:p-6 rounded-2xl bg-[#FAF8F5] border border-ink-border/80 space-y-3 shadow-2xs">
+          <div className="p-5 sm:p-6 rounded-2xl bg-surface-subtle border border-ink-border/80 space-y-3 shadow-2xs">
             <div className="flex flex-wrap items-center justify-between gap-2">
               <div className="flex items-center gap-3">
-                <div className="w-9 h-9 rounded-xl bg-brand-sage/40 text-brand-forest flex items-center justify-center flex-shrink-0 border border-brand-border">
+                <div className="w-9 h-9 rounded-xl bg-surface-subtle/40 text-brand-forest flex items-center justify-center flex-shrink-0 border border-brand-border">
                   <ScanFace className="w-4 h-4" />
                 </div>
                 <div>
@@ -161,8 +161,8 @@ export default function Step4Analysis() {
               <div
                 className={`inline-flex items-center gap-1.5 py-1 px-3 rounded-full text-xs font-semibold ${
                   isEffortManipulated
-                    ? "bg-accent-goldSoft text-accent-gold border border-accent-gold/40"
-                    : "bg-brand-sage/50 text-brand-forest border border-brand-border"
+                    ? "bg-surface-subtle text-ink-secondary border border-ink-border"
+                    : "bg-surface-subtle/50 text-brand-forest border border-brand-border"
                 }`}
               >
                 {isEffortManipulated ? (
@@ -193,10 +193,10 @@ export default function Step4Analysis() {
           </div>
 
           {/* Assessment 2: AI Generation */}
-          <div className="p-5 sm:p-6 rounded-2xl bg-[#FAF8F5] border border-ink-border/80 space-y-3 shadow-2xs">
+          <div className="p-5 sm:p-6 rounded-2xl bg-surface-subtle border border-ink-border/80 space-y-3 shadow-2xs">
             <div className="flex flex-wrap items-center justify-between gap-2">
               <div className="flex items-center gap-3">
-                <div className="w-9 h-9 rounded-xl bg-brand-sage/40 text-brand-forest flex items-center justify-center flex-shrink-0 border border-brand-border">
+                <div className="w-9 h-9 rounded-xl bg-surface-subtle/40 text-brand-forest flex items-center justify-center flex-shrink-0 border border-brand-border">
                   <Cpu className="w-4 h-4" />
                 </div>
                 <div>
@@ -212,8 +212,8 @@ export default function Step4Analysis() {
               <div
                 className={`inline-flex items-center gap-1.5 py-1 px-3 rounded-full text-xs font-semibold ${
                   isSmaugSynthetic
-                    ? "bg-accent-goldSoft text-accent-gold border border-accent-gold/40"
-                    : "bg-brand-sage/50 text-brand-forest border border-brand-border"
+                    ? "bg-surface-subtle text-ink-secondary border border-ink-border"
+                    : "bg-surface-subtle/50 text-brand-forest border border-brand-border"
                 }`}
               >
                 {isSmaugSynthetic ? (
@@ -248,7 +248,7 @@ export default function Step4Analysis() {
             <button
               type="button"
               onClick={() => setShowTechDetails((v) => !v)}
-              className="w-full flex items-center justify-between p-4 bg-[#FAF9F6] hover:bg-canvas-subtle text-xs font-bold text-ink transition-colors font-heading"
+              className="w-full flex items-center justify-between p-4 bg-surface-subtle hover:bg-canvas-subtle text-xs font-bold text-ink transition-colors font-heading"
             >
               <span>Technical model measurements</span>
               {showTechDetails ? (
@@ -298,7 +298,7 @@ export default function Step4Analysis() {
 
         <button
           type="button"
-          className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-brand-forest hover:bg-brand-rich active:bg-brand-hover text-surface-pearl text-xs sm:text-sm font-semibold transition-all shadow-xs hover:shadow disabled:opacity-50 disabled:pointer-events-none"
+          className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-action hover:bg-action-hover active:bg-action-hover text-action-ink text-xs sm:text-sm font-semibold transition-all shadow-xs hover:shadow disabled:opacity-50 disabled:pointer-events-none"
           onClick={() => navigate("/verification/forensics")}
           disabled={loading || !verificationData}
         >

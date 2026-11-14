@@ -44,7 +44,7 @@ export default function ReportsPage() {
           </div>
           <Link
             to="/verification/consent"
-            className="inline-flex min-h-11 items-center gap-2 rounded-lg bg-brand-forest px-4 py-2 text-sm font-medium text-white hover:bg-brand-hover"
+            className="inline-flex min-h-11 items-center gap-2 rounded-lg bg-action px-4 py-2 text-sm font-medium text-action-ink hover:bg-action-hover"
           >
             Start an image check
           </Link>
@@ -106,7 +106,7 @@ export default function ReportsPage() {
             </p>
             <Link
               to="/verification/consent"
-              className="mt-5 inline-flex min-h-10 items-center rounded-lg bg-brand-forest px-4 py-2 text-sm font-medium text-white hover:bg-brand-hover"
+              className="mt-5 inline-flex min-h-10 items-center rounded-lg bg-action px-4 py-2 text-sm font-medium text-action-ink hover:bg-action-hover"
             >
               Start an image check
             </Link>

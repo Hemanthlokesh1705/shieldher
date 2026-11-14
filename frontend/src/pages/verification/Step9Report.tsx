@@ -153,7 +153,7 @@ Submitted by: [Add your name or preferred contact details]`;
           <button
             type="button"
             disabled={generating}
-            className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-brand-forest hover:bg-brand-rich active:bg-brand-hover text-surface-pearl text-xs font-semibold transition-colors shadow-xs hover:shadow disabled:cursor-wait disabled:opacity-50"
+            className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-action hover:bg-action-hover active:bg-action-hover text-action-ink text-xs font-semibold transition-colors shadow-xs hover:shadow disabled:cursor-wait disabled:opacity-50"
             onClick={handleDownload}
           >
             <Download className="w-3.5 h-3.5" />
@@ -168,7 +168,7 @@ Submitted by: [Add your name or preferred contact details]`;
           href="https://cybercrime.gov.in"
           target="_blank"
           rel="noopener noreferrer"
-          className="p-4 sm:p-5 rounded-2xl bg-[#FAF8F5] border border-ink-border/80 hover:border-brand-rich/50 transition-all group block shadow-2xs"
+          className="p-4 sm:p-5 rounded-2xl bg-surface-subtle border border-ink-border/80 hover:border-brand-rich/50 transition-all group block shadow-2xs"
         >
           <div className="text-xs font-bold text-ink font-heading flex items-center justify-between">
             <span>Cybercrime Portal (India)</span>
@@ -183,7 +183,7 @@ Submitted by: [Add your name or preferred contact details]`;
           href="https://stopncii.org"
           target="_blank"
           rel="noopener noreferrer"
-          className="p-4 sm:p-5 rounded-2xl bg-[#FAF8F5] border border-ink-border/80 hover:border-brand-rich/50 transition-all group block shadow-2xs"
+          className="p-4 sm:p-5 rounded-2xl bg-surface-subtle border border-ink-border/80 hover:border-brand-rich/50 transition-all group block shadow-2xs"
         >
           <div className="text-xs font-bold text-ink font-heading flex items-center justify-between">
             <span>StopNCII.org (Global)</span>
@@ -199,7 +199,7 @@ Submitted by: [Add your name or preferred contact details]`;
           href="https://takeitdown.ncmec.org"
           target="_blank"
           rel="noopener noreferrer"
-          className="p-4 sm:p-5 rounded-2xl bg-[#FAF8F5] border border-ink-border/80 hover:border-brand-rich/50 transition-all group block shadow-2xs"
+          className="p-4 sm:p-5 rounded-2xl bg-surface-subtle border border-ink-border/80 hover:border-brand-rich/50 transition-all group block shadow-2xs"
         >
           <div className="text-xs font-bold text-ink font-heading flex items-center justify-between">
             <span>Take It Down (NCMEC)</span>
@@ -236,14 +236,14 @@ Submitted by: [Add your name or preferred contact details]`;
         )}
 
         {generating ? (
-          <div className="p-12 text-center rounded-2xl bg-[#FAF8F5] border border-ink-border/80">
+          <div className="p-12 text-center rounded-2xl bg-surface-subtle border border-ink-border/80">
             <Loader2 className="w-6 h-6 animate-spin text-brand-forest mx-auto mb-2.5" />
             <p className="text-xs text-ink-secondary font-medium">
               Preparing your draft…
             </p>
           </div>
         ) : (
-          <div className="p-5 sm:p-6 rounded-2xl bg-[#F8F6F1] border border-ink-border/80 font-mono text-xs text-ink leading-relaxed whitespace-pre-wrap max-h-96 overflow-y-auto select-all shadow-inner">
+          <div className="p-5 sm:p-6 rounded-2xl bg-surface-subtle border border-ink-border/80 font-mono text-xs text-ink leading-relaxed whitespace-pre-wrap max-h-96 overflow-y-auto select-all shadow-inner">
             {draftContent}
           </div>
         )}
@@ -261,7 +261,7 @@ Submitted by: [Add your name or preferred contact details]`;
 
         <Link
           to="/dashboard"
-          className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-brand-forest hover:bg-brand-rich active:bg-brand-hover text-surface-pearl text-xs sm:text-sm font-semibold transition-all shadow-xs hover:shadow"
+          className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-action hover:bg-action-hover active:bg-action-hover text-action-ink text-xs sm:text-sm font-semibold transition-all shadow-xs hover:shadow"
         >
           <CheckCircle2 className="w-4 h-4" />
           <span>Finish & Return to Home</span>

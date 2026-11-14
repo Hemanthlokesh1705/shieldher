@@ -23,11 +23,11 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
     ref
   ) => {
     const baseStyles =
-      "inline-flex items-center justify-center font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-rich focus-visible:ring-offset-2 disabled:opacity-50 disabled:pointer-events-none select-none rounded-md";
+      "inline-flex items-center justify-center font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-action focus-visible:ring-offset-2 disabled:opacity-50 disabled:pointer-events-none select-none rounded-md";
 
     const variantStyles = {
       primary:
-        "bg-brand-forest text-white hover:bg-brand-hover active:bg-brand-hover shadow-sm",
+        "bg-action text-action-ink hover:bg-action-hover active:bg-action-hover shadow-sm",
       secondary:
         "bg-canvas-subtle text-ink hover:bg-canvas-muted active:bg-ink-border border border-ink-border",
       outline:
@@ -37,7 +37,7 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
       destructive:
         "bg-status-error text-white hover:bg-status-error/90 active:bg-status-error shadow-sm",
       subtle:
-        "bg-brand-sage text-brand-forest hover:bg-brand-light border border-brand-border",
+        "bg-surface-subtle text-brand-forest hover:bg-canvas border border-ink-border",
     };
 
     const sizeStyles = {

@@ -3,7 +3,7 @@
 @tailwind utilities;
 
 /* ============================================================
-   ShieldHer — Warm, victim-first design system
+   ShieldHer — Cream, deep-teal, victim-first design system
    Trauma-informed, calm and discreet light interface
    ============================================================ */
 
@@ -17,58 +17,60 @@
 }
 
 :root {
-  /* Warm paper, quiet slate, and sage */
-  --bg-main: #FAF9F6;
+  /* 60% warm cream, 30% deep teal, 10% coral actions */
+  --bg-main: #F1EEE8;
   --surface-primary: #FFFFFF;
-  --surface-secondary: #F8FAFC;
-  --surface-tertiary: #F1F1EC;
+  --surface-secondary: #FAF8F5;
+  --surface-tertiary: #F1EEE8;
 
   /* Typography */
-  --text-primary: #1E293B;
-  --text-secondary: #475569;
-  --text-muted: #64748B;
+  --text-primary: #0E4F4A;
+  --text-secondary: #426360;
+  --text-muted: #426360;
   --text-inverse: #FFFFFF;
 
-  /* Accent: Muted sage */
-  --accent-primary: #2E6F5E;
-  --accent-hover: #245B4D;
-  --accent-active: #1D4B40;
-  --accent-rich: #3B7A6B;
-  --accent-sage: #E8F0EB;
-  --accent-surface: #E8F0EB;
-  --accent-border: #C6D9CE;
+  /* Teal is structural; coral is reserved for primary actions and focus */
+  --accent-primary: #0E4F4A;
+  --accent-hover: #0A3C38;
+  --accent-active: #082F2C;
+  --accent-rich: #426360;
+  --accent-surface: #FAF8F5;
+  --accent-border: #DDD7CC;
+  --action-primary: #FF6F5E;
+  --action-hover: #F45F50;
+  --action-ink: #092F2D;
 
-  /* Restrained, Non-Alarmist Status Colors */
-  --status-info: #395D75;
-  --status-info-bg: #F0F6F9;
-  --status-info-border: #CDDEE8;
+  /* Statuses stay within the same restrained palette */
+  --status-info: #0E4F4A;
+  --status-info-bg: #FAF8F5;
+  --status-info-border: #DDD7CC;
 
-  --status-review: #8B6327;
-  --status-review-bg: #FAF6EB;
-  --status-review-border: #E8DCB9;
+  --status-review: #426360;
+  --status-review-bg: #FAF8F5;
+  --status-review-border: #DDD7CC;
 
-  --status-ready: #2E6F5E;
-  --status-ready-bg: #EDF5F0;
-  --status-ready-border: #C6D9CE;
+  --status-ready: #0E4F4A;
+  --status-ready-bg: #FAF8F5;
+  --status-ready-border: #DDD7CC;
 
-  --status-closed: #475569;
-  --status-closed-bg: #F8FAFC;
-  --status-closed-border: #E2E8F0;
+  --status-closed: #426360;
+  --status-closed-bg: #FAF8F5;
+  --status-closed-border: #DDD7CC;
 
-  --status-error: #994339;
-  --status-error-bg: #FAF1EF;
-  --status-error-border: #E7CCC7;
+  --status-error: #0E4F4A;
+  --status-error-bg: #FAF8F5;
+  --status-error-border: #DDD7CC;
 
   /* Borders & Dividers */
-  --border-light: #E2E8F0;
-  --border-medium: #CBD5E1;
-  --border-strong: #64748B;
+  --border-light: #DDD7CC;
+  --border-medium: #DDD7CC;
+  --border-strong: #426360;
 
-  /* Shadows (Sophisticated, layered, subtle) */
-  --shadow-xs: 0 1px 2px rgba(30, 41, 59, 0.04);
-  --shadow-sm: 0 2px 6px rgba(30, 41, 59, 0.05);
-  --shadow-md: 0 8px 24px rgba(30, 41, 59, 0.06);
-  --shadow-lg: 0 12px 28px rgba(30, 41, 59, 0.08);
+  /* Subtle teal-tinted shadows */
+  --shadow-xs: 0 1px 2px rgba(14, 79, 74, 0.04);
+  --shadow-sm: 0 2px 6px rgba(14, 79, 74, 0.05);
+  --shadow-md: 0 8px 24px rgba(14, 79, 74, 0.06);
+  --shadow-lg: 0 12px 28px rgba(14, 79, 74, 0.08);
 
   /* Fonts */
   --font-sans: "Inter", -apple-system, BlinkMacSystemFont, sans-serif;
@@ -274,14 +276,14 @@ button {
 }
 
 .auth-shell .auth-submit-button {
-  border: 1px solid var(--accent-primary);
-  background: var(--accent-primary);
-  color: var(--text-inverse);
+  border: 1px solid var(--action-primary);
+  background: var(--action-primary);
+  color: var(--action-ink);
 }
 
 .auth-shell .auth-submit-button:hover:not(:disabled) {
-  border-color: var(--accent-hover);
-  background: var(--accent-hover);
+  border-color: var(--action-hover);
+  background: var(--action-hover);
 }
 
 @media (min-width: 1024px) {
@@ -430,7 +432,7 @@ button {
 .form-textarea:focus {
   outline: none;
   border-color: var(--accent-primary);
-  box-shadow: 0 0 0 3px rgb(46 111 94 / 0.16);
+  box-shadow: 0 0 0 3px rgb(255 111 94 / 0.2);
 }
 
 .form-input::placeholder,
@@ -509,13 +511,13 @@ button {
 }
 
 .btn-primary {
-  background: var(--accent-primary);
-  color: #fff;
-  border-color: var(--accent-primary);
+  background: var(--action-primary);
+  color: var(--action-ink);
+  border-color: var(--action-primary);
 }
 
 .btn-primary:hover:not(:disabled) {
-  background: var(--accent-hover);
+  background: var(--action-hover);
 }
 
 .btn-secondary {

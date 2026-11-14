@@ -83,10 +83,10 @@ export default function LoginPage() {
   };
 
   const inputClass =
-    "w-full h-12 pl-10 pr-3.5 text-sm text-ink placeholder:text-ink-muted bg-white border border-ink-border rounded-xl hover:border-ink-borderStrong focus:outline-none focus:ring-4 focus:ring-brand-rich/15 focus:border-brand-rich transition-all disabled:bg-canvas-subtle disabled:cursor-not-allowed";
+    "w-full h-12 pl-10 pr-3.5 text-sm text-ink placeholder:text-ink-muted bg-white border border-ink-border rounded-xl hover:border-ink-borderStrong focus:outline-none focus:ring-4 focus:ring-action/15 focus:border-brand-rich transition-all disabled:bg-canvas-subtle disabled:cursor-not-allowed";
 
   return (
-    <div className="auth-shell min-h-screen bg-canvas flex flex-col lg:grid lg:grid-cols-12 selection:bg-brand-sage selection:text-brand-forest">
+    <div className="auth-shell min-h-screen bg-canvas flex flex-col lg:grid lg:grid-cols-12 selection:bg-surface-subtle selection:text-brand-forest">
       <AuthBrandPanel
         title="Digital dignity is a fundamental right"
         description="A confidential place to review image-analysis signals, keep your records together, and decide what to do next."
@@ -100,9 +100,9 @@ export default function LoginPage() {
           transition={{ duration: 0.35, ease: "easeOut" }}
           className="w-full max-w-md"
         >
-          <div className="bg-white rounded-2xl border border-ink-border/70 p-6 sm:p-9 shadow-[0_1px_2px_rgba(25,43,41,0.04),0_16px_40px_-12px_rgba(25,43,41,0.14)]">
+          <div className="bg-white rounded-2xl border border-ink-border/70 p-6 sm:p-9 shadow-[0_1px_2px_rgba(14,79,74,0.04),0_16px_40px_-12px_rgba(14,79,74,0.14)]">
             <div className="mb-6 sm:mb-7">
-              <span className="inline-block text-xs font-semibold text-brand-forest bg-brand-sage/40 border border-brand-border px-2.5 py-0.5 rounded-full mb-3 tracking-wide">
+              <span className="inline-block text-xs font-semibold text-brand-forest bg-surface-subtle/40 border border-brand-border px-2.5 py-0.5 rounded-full mb-3 tracking-wide">
                 Private Support Space
               </span>
               <h1 className="text-2xl sm:text-3xl font-bold text-ink font-heading tracking-tight">
@@ -116,7 +116,7 @@ export default function LoginPage() {
 
             {error && (
               <div
-                className="mb-5 p-3.5 rounded-xl bg-accent-coralSoft border border-accent-coral/30 text-status-error text-xs leading-relaxed flex items-start gap-2.5"
+                className="mb-5 p-3.5 rounded-xl bg-surface-subtle border border-ink-border text-status-error text-xs leading-relaxed flex items-start gap-2.5"
                 role="alert"
               >
                 <svg
@@ -142,7 +142,7 @@ export default function LoginPage() {
               type="button"
               onClick={handleGoogle}
               disabled={googleLoading || loading}
-              className="w-full h-12 px-4 py-2 bg-white hover:bg-canvas-subtle active:bg-canvas border border-ink-border hover:border-ink-borderStrong text-ink font-medium text-sm rounded-xl flex items-center justify-center gap-3 transition-all shadow-[0_1px_2px_rgba(25,43,41,0.05)] hover:shadow-[0_2px_8px_-2px_rgba(25,43,41,0.12)] disabled:opacity-60 disabled:cursor-not-allowed focus:outline-none focus-visible:ring-4 focus-visible:ring-brand-rich/20"
+              className="w-full h-12 px-4 py-2 bg-white hover:bg-canvas-subtle active:bg-canvas border border-ink-border hover:border-ink-borderStrong text-ink font-medium text-sm rounded-xl flex items-center justify-center gap-3 transition-all shadow-[0_1px_2px_rgba(14,79,74,0.05)] hover:shadow-[0_2px_8px_-2px_rgba(14,79,74,0.12)] disabled:opacity-60 disabled:cursor-not-allowed focus:outline-none focus-visible:ring-4 focus-visible:ring-action/20"
             >
               <svg className="w-[18px] h-[18px] flex-shrink-0" viewBox="0 0 24 24">
                 <path
@@ -253,7 +253,7 @@ export default function LoginPage() {
               <button
                 type="submit"
                 disabled={loading || googleLoading}
-                className="auth-submit-button group w-full h-12 mt-2 px-4 py-2 text-white font-medium text-sm rounded-lg transition-colors flex items-center justify-center gap-2 disabled:opacity-60 disabled:cursor-not-allowed focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-rich"
+                className="auth-submit-button group w-full h-12 mt-2 px-4 py-2 text-action-ink font-medium text-sm rounded-lg transition-colors flex items-center justify-center gap-2 disabled:opacity-60 disabled:cursor-not-allowed focus:outline-none focus-visible:ring-2 focus-visible:ring-action"
               >
                 {loading ? (
                   <span className="inline-flex items-center gap-2">

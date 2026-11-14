@@ -109,7 +109,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ isOpen = false, onClose }) => 
                   cn(
                     "flex min-h-10 items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-colors group",
                     isActive
-                      ? "bg-brand-sage/40 text-brand-forest font-medium"
+                      ? "bg-brand-forest text-white font-medium"
                       : "text-ink-secondary hover:text-ink hover:bg-canvas-subtle"
                   )
                 }
@@ -120,7 +120,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ isOpen = false, onClose }) => 
                       className={cn(
                         "w-[18px] h-[18px] flex-shrink-0 transition-colors",
                         isActive
-                          ? "text-brand-forest"
+                          ? "text-white"
                           : "text-ink-muted group-hover:text-ink"
                       )}
                     />
@@ -145,7 +145,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ isOpen = false, onClose }) => 
                   cn(
                     "flex min-h-10 items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-colors group",
                     isActive
-                      ? "bg-brand-sage/40 text-brand-forest font-medium"
+                      ? "bg-brand-forest text-white font-medium"
                       : "text-ink-secondary hover:text-ink hover:bg-canvas-subtle"
                   )
                 }
@@ -156,7 +156,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ isOpen = false, onClose }) => 
                       className={cn(
                         "w-4 h-4 flex-shrink-0 transition-colors",
                         isActive
-                          ? "text-brand-forest"
+                          ? "text-white"
                           : "text-ink-muted group-hover:text-ink"
                       )}
                     />
@@ -171,7 +171,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ isOpen = false, onClose }) => 
         {/* User Card & Sign Out */}
         <div className="p-3.5 border-t border-ink-border/60 bg-surface-pearl">
           <div className="flex items-center gap-2.5 mb-2.5 p-1.5 rounded-lg">
-            <div className="w-8 h-8 rounded-lg bg-brand-sage text-brand-forest font-medium text-xs flex items-center justify-center flex-shrink-0 font-heading">
+            <div className="w-8 h-8 rounded-lg bg-surface-subtle text-brand-forest font-medium text-xs flex items-center justify-center flex-shrink-0 font-heading">
               {userDisplayName.charAt(0).toUpperCase()}
             </div>
             <div className="min-w-0 flex-1">

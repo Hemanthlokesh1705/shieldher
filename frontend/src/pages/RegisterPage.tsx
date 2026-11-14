@@ -47,7 +47,7 @@ const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 const baseInput =
   "w-full h-11 text-sm text-ink placeholder:text-ink-subtle bg-white border rounded-[10px] focus:outline-none focus:ring-4 transition-all disabled:bg-canvas-subtle disabled:cursor-not-allowed";
 const okBorder =
-  "border-brand-border hover:border-brand-rich/60 focus:ring-brand-rich/15 focus:border-brand-rich";
+  "border-brand-border hover:border-brand-rich/60 focus:ring-action/15 focus:border-brand-rich";
 const badBorder =
   "border-status-error/60 focus:ring-status-error/15 focus:border-status-error";
 
@@ -144,7 +144,7 @@ export default function RegisterPage() {
   };
 
   return (
-    <div className="auth-shell min-h-screen bg-canvas flex flex-col lg:grid lg:grid-cols-12 selection:bg-brand-sage selection:text-brand-forest">
+    <div className="auth-shell min-h-screen bg-canvas flex flex-col lg:grid lg:grid-cols-12 selection:bg-surface-subtle selection:text-brand-forest">
       <AuthBrandPanel
         title="Begin on your terms"
         description="Create a private workspace, move through a guided review, and choose what information you share."
@@ -158,7 +158,7 @@ export default function RegisterPage() {
           transition={{ duration: 0.35, ease: "easeOut" }}
           className="w-full max-w-md sm:max-w-xl"
         >
-          <div className="bg-white rounded-2xl border border-brand-border/60 p-6 sm:p-8 shadow-[0_1px_2px_rgba(20,91,83,0.04),0_12px_32px_-12px_rgba(20,91,83,0.14)]">
+          <div className="bg-white rounded-2xl border border-brand-border/60 p-6 sm:p-8 shadow-[0_1px_2px_rgba(14,79,74,0.04),0_12px_32px_-12px_rgba(14,79,74,0.14)]">
             {/* Header */}
             <div className="mb-5">
               <p className="flex items-center gap-2 text-[11px] font-semibold uppercase tracking-[0.14em] text-brand-forest mb-3">
@@ -179,7 +179,7 @@ export default function RegisterPage() {
 
             {error && (
               <div
-                className="mb-4 p-3 rounded-xl bg-accent-coralSoft border border-accent-coral/30 text-status-error text-xs leading-relaxed flex items-start gap-2.5"
+                className="mb-4 p-3 rounded-xl bg-surface-subtle border border-ink-border text-status-error text-xs leading-relaxed flex items-start gap-2.5"
                 role="alert"
               >
                 <svg
@@ -436,7 +436,7 @@ export default function RegisterPage() {
               <button
                 type="submit"
                 disabled={loading}
-                className="sm:col-span-2 group w-full h-11 px-4 py-2 bg-brand-forest hover:bg-brand-hover active:bg-brand-hover text-white font-semibold text-sm rounded-[10px] transition-all shadow-[0_1px_2px_rgba(15,70,64,0.25),0_8px_18px_-8px_rgba(20,91,83,0.55)] hover:-translate-y-px active:translate-y-0 flex items-center justify-center gap-2 disabled:opacity-60 disabled:cursor-not-allowed disabled:hover:translate-y-0 focus:outline-none focus-visible:ring-4 focus-visible:ring-brand-rich/30"
+                className="sm:col-span-2 group w-full h-11 px-4 py-2 bg-action hover:bg-action-hover active:bg-action-hover text-action-ink font-semibold text-sm rounded-[10px] transition-all shadow-[0_1px_2px_rgba(14,79,74,0.25),0_8px_18px_-8px_rgba(14,79,74,0.55)] hover:-translate-y-px active:translate-y-0 flex items-center justify-center gap-2 disabled:opacity-60 disabled:cursor-not-allowed disabled:hover:translate-y-0 focus:outline-none focus-visible:ring-4 focus-visible:ring-action/30"
               >
                 {loading ? (
                   <span className="inline-flex items-center gap-2">
