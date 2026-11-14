@@ -24,6 +24,7 @@ export default function Step7IncidentDetails() {
   );
   const [narrative, setNarrative] = useState(incidentAnswers.narrative || "");
   const [submitting, setSubmitting] = useState(false);
+  const [submitError, setSubmitError] = useState<string | null>(null);
 
   const availablePlatforms = [
     "Telegram",
@@ -66,12 +67,18 @@ export default function Step7IncidentDetails() {
       narrative,
     };
     setIncidentAnswers(updated);
+    setSubmitError(null);
 
     if (activeCase) {
       setSubmitting(true);
       try {
         await submitElicitationRound(activeCase.id, 1, updated);
-      } catch (_) {}
+      } catch {
+        setSubmitError(
+          "We could not save these details to your request. Please try again; your entries are still here."
+        );
+        return;
+      }
       finally {
         setSubmitting(false);
       }
@@ -99,6 +106,14 @@ export default function Step7IncidentDetails() {
       </div>
 
       <form onSubmit={handleSubmit} className="space-y-6">
+        {submitError && (
+          <p
+            className="rounded-lg border border-status-errorBorder bg-status-errorBg px-4 py-3 text-sm text-status-error"
+            role="alert"
+          >
+            {submitError}
+          </p>
+        )}
         {/* Discovery Date */}
         <div>
           <label

@@ -22,6 +22,7 @@ export default function Step5Forensics() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [showTechDetails, setShowTechDetails] = useState(false);
+  const [retryCount, setRetryCount] = useState(0);
 
   useEffect(() => {
     let isMounted = true;
@@ -50,7 +51,7 @@ export default function Step5Forensics() {
     return () => {
       isMounted = false;
     };
-  }, [selectedFile, forensicsData, setForensicsData]);
+  }, [selectedFile, forensicsData, setForensicsData, retryCount]);
 
   if (!selectedFile) {
     return (
@@ -100,12 +101,15 @@ export default function Step5Forensics() {
       </div>
 
       {error && (
-        <div className="p-4 rounded-xl bg-accent-goldSoft border border-accent-gold/40 text-ink text-xs flex items-center justify-between gap-4">
+        <div className="p-4 rounded-xl bg-accent-coralSoft border border-accent-coral/30 text-ink text-xs flex items-center justify-between gap-4" role="alert">
           <span>{error}</span>
           <button
             type="button"
             className="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg bg-surface-pearl border border-accent-gold/50 text-ink font-semibold hover:bg-canvas-subtle transition-colors shadow-2xs"
-            onClick={() => setForensicsData(null)}
+            onClick={() => {
+              setForensicsData(null);
+              setRetryCount((count) => count + 1);
+            }}
           >
             <RotateCcw className="w-3 h-3" />
             <span>Retry Check</span>
@@ -162,6 +166,8 @@ export default function Step5Forensics() {
             <button
               type="button"
               onClick={() => setShowTechDetails((v) => !v)}
+              aria-expanded={showTechDetails}
+              aria-controls="forensics-tech-details"
               className="w-full flex items-center justify-between p-4 bg-[#FAF9F6] hover:bg-canvas-subtle text-xs font-bold text-ink transition-colors font-heading"
             >
               <span>Deterministic signal metrics</span>
@@ -172,8 +178,11 @@ export default function Step5Forensics() {
               )}
             </button>
 
-            {showTechDetails && (
-              <div className="p-4 sm:p-5 bg-surface-pearl text-xs space-y-2.5 border-t border-ink-border/60">
+            <div
+              id="forensics-tech-details"
+              hidden={!showTechDetails}
+              className="p-4 sm:p-5 bg-surface-pearl text-xs space-y-2.5 border-t border-ink-border/60"
+            >
                 <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
                   <div>
                     <span className="text-ink-secondary font-medium block">
@@ -200,8 +209,7 @@ export default function Step5Forensics() {
                     </span>
                   </div>
                 </div>
-              </div>
-            )}
+            </div>
           </div>
         </div>
       ) : null}

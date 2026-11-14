@@ -75,7 +75,7 @@ export default function Step6OnlineSearch() {
       </div>
 
       {error && (
-        <div className="p-4 rounded-xl bg-accent-goldSoft border border-accent-gold/40 text-ink text-xs">
+        <div className="p-4 rounded-xl bg-accent-coralSoft border border-accent-coral/30 text-ink text-xs" role="alert">
           <span>{error}</span>
         </div>
       )}

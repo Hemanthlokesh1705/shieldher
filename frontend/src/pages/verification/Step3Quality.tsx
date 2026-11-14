@@ -130,6 +130,8 @@ export default function Step3Quality() {
         <button
           type="button"
           onClick={() => setShowTechDetails((v) => !v)}
+          aria-expanded={showTechDetails}
+          aria-controls="quality-tech-details"
           className="w-full flex items-center justify-between p-4 bg-[#FAF9F6] hover:bg-canvas-subtle text-xs font-bold text-ink transition-colors font-heading"
         >
           <span>Technical image properties</span>
@@ -140,16 +142,17 @@ export default function Step3Quality() {
           )}
         </button>
 
-        {showTechDetails && (
-          <div className="p-4 sm:p-5 bg-surface-pearl text-xs space-y-2.5 border-t border-ink-border/60">
+        <div
+          id="quality-tech-details"
+          hidden={!showTechDetails}
+          className="p-4 sm:p-5 bg-surface-pearl text-xs space-y-2.5 border-t border-ink-border/60"
+        >
             <div className="flex flex-wrap items-center gap-2">
               <span className="text-ink-secondary font-medium">
                 Cryptographic Digest (SHA-256):
               </span>
               <span className="font-mono px-2 py-0.5 rounded bg-canvas-sand text-ink text-[11px] font-medium break-all">
-                {uploadData.sha256 ||
-                  uploadData.sha256_hash ||
-                  "sha256:computed"}
+                {uploadData.sha256 || uploadData.sha256_hash || "Not available"}
               </span>
             </div>
             <div>
@@ -162,8 +165,7 @@ export default function Step3Quality() {
                   : blurScore}
               </span>
             </div>
-          </div>
-        )}
+        </div>
       </div>
 
       {/* Navigation Action Buttons */}

@@ -12,7 +12,6 @@ import {
   Search,
   Shield,
   ShieldCheck,
-  Sparkles,
 } from "lucide-react";
 import "./LandingPage.css";
 
@@ -20,35 +19,29 @@ const workflowSteps = [
   {
     number: "01",
     label: "Preserve",
-    title: "Start with consent.",
+    title: "Start with consent",
     description:
       "Review what the process does, choose what to share, and continue at your own pace.",
     icon: LockKeyhole,
     status: "You stay in control",
-    visual: "/images/shieldher-dawn.png",
-    visualAlt: "A calm sunrise over a quiet landscape",
   },
   {
     number: "02",
     label: "Understand",
-    title: "See the evidence in context.",
+    title: "See the evidence in context",
     description:
       "Explore image quality, forensic signals, and analysis notes together—not as a verdict.",
     icon: Search,
     status: "Signals, clearly explained",
-    visual: "/images/shieldher-orbit.png",
-    visualAlt: "A luminous network surrounding a glass sphere",
   },
   {
     number: "03",
     label: "Decide",
-    title: "Choose what happens next.",
+    title: "Choose what happens next",
     description:
       "Review your case, decide whether to search further, and approve any draft yourself.",
     icon: FileCheck2,
     status: "No automatic submission",
-    visual: "/loginhero.jpeg",
-    visualAlt: "ShieldHer's digital safety artwork",
   },
 ];
 
@@ -77,33 +70,15 @@ function BrandMark() {
   return (
     <span className="investor-brand-mark" aria-hidden="true">
       <Shield size={22} strokeWidth={2.2} />
-      <span />
     </span>
   );
 }
 
-function Reveal({
-  children,
-  className,
-  delay = 0,
-}: {
+function Reveal({ children, className }: {
   children: React.ReactNode;
   className?: string;
-  delay?: number;
 }) {
-  const reduceMotion = useReducedMotion();
-
-  return (
-    <motion.div
-      className={className}
-      initial={reduceMotion ? false : { opacity: 0, y: 22 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, amount: 0.18 }}
-      transition={{ duration: reduceMotion ? 0 : 0.55, delay }}
-    >
-      {children}
-    </motion.div>
-  );
+  return <div className={className}>{children}</div>;
 }
 
 export default function LandingPage() {
@@ -177,37 +152,26 @@ export default function LandingPage() {
 
       <main id="main-content">
         <section className="investor-hero" aria-labelledby="hero-title">
-          <div className="investor-hero-glow investor-hero-glow-one" />
-          <div className="investor-hero-glow investor-hero-glow-two" />
-          <div className="investor-hero-grid" aria-hidden="true" />
-
           <div className="investor-hero-inner">
-            <motion.div
-              className="investor-hero-copy"
-              initial={reduceMotion ? false : { opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: reduceMotion ? 0 : 0.65 }}
-            >
-              <div className="investor-eyebrow investor-eyebrow-light">
-                <span className="investor-live-dot" />
-                A PRIVATE, CONSENT-LED EVIDENCE WORKSPACE
+            <div className="investor-hero-copy">
+              <div className="investor-eyebrow">
+                Private, consent-led image review
               </div>
               <h1 id="hero-title">
-                Clarity for a difficult moment.
-                <span> Control at every step.</span>
+                Review image evidence.
+                <span> Decide what comes next.</span>
               </h1>
               <p className="investor-hero-description">
-                ShieldHer brings evidence, image analysis, and next-step
-                guidance into one calm, private workspace—so people can make
-                informed choices on their own terms.
+                Review image-analysis signals, keep evidence in context, and
+                choose whether to take another step.
               </p>
 
               <div className="investor-hero-actions">
                 <Link className="investor-button" to="/register">
-                  Explore the workspace <ArrowRight size={17} aria-hidden="true" />
+                  Create an account <ArrowRight size={17} aria-hidden="true" />
                 </Link>
                 <a className="investor-text-button" href="#workflow">
-                  See how it works <ArrowDown size={16} aria-hidden="true" />
+                  How it works <ArrowDown size={16} aria-hidden="true" />
                 </a>
               </div>
 
@@ -215,97 +179,39 @@ export default function LandingPage() {
                 <ShieldCheck size={17} aria-hidden="true" />
                 <span>Analysis supports review; it does not replace judgment.</span>
               </div>
-            </motion.div>
+            </div>
 
-            <motion.div
+            <div
               className="investor-product-preview"
-              initial={reduceMotion ? false : { opacity: 0, scale: 0.96, y: 18 }}
-              animate={{ opacity: 1, scale: 1, y: 0 }}
-              transition={{ duration: reduceMotion ? 0 : 0.7, delay: 0.12 }}
               aria-label="Illustrative product interface preview"
             >
               <div className="investor-preview-topbar">
-                <div className="investor-window-dots" aria-hidden="true">
-                  <i />
-                  <i />
-                  <i />
-                </div>
-                <span>SHIELDHER / PRIVATE WORKSPACE</span>
+                <span>Illustrative case review</span>
                 <LockKeyhole size={15} aria-hidden="true" />
               </div>
 
               <div className="investor-preview-content">
                 <div className="investor-preview-heading">
                   <div>
-                    <span className="investor-preview-kicker">YOUR WORKSPACE</span>
-                    <h2>Evidence, at your pace.</h2>
+                    <span className="investor-preview-kicker">Review path</span>
+                    <h2>One step at a time</h2>
                   </div>
-                  <span className="investor-preview-avatar" aria-hidden="true">
-                    S
-                  </span>
+                  <span className="investor-preview-avatar" aria-hidden="true">1–9</span>
                 </div>
 
                 <div className="investor-preview-case">
-                  <div className="investor-preview-art">
-                    <img
-                      src="/images/shieldher-orbit.png"
-                      alt=""
-                      aria-hidden="true"
-                    />
-                    <div className="investor-preview-art-overlay">
-                      <ShieldCheck size={22} aria-hidden="true" />
-                    </div>
-                  </div>
                   <div className="investor-preview-case-info">
-                    <span className="investor-preview-kicker">
-                      GUIDED REVIEW
-                    </span>
-                    <strong>Your case, organized</strong>
-                    <span>Evidence and notes in one place</span>
-                    <div className="investor-preview-progress">
-                      <span />
-                    </div>
-                    <small>Move forward only when you are ready</small>
+                    <div><LockKeyhole size={16} aria-hidden="true" /><span>Consent</span></div>
+                    <div><FileCheck2 size={16} aria-hidden="true" /><span>Evidence</span></div>
+                    <div><Search size={16} aria-hidden="true" /><span>Analysis signals</span></div>
+                    <div><Check size={16} aria-hidden="true" /><span>Your next step</span></div>
                   </div>
                 </div>
 
                 <div className="investor-preview-footer">
-                  <span>
-                    <span className="investor-preview-status-dot" />
-                    Private workspace
-                  </span>
-                  <span>Consent comes first</span>
+                  <span>Review findings before deciding what to do</span>
                 </div>
               </div>
-
-              <motion.div
-                className="investor-floating-note"
-                animate={
-                  reduceMotion
-                    ? undefined
-                    : { y: [0, -6, 0], rotate: [0, -1, 0] }
-                }
-                transition={
-                  reduceMotion
-                    ? undefined
-                    : { duration: 5, repeat: Infinity, ease: "easeInOut" }
-                }
-              >
-                <span className="investor-floating-icon">
-                  <Sparkles size={16} aria-hidden="true" />
-                </span>
-                <span>
-                  <strong>Your choice, always</strong>
-                  <small>Review before you proceed</small>
-                </span>
-              </motion.div>
-            </motion.div>
-
-            <div className="investor-hero-caption">
-              <span>01</span>
-              <span>PRIVATE SUPPORT, BUILT AROUND PEOPLE</span>
-              <span className="investor-caption-line" />
-              <span>PRODUCT OVERVIEW</span>
             </div>
           </div>
         </section>
@@ -318,11 +224,11 @@ export default function LandingPage() {
           <Reveal className="investor-section-intro">
             <div className="investor-eyebrow">
               <span className="investor-eyebrow-index">01</span>
-              A CLEARER WAY FORWARD
+              How it works
             </div>
             <h2 id="workflow-title">
-              A thoughtful process.
-              <span> One step at a time.</span>
+              Understand each step.
+              <span> Continue when you choose.</span>
             </h2>
             <p>
               The experience turns a complex set of tools into a guided journey.
@@ -359,7 +265,7 @@ export default function LandingPage() {
                         <Icon size={19} aria-hidden="true" />
                       </span>
                       <span className="investor-insight-label">
-                        <small>STEP {step.number}</small>
+                        <small>Step {step.number}</small>
                         <strong>{step.label}</strong>
                       </span>
                       <ArrowRight size={17} aria-hidden="true" />
@@ -390,31 +296,27 @@ export default function LandingPage() {
             <div
               className="investor-insights-visual"
               role="region"
-              aria-label={`${currentStep.label} visual preview`}
+              aria-label={`${currentStep.label} in the review path`}
               aria-live="polite"
             >
               <AnimatePresence initial={false}>
                 <motion.div
                   className="investor-insights-image"
-                  key={currentStep.visual}
-                  initial={reduceMotion ? false : { opacity: 0, scale: 1.035 }}
+                  key={currentStep.number}
+                  initial={reduceMotion ? false : { opacity: 0 }}
                   animate={{ opacity: 1, scale: 1 }}
-                  exit={{ opacity: 0, scale: 0.985 }}
-                  transition={{ duration: reduceMotion ? 0 : 0.45, ease: "easeOut" }}
+                  exit={{ opacity: 0 }}
+                  transition={{ duration: reduceMotion ? 0 : 0.18 }}
                 >
-                  <img src={currentStep.visual} alt={currentStep.visualAlt} />
-                  <div className="investor-insights-image-shade" />
                   <div className="investor-insights-image-topline">
-                    <span>THE SHIELDHER APPROACH</span>
+                    <span>Review path</span>
                     <span>{currentStep.number} / 03</span>
                   </div>
                   <div className="investor-insights-image-caption">
                     <span className="investor-insights-image-icon">
                       <StepIcon size={19} aria-hidden="true" />
                     </span>
-                    <span className="investor-insights-image-label">
-                      {currentStep.label}, on your terms
-                    </span>
+                    <span className="investor-insights-image-label">{currentStep.label}</span>
                     <h3>{currentStep.title}</h3>
                     <p>{currentStep.description}</p>
                   </div>
@@ -428,9 +330,7 @@ export default function LandingPage() {
                   />
                 ))}
               </div>
-              <p className="investor-prototype-caption">
-                Interactive product concept · sample content, not a live case
-              </p>
+              <p className="investor-prototype-caption">Illustrative workflow, not a live case</p>
             </div>
           </div>
         </section>
@@ -442,13 +342,13 @@ export default function LandingPage() {
         >
           <div className="investor-principles-inner">
             <Reveal className="investor-principles-copy">
-              <div className="investor-eyebrow investor-eyebrow-light">
+              <div className="investor-eyebrow">
                 <span className="investor-eyebrow-index">02</span>
-                TRUST IS A PRODUCT DECISION
+                Trust is a product decision
               </div>
               <h2 id="principles-title">
-                Built for sensitive moments.
-                <span> Designed for trust.</span>
+                Built for sensitive moments
+                <span> Designed for trust</span>
               </h2>
               <p>
                 A calmer interface is only the beginning. Clear consent,
@@ -461,33 +361,33 @@ export default function LandingPage() {
             </Reveal>
 
             <div className="investor-principle-cards">
-              <Reveal className="investor-principle-card" delay={0.05}>
+              <Reveal className="investor-principle-card" >
                 <span className="investor-principle-icon">
                   <LockKeyhole size={20} aria-hidden="true" />
                 </span>
-                <span className="investor-card-index">01 / CONSENT</span>
-                <h3>Choices stay visible.</h3>
+                <span className="investor-card-index">01 / Consent</span>
+                <h3>Choices stay visible</h3>
                 <p>
                   Explain what an action does before asking someone to take it.
                 </p>
               </Reveal>
-              <Reveal className="investor-principle-card" delay={0.12}>
+              <Reveal className="investor-principle-card" >
                 <span className="investor-principle-icon">
                   <Search size={20} aria-hidden="true" />
                 </span>
-                <span className="investor-card-index">02 / CLARITY</span>
-                <h3>Signals need context.</h3>
+                <span className="investor-card-index">02 / Clarity</span>
+                <h3>Signals need context</h3>
                 <p>
                   Present analysis as information to review, never as a final
                   verdict.
                 </p>
               </Reveal>
-              <Reveal className="investor-principle-card" delay={0.19}>
+              <Reveal className="investor-principle-card" >
                 <span className="investor-principle-icon">
                   <FileCheck2 size={20} aria-hidden="true" />
                 </span>
-                <span className="investor-card-index">03 / AGENCY</span>
-                <h3>People decide what is next.</h3>
+                <span className="investor-card-index">03 / Agency</span>
+                <h3>People decide what is next</h3>
                 <p>
                   Keep searches, reports, and sharing behind explicit user
                   choices.
@@ -506,7 +406,7 @@ export default function LandingPage() {
             <div>
               <div className="investor-eyebrow">
                 <span className="investor-eyebrow-index">03</span>
-                ONE CONNECTED WORKSPACE
+                One connected workspace
               </div>
               <h2 id="capabilities-title">
                 From first review
@@ -526,13 +426,12 @@ export default function LandingPage() {
                 <Reveal
                   className="investor-capability-card"
                   key={capability.title}
-                  delay={index * 0.08}
                 >
                   <span className="investor-capability-icon">
                     <Icon size={21} aria-hidden="true" />
                   </span>
-                  <span className="investor-card-index">
-                    PLATFORM / 0{index + 1}
+                    <span className="investor-card-index">
+                      Platform / 0{index + 1}
                   </span>
                   <h3>{capability.title}</h3>
                   <p>{capability.description}</p>
@@ -543,15 +442,13 @@ export default function LandingPage() {
         </section>
 
         <section className="investor-closing" aria-labelledby="closing-title">
-          <div className="investor-closing-glow" aria-hidden="true" />
           <Reveal className="investor-closing-content">
-            <div className="investor-eyebrow investor-eyebrow-light">
-              <span className="investor-live-dot" />
-              BEGIN WHEN YOU FEEL READY
+            <div className="investor-eyebrow">
+              Begin when you feel ready
             </div>
             <h2 id="closing-title">
-              Make space for clarity.
-              <span> Keep the next step yours.</span>
+              Make space for clarity
+              <span> Keep the next step yours</span>
             </h2>
             <p>
               Explore the workspace and decide what support looks like for you.

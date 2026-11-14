@@ -1,6 +1,14 @@
 import { useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import {
+  AlertTriangle,
+  CheckCircle2,
+  FileText,
+  LockKeyhole,
+  Search,
+  ShieldCheck,
+} from "lucide-react";
+import {
   CaseItem,
   ComplaintDraftResponse,
   ForensicsResponse,
@@ -27,6 +35,7 @@ import { ElicitationCard } from "../components/ElicitationCard";
 import { ComplaintDraftViewer } from "../components/ComplaintDraftViewer";
 import { EvidenceInventoryCard } from "../components/EvidenceInventoryCard";
 import { useAuth } from "../firebase/AuthContext";
+import "./ReportingPage.css";
 
 const STEPS = [
   { id: 1, label: "Intake" },
@@ -57,12 +66,10 @@ export default function ReportingPage() {
   const [pageError, setPageError] = useState<string | null>(null);
 
   const safeScrollTo = (id: string) => {
-    try {
-      const el = document.getElementById(id);
-      if (el && typeof el.scrollIntoView === "function") {
-        el.scrollIntoView({ behavior: "smooth" });
-      }
-    } catch (_) {}
+    const el = document.getElementById(id);
+    if (el && typeof el.scrollIntoView === "function") {
+      el.scrollIntoView({ behavior: "smooth" });
+    }
   };
 
   const handleUpload = async (file: File) => {
@@ -83,7 +90,10 @@ export default function ReportingPage() {
         const refreshed = await getCase(newCase.id);
         setActiveCase(refreshed);
       } catch (err: any) {
-        console.warn("Case persistence init notice:", err.message);
+        setPageError(
+          err.message ||
+            "The image was uploaded, but its saved request could not be created. You can still review the available results here."
+        );
       }
       setTimeout(() => {
         safeScrollTo("quality-section");
@@ -159,7 +169,10 @@ export default function ReportingPage() {
           setActiveCase(refreshed);
           caseObj = refreshed;
         } catch (cErr: any) {
-          console.warn("Case init notice:", cErr.message);
+          setPageError(
+            cErr.message ||
+              "The image was uploaded, but its saved request could not be created. You can still review the available results here."
+          );
         }
         setIsUploading(false);
       }
@@ -240,8 +253,10 @@ export default function ReportingPage() {
       try {
         const c = await getCase(activeCase.id);
         setActiveCase(c);
-      } catch (_) {
-        setActiveCase(null);
+      } catch {
+        setPageError(
+          "We could not refresh this saved request. The details already on screen have been kept."
+        );
       }
     }
   };
@@ -262,7 +277,7 @@ export default function ReportingPage() {
         <div className="nav-inner">
           {/* Logo */}
           <div style={{ display: "flex", alignItems: "center", gap: "0.6rem" }}>
-            <div className="nav-logo-icon">🛡️</div>
+            <div className="nav-logo-icon"><ShieldCheck size={18} aria-hidden="true" /></div>
             <div>
               <div style={{ display: "flex", alignItems: "center", gap: "0.5rem" }}>
                 <span className="nav-logo-text" aria-label="ShieldHer">ShieldHer</span>
@@ -301,7 +316,7 @@ export default function ReportingPage() {
                   }}
                   title={user.email || undefined}
                 >
-                  👤 {user.displayName || user.email?.split("@")[0] || "User"}
+                  {user.displayName || user.email?.split("@")[0] || "User"}
                 </span>
                 <button
                   onClick={() => logout()}
@@ -338,7 +353,7 @@ export default function ReportingPage() {
       <section className="intake-overview">
         <div className="intake-overview-inner">
           <div className="intake-welcome">
-            <div className="intake-kicker"><span /> YOUR PRIVATE WORKSPACE</div>
+            <div className="intake-kicker"><span /> Private evidence workspace</div>
             <h1>{activeCase ? "Your case, in one place." : "Let’s take this one step at a time."}</h1>
             <p>Preserve an image, review its analysis, and decide what you’d like to do next. You can pause whenever you need.</p>
             <div className="intake-actions">
@@ -347,14 +362,32 @@ export default function ReportingPage() {
               </button>
               <button className="intake-secondary-action" onClick={() => safeScrollTo("workflow-progress")}>See your steps <span aria-hidden="true">↓</span></button>
             </div>
-            <div className="intake-reassurance"><span>✳</span> Your choices stay yours. Nothing is sent as a report automatically.</div>
+            <div className="intake-reassurance"><ShieldCheck size={16} aria-hidden="true" /> Your choices stay yours. Nothing is sent as a report automatically.</div>
           </div>
-          <div className="intake-overview-art" aria-hidden="true">
-            <div className="intake-art-orbit intake-art-orbit-a" /><div className="intake-art-orbit intake-art-orbit-b" />
-            <div className="intake-art-card"><div className="intake-art-sun" /><div className="intake-art-landscape"><i /><i /><i /></div><div className="intake-art-label"><span>SHIELDHER</span><strong>A steady place<br />to start.</strong><small>Take it at your pace</small></div></div>
-            <div className="intake-status-note"><span className="intake-status-icon">{uploadData ? "✓" : "✳"}</span><div><strong>{uploadData ? "Evidence added" : "Ready when you are"}</strong><small>{uploadData ? "Your review can continue" : "No rush. Start with one image."}</small></div></div>
+          <div className="intake-overview-preview" role="img" aria-label="Illustrative private evidence review workspace">
+            <div className="intake-preview-header">
+              <span><ShieldCheck size={16} aria-hidden="true" /> Private review</span>
+              <span>{uploadData ? "Evidence added" : "Ready when you are"}</span>
+            </div>
+            <div className="intake-preview-body">
+              <div className="intake-preview-icon"><LockKeyhole size={20} aria-hidden="true" /></div>
+              <p>Workspace status</p>
+              <strong>{uploadData ? "Your review can continue" : "Start with one image"}</strong>
+              <span>You can pause or decide what to do next at any point.</span>
+              <ol>
+                <li className={activeStage > 1 ? "is-complete" : "is-current"}>
+                  <CheckCircle2 size={16} aria-hidden="true" /> Consent
+                </li>
+                <li className={activeStage > 2 ? "is-complete" : activeStage === 2 ? "is-current" : ""}>
+                  <FileText size={16} aria-hidden="true" /> Evidence
+                </li>
+                <li className={activeStage > 3 ? "is-complete" : activeStage === 3 ? "is-current" : ""}>
+                  <Search size={16} aria-hidden="true" /> Review signals
+                </li>
+              </ol>
+            </div>
           </div>
-          <div className="intake-overview-index"><span>{String(activeStage).padStart(2,"0")}</span> / 06 &nbsp; YOUR PROGRESS</div>
+          <div className="intake-overview-index"><span>{String(activeStage).padStart(2,"0")}</span> / 06 &nbsp; Your progress</div>
         </div>
       </section>
 
@@ -363,8 +396,8 @@ export default function ReportingPage() {
         <div className="content-wrap">
           {/* Step pipeline */}
           <div id="workflow-progress" style={{ marginBottom: "2rem" }}>
-            <div style={{ fontSize: "0.8rem", fontWeight: 600, color: "var(--color-text-muted)", textTransform: "uppercase", letterSpacing: "0.06em", marginBottom: "0.85rem" }}>
-              Forensic Pipeline
+            <div className="intake-pipeline-heading">
+              Your review steps
             </div>
             <div className="step-pipeline">
               {STEPS.map((step, i) => (
@@ -398,8 +431,8 @@ export default function ReportingPage() {
 
           {/* Error banner */}
           {pageError && (
-            <div className="alert alert-error animate-fade-in">
-              <span>⚠️</span>
+            <div className="alert alert-error animate-fade-in" role="alert">
+              <AlertTriangle size={16} aria-hidden="true" />
               <span>{pageError}</span>
             </div>
           )}
@@ -477,8 +510,8 @@ export default function ReportingPage() {
             <div
               style={{
                 marginTop: "2rem",
-                background: "linear-gradient(135deg, #f0fdf4, #dcfce7)",
-                border: "1px solid #86efac",
+                background: "var(--surface-secondary)",
+                border: "1px solid var(--border-light)",
                 borderRadius: "var(--radius-lg)",
                 padding: "1.75rem 2rem",
                 display: "flex",
@@ -490,7 +523,7 @@ export default function ReportingPage() {
             >
               <div>
                 <div style={{ fontSize: "0.75rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.06em", color: "var(--color-primary)", marginBottom: "0.35rem" }}>
-                  Need Help Now?
+                  Need help now?
                 </div>
                 <div style={{ fontWeight: 700, color: "var(--color-text)", marginBottom: "0.5rem" }}>
                   Emergency Helplines — India
@@ -508,7 +541,7 @@ export default function ReportingPage() {
                 </div>
               </div>
               <div style={{ fontSize: "0.8rem", color: "var(--color-text-muted)", maxWidth: "320px", lineHeight: 1.7 }}>
-                All analysis runs locally. Images are AES-256 encrypted. No data is sent to external servers without your explicit consent. No complaint is filed automatically.
+                Your image is uploaded to ShieldHer for analysis. Optional online search requires separate consent. No complaint is filed automatically.
               </div>
             </div>
           )}
@@ -521,7 +554,7 @@ export default function ReportingPage() {
           <div className="footer-grid">
             <div>
               <div style={{ display: "flex", alignItems: "center", gap: "0.5rem", marginBottom: "0.75rem" }}>
-                <div className="nav-logo-icon">🛡️</div>
+                <div className="nav-logo-icon"><ShieldCheck size={18} aria-hidden="true" /></div>
                 <span style={{ fontWeight: 800, fontSize: "1.05rem", letterSpacing: "-0.02em" }} aria-hidden="true">ShieldHer&nbsp;Initiative</span>
               </div>
               <p className="footer-brand-desc">
@@ -530,9 +563,9 @@ export default function ReportingPage() {
             </div>
             <div>
               <div className="footer-heading">Emergency</div>
-              <a href="tel:1930" className="footer-link">🚨 Cybercrime Helpline — 1930</a>
-              <a href="tel:1091" className="footer-link">🚺 Women in Distress — 1091</a>
-              <a href="tel:112" className="footer-link">🆘 National Emergency — 112</a>
+              <a href="tel:1930" className="footer-link">Cybercrime Helpline — 1930</a>
+              <a href="tel:1091" className="footer-link">Women in Distress — 1091</a>
+              <a href="tel:112" className="footer-link">National Emergency — 112</a>
               <a href="https://cybercrime.gov.in" target="_blank" rel="noopener noreferrer" className="footer-link">
                 cybercrime.gov.in ↗
               </a>

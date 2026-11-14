@@ -2,19 +2,21 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 import { useVerification } from "../../context/VerificationContext";
-import { UserCheck, Sparkles, Cpu, ArrowRight, ArrowLeft } from "lucide-react";
+import { UserCheck, ScanFace, Cpu, ArrowRight, ArrowLeft } from "lucide-react";
 import { cn } from "../../lib/utils";
 
 export default function Step1Consent() {
   const navigate = useNavigate();
   const { consent, setConsent } = useVerification();
+  const [consentError, setConsentError] = React.useState<string | null>(null);
 
   const handleContinue = (e: React.FormEvent) => {
     e.preventDefault();
     if (!consent.allowLocalAnalysis) {
-      alert("Please confirm your permission for ShieldHer to assess the image.");
+      setConsentError("Please allow image analysis before continuing.");
       return;
     }
+    setConsentError(null);
     navigate("/verification/upload");
   };
 
@@ -36,6 +38,14 @@ export default function Step1Consent() {
       </div>
 
       <form onSubmit={handleContinue} className="space-y-7">
+        {consentError && (
+          <p
+            className="rounded-lg border border-status-errorBorder bg-status-errorBg px-4 py-3 text-sm text-status-error"
+            role="alert"
+          >
+            {consentError}
+          </p>
+        )}
         {/* Model Explanation Cards */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           <div className="p-5 rounded-2xl bg-[#FAF8F5] border border-ink-border/70 flex flex-col justify-between shadow-2xs">
@@ -60,7 +70,7 @@ export default function Step1Consent() {
           <div className="p-5 rounded-2xl bg-[#FAF8F5] border border-ink-border/70 flex flex-col justify-between shadow-2xs">
             <div>
               <div className="w-10 h-10 rounded-xl bg-brand-sage/40 text-brand-forest flex items-center justify-center mb-3.5 border border-brand-border">
-                <Sparkles className="w-5 h-5 text-accent-gold" />
+                <ScanFace className="w-5 h-5" />
               </div>
               <h4 className="text-sm font-bold text-ink font-heading">
                 Face Manipulation Check
@@ -123,11 +133,11 @@ export default function Step1Consent() {
               />
               <div className="text-xs">
                 <strong className="block text-sm text-ink font-bold font-heading mb-1">
-                  Temporary Check (Recommended)
+                  Temporary Check (up to 7 days)
                 </strong>
                 <p className="text-ink-secondary leading-relaxed">
-                  The assessment results are held temporarily for your review
-                  during this session. No permanent record is cataloged.
+                  The request is kept for up to 7 days. You can delete it sooner
+                  from My Requests.
                 </p>
               </div>
             </label>
@@ -154,11 +164,11 @@ export default function Step1Consent() {
               />
               <div className="text-xs">
                 <strong className="block text-sm text-ink font-bold font-heading mb-1">
-                  Save for Official Reporting
+                  Keep for Reporting (up to 365 days)
                 </strong>
                 <p className="text-ink-secondary leading-relaxed">
-                  Generates an immutable cryptographic hash (SHA-256) of the
-                  image so you can attach it to a cybercrime report.
+                  Keep the request available for up to 365 days while you
+                  prepare a report. A SHA-256 hash is generated for reference.
                 </p>
               </div>
             </label>

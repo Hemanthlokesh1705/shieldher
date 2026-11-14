@@ -2,7 +2,14 @@ import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import { useAuth } from "../firebase/AuthContext";
-import { Shield, KeyRound, CheckCircle2, ArrowLeft, ArrowRight } from "lucide-react";
+import {
+  AlertTriangle,
+  ArrowLeft,
+  ArrowRight,
+  CheckCircle2,
+  KeyRound,
+  Shield,
+} from "lucide-react";
 
 export default function ForgotPasswordPage() {
   const [email, setEmail] = useState("");
@@ -72,7 +79,7 @@ export default function ForgotPasswordPage() {
               className="mb-5 p-3.5 rounded-xl bg-accent-coralSoft border border-accent-coral/30 text-accent-coral text-xs leading-relaxed flex items-start gap-2.5"
               role="alert"
             >
-              <span className="text-sm">⚠️</span>
+              <AlertTriangle className="h-4 w-4 flex-shrink-0" aria-hidden="true" />
               <span className="flex-1 font-medium">{error}</span>
             </div>
           )}
@@ -130,7 +137,7 @@ export default function ForgotPasswordPage() {
                   </span>
                 ) : (
                   <>
-                    <span>Send Reset Instructions</span>
+                    <span>Send reset instructions</span>
                     <ArrowRight className="w-4 h-4" />
                   </>
                 )}

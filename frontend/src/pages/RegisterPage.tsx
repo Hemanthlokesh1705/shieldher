@@ -3,25 +3,16 @@ import { Link, useNavigate, useLocation } from "react-router-dom";
 import { motion } from "framer-motion";
 import { useAuth } from "../firebase/AuthContext";
 import {
-  Shield,
   Eye,
   EyeOff,
-  Sparkles,
   Lock,
   Mail,
   User,
   ChevronDown,
   Check,
-  FileCheck2,
-  CheckCircle2,
   ArrowRight,
 } from "lucide-react";
-
-/**
- * Hero photo: lives at  frontend/public/loginhero.jpeg
- * (change the file name here if yours is different)
- */
-const HERO_IMAGE = "/loginhero.jpeg";
+import AuthBrandPanel from "../components/AuthBrandPanel";
 
 type FirebaseError = { code?: string; message?: string };
 
@@ -154,135 +145,10 @@ export default function RegisterPage() {
 
   return (
     <div className="auth-shell min-h-screen bg-canvas flex flex-col lg:grid lg:grid-cols-12 selection:bg-brand-sage selection:text-brand-forest">
-      {/* ───────── Left: photo brand panel ───────── */}
-      <aside className="relative isolate overflow-hidden bg-[#090D16] text-white lg:col-span-5 lg:self-start lg:sticky lg:top-0 lg:h-screen">
-        {/* Photo (top 62% on desktop, full banner on mobile) */}
-        <div
-          className="absolute inset-x-0 top-0 h-full lg:h-[62%] -z-20"
-          aria-hidden="true"
-        >
-          <img
-            src={HERO_IMAGE}
-            alt=""
-            className="w-full h-full object-cover object-[50%_45%]"
-            loading="eager"
-            decoding="async"
-          />
-        </div>
-
-        {/* Mobile overlay */}
-        <div
-          className="absolute inset-0 -z-10 lg:hidden bg-gradient-to-b from-[#090D16]/65 via-[#111827]/60 to-[#090D16]/90"
-          aria-hidden="true"
-        />
-        {/* Desktop overlay: fade photo into solid panel */}
-        <div
-          className="absolute inset-0 -z-10 hidden lg:block"
-          aria-hidden="true"
-          style={{
-            background:
-              "linear-gradient(to bottom, rgba(9,13,22,0.75) 0%, rgba(17,24,39,0.25) 18%, rgba(17,24,39,0.15) 38%, rgba(9,13,22,0.92) 58%, #090D16 66%)",
-          }}
-        />
-        {/* Brand tint */}
-        <div
-          className="absolute inset-0 -z-10 bg-[#2563EB]/20 mix-blend-multiply"
-          aria-hidden="true"
-        />
-
-        {/* Content */}
-        <div className="relative z-10 flex h-full flex-col justify-between gap-6 px-6 py-8 sm:px-12 sm:py-10 lg:gap-4 lg:px-10 lg:py-9 xl:px-14 xl:py-11">
-          {/* Brand Header */}
-          <div className="flex items-center gap-3">
-            <div className="w-11 h-11 rounded-xl bg-white/10 border border-white/20 backdrop-blur-md flex items-center justify-center shadow-lg shadow-black/20">
-              <Shield className="w-5 h-5 text-accent-gold" />
-            </div>
-            <div>
-              <span className="text-xl font-bold tracking-tight text-white font-heading block leading-none">
-                ShieldHer
-              </span>
-              <span className="text-[11px] font-medium tracking-[0.14em] text-white/65 uppercase mt-1 block">
-                Confidential Verification
-              </span>
-            </div>
-          </div>
-
-          {/* Bottom copy block */}
-          <div className="space-y-4 lg:space-y-5">
-            <div className="space-y-3 lg:space-y-4">
-              <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white/10 border border-white/20 backdrop-blur-md text-xs font-semibold text-[#BFDBFE]">
-                <Sparkles className="w-3.5 h-3.5 text-accent-gold" />
-                <span>Your Privacy, Preserved</span>
-              </div>
-              <h2 className="font-editorial font-normal text-white tracking-tight leading-[1.12] text-[clamp(1.75rem,2.6vw,2.75rem)] max-w-xl [text-wrap:balance]">
-                Secure shelter in moments of digital crisis.
-              </h2>
-              <div className="[@media(max-height:720px)]:!hidden">
-                <p className="hidden sm:block text-sm text-white/75 leading-relaxed max-w-md font-sans">
-                  Every account is isolated, pseudonymised, and protected by
-                  zero-knowledge cryptographic boundaries.
-                </p>
-              </div>
-            </div>
-
-            {/* Trust pillars (desktop only; shrink on short screens) */}
-            <div className="[@media(max-height:680px)]:!hidden">
-              <div className="hidden lg:block space-y-3.5 max-w-md">
-                <div className="flex items-start gap-3.5">
-                  <div className="w-9 h-9 rounded-lg bg-white/10 border border-white/15 text-[#93C5FD] flex items-center justify-center flex-shrink-0">
-                    <Lock className="w-4 h-4" />
-                  </div>
-                  <div className="self-center">
-                    <h4 className="text-[13px] font-semibold text-white font-heading">
-                      Encrypted Evidence Vault
-                    </h4>
-                    <p className="text-xs text-white/60 mt-0.5 leading-normal [@media(max-height:860px)]:!hidden">
-                      Cryptographic hashing ensures evidence integrity without
-                      exposing raw media to unauthorized third parties.
-                    </p>
-                  </div>
-                </div>
-
-                <div className="flex items-start gap-3.5">
-                  <div className="w-9 h-9 rounded-lg bg-white/10 border border-white/15 text-[#93C5FD] flex items-center justify-center flex-shrink-0">
-                    <FileCheck2 className="w-4 h-4" />
-                  </div>
-                  <div className="self-center">
-                    <h4 className="text-[13px] font-semibold text-white font-heading">
-                      Actionable Legal Packages
-                    </h4>
-                    <p className="text-xs text-white/60 mt-0.5 leading-normal [@media(max-height:860px)]:!hidden">
-                      Automatic complaint generation for cybercrime portals
-                      (e.g., cybercrime.gov.in) and major social platforms.
-                    </p>
-                  </div>
-                </div>
-
-                <div className="flex items-start gap-3.5">
-                  <div className="w-9 h-9 rounded-lg bg-white/10 border border-white/15 text-[#93C5FD] flex items-center justify-center flex-shrink-0">
-                    <CheckCircle2 className="w-4 h-4" />
-                  </div>
-                  <div className="self-center">
-                    <h4 className="text-[13px] font-semibold text-white font-heading">
-                      Zero Identity Profiling
-                    </h4>
-                    <p className="text-xs text-white/60 mt-0.5 leading-normal [@media(max-height:860px)]:!hidden">
-                      Use any preferred display name or pseudonym. No personal
-                      tracking or telemetry of sensitive actions.
-                    </p>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            {/* Footer note */}
-            <div className="hidden lg:flex pt-4 border-t border-white/10 items-center justify-between text-[11px] text-white/50">
-              <span>Client-side sensitive media blur enabled</span>
-              <span>GDPR &amp; DPDP compliant</span>
-            </div>
-          </div>
-        </div>
-      </aside>
+      <AuthBrandPanel
+        title="Begin on your terms"
+        description="Create a private workspace, move through a guided review, and choose what information you share."
+      />
 
       {/* ───────── Right: registration card (matches reference design) ───────── */}
       <main className="flex-1 lg:col-span-7 flex items-center justify-center px-4 py-5 sm:px-8 sm:py-6 lg:px-10 xl:px-14 lg:min-h-screen bg-surface-subtle">

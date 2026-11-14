@@ -1,12 +1,12 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
+import { Link } from "react-router-dom";
 import { useAuth } from "../firebase/AuthContext";
 import {
   User,
   KeyRound,
   Clock,
   Download,
-  Trash2,
   CheckCircle2,
   Mail,
   Shield,
@@ -14,11 +14,9 @@ import {
 } from "lucide-react";
 
 export default function SettingsPage() {
-  const { user, logout, resetPassword } = useAuth();
-  const [retentionPolicy, setRetentionPolicy] = useState(
-    "TEMPORARY_EXPLORATORY"
-  );
+  const { user, resetPassword } = useAuth();
   const [resetSuccess, setResetSuccess] = useState(false);
+  const [resetError, setResetError] = useState<string | null>(null);
   const [downloadSuccess, setDownloadSuccess] = useState(false);
 
   const handlePasswordReset = async () => {
@@ -26,9 +24,10 @@ export default function SettingsPage() {
     try {
       await resetPassword(user.email);
       setResetSuccess(true);
+      setResetError(null);
       setTimeout(() => setResetSuccess(false), 5000);
     } catch {
-      alert("Unable to send password reset email. Please try again.");
+      setResetError("We couldn’t send the password reset email. Please try again.");
     }
   };
 
@@ -38,7 +37,7 @@ export default function SettingsPage() {
       email: user?.email,
       name: user?.displayName,
       export_timestamp: new Date().toISOString(),
-      platform: "ShieldHer Private Support",
+      platform: "ShieldHer",
     };
     const blob = new Blob([JSON.stringify(data, null, 2)], {
       type: "application/json",
@@ -46,22 +45,11 @@ export default function SettingsPage() {
     const url = URL.createObjectURL(blob);
     const link = document.createElement("a");
     link.href = url;
-    link.download = `ShieldHer_Account_Data.json`;
+    link.download = "ShieldHer_Account_Profile.json";
     link.click();
     URL.revokeObjectURL(url);
     setDownloadSuccess(true);
     setTimeout(() => setDownloadSuccess(false), 4000);
-  };
-
-  const handleDeleteAccount = () => {
-    if (
-      window.confirm(
-        "Are you sure you want to request deletion of your account and related records? This action cannot be undone."
-      )
-    ) {
-      logout();
-      window.location.href = "/login";
-    }
   };
 
   return (
@@ -77,25 +65,24 @@ export default function SettingsPage() {
           Account & Privacy
         </h2>
         <p className="text-xs sm:text-sm text-ink-secondary mt-1 font-sans">
-          Manage your account credentials, security settings, and data retention
-          guarantees.
+          Review your account details, security options, and available data
+          controls.
         </p>
       </div>
 
       {resetSuccess && (
-        <div className="p-4 rounded-xl bg-brand-sage/30 border border-brand-border text-ink text-xs flex items-center gap-2">
+        <div className="p-4 rounded-xl bg-brand-sage/30 border border-brand-border text-ink text-xs flex items-center gap-2" role="status">
           <CheckCircle2 className="w-4 h-4 text-brand-rich flex-shrink-0" />
-          <span className="font-medium">Password reset instructions have been dispatched to your email.</span>
+          <span className="font-medium">Password reset instructions were sent to your email.</span>
         </div>
       )}
 
       {downloadSuccess && (
-        <div className="p-4 rounded-xl bg-brand-sage/30 border border-brand-border text-ink text-xs flex items-center gap-2">
+        <div className="p-4 rounded-xl bg-brand-sage/30 border border-brand-border text-ink text-xs flex items-center gap-2" role="status">
           <CheckCircle2 className="w-4 h-4 text-brand-rich flex-shrink-0" />
-          <span className="font-medium">Your account record package has been downloaded.</span>
+          <span className="font-medium">Your account profile data has been downloaded.</span>
         </div>
       )}
-
       {/* Account Profile Card */}
       <div className="bg-surface-pearl rounded-2xl border border-ink-border/80 p-6 sm:p-8 shadow-xs space-y-4">
         <div className="flex items-center gap-2.5">
@@ -107,25 +94,29 @@ export default function SettingsPage() {
 
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           <div>
-            <label className="block text-xs font-bold text-ink font-heading mb-1.5">
+            <label htmlFor="account-display-name" className="block text-xs font-medium text-ink font-heading mb-1.5">
               Preferred Name / Pseudonym
             </label>
             <input
+              id="account-display-name"
               type="text"
               className="w-full h-11 px-3.5 py-2.5 text-xs sm:text-sm text-ink bg-[#FAF8F5] border border-ink-border rounded-xl cursor-not-allowed select-all"
-              value={user?.displayName || "Account Holder"}
+              value={user?.displayName || ""}
+              placeholder="Not provided"
               readOnly
             />
           </div>
 
           <div>
-            <label className="block text-xs font-bold text-ink font-heading mb-1.5">
+            <label htmlFor="account-email" className="block text-xs font-medium text-ink font-heading mb-1.5">
               Email Address
             </label>
             <input
+              id="account-email"
               type="email"
               className="w-full h-11 px-3.5 py-2.5 text-xs sm:text-sm text-ink bg-[#FAF8F5] border border-ink-border rounded-xl cursor-not-allowed select-all"
-              value={user?.email || "user@example.com"}
+              value={user?.email || ""}
+              placeholder="Not available"
               readOnly
             />
           </div>
@@ -149,8 +140,8 @@ export default function SettingsPage() {
           </h3>
         </div>
         <p className="text-xs text-ink-secondary leading-relaxed">
-          Need to change your password? We will send an encrypted one-time reset
-          link to your verified email address.
+          Need to change your password? We can email a password reset link to
+          your account address.
         </p>
 
         <button
@@ -161,42 +152,34 @@ export default function SettingsPage() {
           <Mail className="w-3.5 h-3.5 text-ink-muted" />
           <span>Send Password Reset Email</span>
         </button>
+        {resetError && (
+          <p className="text-sm text-status-error" role="alert">
+            {resetError}
+          </p>
+        )}
       </div>
 
-      {/* Privacy & Retention Settings */}
+      {/* Per-check Retention */}
       <div className="bg-surface-pearl rounded-2xl border border-ink-border/80 p-6 sm:p-8 shadow-xs space-y-4">
         <div className="flex items-center gap-2.5">
           <Clock className="w-4 h-4 text-brand-forest" />
           <h3 className="text-base font-bold text-ink font-heading">
-            Image Storage & Retention Policy
+            Image Storage & Retention
           </h3>
         </div>
         <p className="text-xs text-ink-secondary leading-relaxed">
-          When you check an image, it is evaluated on our isolated backend server
-          instance. You choose how long the resulting forensic docket is
-          retained:
+          Choose a retention option separately for each image check before
+          uploading. This page does not change the policy for existing requests.
         </p>
-
-        <div className="max-w-md">
-          <label className="block text-xs font-bold text-ink font-heading mb-1.5">
-            Default Check Retention
-          </label>
-          <select
-            className="w-full h-11 px-3.5 py-2.5 text-xs sm:text-sm text-ink bg-surface-pearl border border-ink-border rounded-xl focus:outline-none focus:ring-2 focus:ring-brand-rich focus:border-brand-rich transition-colors shadow-2xs"
-            value={retentionPolicy}
-            onChange={(e) => setRetentionPolicy(e.target.value)}
-          >
-            <option value="TEMPORARY_EXPLORATORY">
-              Temporary Check (Retained for 7 days, then automatically purged)
-            </option>
-            <option value="PRESERVED">
-              Save for Legal Reporting (Retained for 365 days)
-            </option>
-          </select>
-        </div>
+        <Link
+          to="/verification/consent"
+          className="inline-flex min-h-10 items-center rounded-lg border border-ink-border bg-surface-pearl px-4 py-2 text-sm font-medium text-ink hover:bg-canvas-subtle transition-colors"
+        >
+          Choose options for an image check
+        </Link>
       </div>
 
-      {/* Data Export & Account Deletion */}
+      {/* Data Export & Erasure */}
       <div className="bg-surface-pearl rounded-2xl border border-ink-border/80 p-6 sm:p-8 shadow-xs space-y-4">
         <div className="flex items-center gap-2.5">
           <Shield className="w-4 h-4 text-brand-forest" />
@@ -212,18 +195,13 @@ export default function SettingsPage() {
             onClick={handleDownloadData}
           >
             <Download className="w-3.5 h-3.5 text-ink-muted" />
-            <span>Download My Account Data</span>
-          </button>
-
-          <button
-            type="button"
-            className="inline-flex items-center gap-1.5 px-4 py-2.5 rounded-xl text-xs font-semibold text-accent-coral hover:bg-accent-coralSoft transition-colors"
-            onClick={handleDeleteAccount}
-          >
-            <Trash2 className="w-3.5 h-3.5" />
-            <span>Delete Account Request</span>
+            <span>Download account profile data</span>
           </button>
         </div>
+        <p className="max-w-2xl text-sm text-ink-secondary leading-relaxed">
+          You can remove individual requests from their detail pages. Account
+          deletion is not currently available in the app.
+        </p>
       </div>
     </motion.div>
   );

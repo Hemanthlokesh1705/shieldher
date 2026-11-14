@@ -4,7 +4,7 @@ import { motion } from "framer-motion";
 import { useVerification } from "../../context/VerificationContext";
 import { verifyImage } from "../../services/api";
 import {
-  Sparkles,
+  ScanFace,
   Cpu,
   CheckCircle2,
   AlertTriangle,
@@ -25,6 +25,7 @@ export default function Step4Analysis() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [showTechDetails, setShowTechDetails] = useState(false);
+  const [retryCount, setRetryCount] = useState(0);
 
   useEffect(() => {
     let isMounted = true;
@@ -53,7 +54,7 @@ export default function Step4Analysis() {
     return () => {
       isMounted = false;
     };
-  }, [selectedFile, activeCase?.id, verificationData, setVerificationData]);
+  }, [selectedFile, activeCase?.id, verificationData, setVerificationData, retryCount]);
 
   if (!selectedFile) {
     return (
@@ -111,12 +112,15 @@ export default function Step4Analysis() {
       </div>
 
       {error && (
-        <div className="p-4 rounded-xl bg-accent-goldSoft border border-accent-gold/40 text-ink text-xs flex items-center justify-between gap-4">
+        <div className="p-4 rounded-xl bg-accent-coralSoft border border-accent-coral/30 text-ink text-xs flex items-center justify-between gap-4" role="alert">
           <span>{error}</span>
           <button
             type="button"
             className="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg bg-surface-pearl border border-accent-gold/50 text-ink font-semibold hover:bg-canvas-subtle transition-colors shadow-2xs"
-            onClick={() => setVerificationData(null)}
+            onClick={() => {
+              setVerificationData(null);
+              setRetryCount((count) => count + 1);
+            }}
           >
             <RotateCcw className="w-3 h-3" />
             <span>Retry Check</span>
@@ -131,7 +135,7 @@ export default function Step4Analysis() {
             Checking image patterns…
           </h4>
           <p className="text-xs text-ink-secondary mt-1 max-w-sm mx-auto leading-relaxed">
-            This takes a few moments while our local models evaluate facial edges
+            This takes a few moments while our analysis models evaluate facial edges
             and pixel frequency signatures.
           </p>
         </div>
@@ -142,7 +146,7 @@ export default function Step4Analysis() {
             <div className="flex flex-wrap items-center justify-between gap-2">
               <div className="flex items-center gap-3">
                 <div className="w-9 h-9 rounded-xl bg-brand-sage/40 text-brand-forest flex items-center justify-center flex-shrink-0 border border-brand-border">
-                  <Sparkles className="w-4 h-4 text-accent-gold" />
+                  <ScanFace className="w-4 h-4" />
                 </div>
                 <div>
                   <span className="text-[10px] font-bold text-ink-muted uppercase tracking-wider block font-heading">

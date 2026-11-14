@@ -22,7 +22,7 @@ export default function HelpPage() {
   const faqs = [
     {
       q: "What should I do first if an intimate image was shared without my consent?",
-      a: "Try to stay as calm as possible. Avoid engaging with or threatening the person sharing the image, as this can sometimes trigger wider distribution. Before blocking accounts or deleting messages, preserve screenshots that show the image, date, time, and account handle.",
+      a: "You do not have to handle this alone. If it feels safe, save screenshots showing the post or messages, date, time, and account handle before blocking or deleting anything. Avoid replying to threats, and reach out to someone you trust or an official support service when you are ready.",
     },
     {
       q: "How does ShieldHer handle the images I upload?",
@@ -34,7 +34,7 @@ export default function HelpPage() {
     },
     {
       q: "How can I delete my requests or account data?",
-      a: "You have complete control over your records. You can delete any individual request directly from its request page, or visit Account & Privacy to purge all session records.",
+      a: "You can delete an individual request from its detail page. Account deletion is not currently available in the app.",
     },
     {
       q: "What is StopNCII.org and TakeItDown?",
@@ -245,6 +245,8 @@ export default function HelpPage() {
               <button
                 type="button"
                 onClick={() => toggleFaq(idx)}
+                aria-expanded={openFaq === idx}
+                aria-controls={`help-faq-${idx}`}
                 className="w-full text-left p-4 flex items-center justify-between gap-3 text-xs sm:text-sm font-bold text-ink hover:bg-[#F4F1EC] transition-colors font-heading"
               >
                 <span>{faq.q}</span>
@@ -256,7 +258,10 @@ export default function HelpPage() {
               </button>
 
               {openFaq === idx && (
-                <div className="px-4 pb-4 pt-1 text-xs text-ink-secondary leading-relaxed border-t border-ink-border/40 font-sans">
+                <div
+                  id={`help-faq-${idx}`}
+                  className="px-4 pb-4 pt-1 text-xs text-ink-secondary leading-relaxed border-t border-ink-border/40 font-sans"
+                >
                   {faq.a}
                 </div>
               )}

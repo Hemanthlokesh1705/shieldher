@@ -1,127 +1,144 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import { FileText, Landmark, ShieldCheck } from "lucide-react";
 import { listCases } from "../services/api";
 import { CaseItem } from "../types/models";
 
 export default function ReportsPage() {
   const [cases, setCases] = useState<CaseItem[]>([]);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
-  useEffect(() => {
-    let isMounted = true;
-    async function loadData() {
-      setLoading(true);
-      try {
-        const data = await listCases();
-        if (isMounted) setCases(data || []);
-      } catch (_) {}
-      finally {
-        if (isMounted) setLoading(false);
-      }
+  const loadData = useCallback(async () => {
+    setLoading(true);
+    setError(null);
+    try {
+      const data = await listCases();
+      setCases(data || []);
+    } catch {
+      setError("We couldn’t load your reports. Please try again.");
+    } finally {
+      setLoading(false);
     }
-    loadData();
-    return () => {
-      isMounted = false;
-    };
   }, []);
 
+  useEffect(() => {
+    void loadData();
+  }, [loadData]);
+
+  const formatStatus = (status?: string) =>
+    (status || "Not reviewed")
+      .toLowerCase()
+      .replace(/_/g, " ")
+      .replace(/\b\w/g, (letter) => letter.toUpperCase());
+
   return (
-    <div>
-      <div className="panel" style={{ display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: "16px" }}>
-        <div>
-          <h1 style={{ fontSize: "1.45rem", fontWeight: 700, marginBottom: "4px" }}>
-            Forensic Reports & Legal Drafts
-          </h1>
-          <p style={{ fontSize: "0.9rem", color: "var(--text-secondary)" }}>
-            Access generated complaints, evidence certificates, and cybercrime reporting documentation.
-          </p>
+    <div className="space-y-6 pb-10">
+      <header className="rounded-2xl border border-ink-border bg-surface-pearl p-6 sm:p-8">
+        <div className="flex flex-wrap items-start justify-between gap-5">
+          <div>
+            <h1 className="text-2xl font-medium text-ink">Reports</h1>
+            <p className="mt-2 max-w-2xl text-sm leading-relaxed text-ink-secondary">
+              Review image-check findings and any complaint drafts you chose to prepare.
+            </p>
+          </div>
+          <Link
+            to="/verification/consent"
+            className="inline-flex min-h-11 items-center gap-2 rounded-lg bg-brand-forest px-4 py-2 text-sm font-medium text-white hover:bg-brand-hover"
+          >
+            Start an image check
+          </Link>
         </div>
+      </header>
 
-        <Link to="/verification/consent" className="btn btn-primary">
-          <span>+</span> Generate New Report
-        </Link>
-      </div>
-
-      {/* Guidance Cards */}
-      <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))", gap: "16px", marginBottom: "24px" }}>
-        <div className="metric-tile-clean">
-          <strong style={{ fontSize: "0.95rem", color: "var(--text-primary)" }}>
-            🏛️ Indian Cybercrime Portal Format
-          </strong>
-          <p style={{ fontSize: "0.825rem", color: "var(--text-secondary)", marginTop: "4px", lineHeight: 1.45 }}>
-            Complaints are drafted to align with Section 66E, 67, and 67A of the IT Act 2000, 
-            ready for submission at cybercrime.gov.in.
+      <section className="grid grid-cols-1 gap-4 md:grid-cols-3" aria-label="Report guidance">
+        <article className="rounded-xl border border-ink-border bg-surface-pearl p-5">
+          <Landmark size={18} className="mb-3 text-ink-secondary" aria-hidden="true" />
+          <h2 className="text-base font-medium text-ink">Complaint drafts</h2>
+          <p className="mt-2 text-sm leading-relaxed text-ink-secondary">
+            Drafts are for your review. Check the details and local requirements before sharing them.
           </p>
-        </div>
-
-        <div className="metric-tile-clean">
-          <strong style={{ fontSize: "0.95rem", color: "var(--text-primary)" }}>
-            📋 ISO/IEC 27037 Evidence Summary
-          </strong>
-          <p style={{ fontSize: "0.825rem", color: "var(--text-secondary)", marginTop: "4px", lineHeight: 1.45 }}>
-            Exportable chain-of-custody logs with cryptographic SHA-256 hashes establishing evidence authenticity in judicial proceedings.
+        </article>
+        <article className="rounded-xl border border-ink-border bg-surface-pearl p-5">
+          <FileText size={18} className="mb-3 text-ink-secondary" aria-hidden="true" />
+          <h2 className="text-base font-medium text-ink">Evidence records</h2>
+          <p className="mt-2 text-sm leading-relaxed text-ink-secondary">
+            Open a request to review the available evidence details and file identifiers.
           </p>
-        </div>
-
-        <div className="metric-tile-clean">
-          <strong style={{ fontSize: "0.95rem", color: "var(--text-primary)" }}>
-            🛡️ Mistral AI Synthesis Engine
-          </strong>
-          <p style={{ fontSize: "0.825rem", color: "var(--text-secondary)", marginTop: "4px", lineHeight: 1.45 }}>
-            Advanced automated legal drafting that correlates forensic model scores with user incident narratives.
+        </article>
+        <article className="rounded-xl border border-ink-border bg-surface-pearl p-5">
+          <ShieldCheck size={18} className="mb-3 text-ink-secondary" aria-hidden="true" />
+          <h2 className="text-base font-medium text-ink">Your decision</h2>
+          <p className="mt-2 text-sm leading-relaxed text-ink-secondary">
+            Analysis results are signals to consider, not a final determination.
           </p>
-        </div>
-      </div>
+        </article>
+      </section>
 
-      {/* Case Dockets with Reports */}
-      <div className="panel">
-        <h2 className="panel-title" style={{ marginBottom: "16px" }}>
-          Registered Case Reports
-        </h2>
+      <section className="rounded-2xl border border-ink-border bg-surface-pearl p-6 sm:p-8">
+        <h2 className="mb-5 text-lg font-medium text-ink">Your requests</h2>
 
+        {error && (
+          <p className="mb-4 rounded-lg border border-status-errorBorder bg-status-errorBg p-4 text-sm text-status-error" role="alert">
+            {error}
+          </p>
+        )}
         {loading ? (
-          <div style={{ textAlign: "center", padding: "40px", color: "var(--text-muted)" }}>
-            Loading case report packages…
+          <div className="py-12 text-center text-sm text-ink-muted" aria-live="polite">
+            Loading your reports…
+          </div>
+        ) : error ? (
+          <div className="py-8 text-center">
+            <button
+              type="button"
+              onClick={() => void loadData()}
+              className="rounded-lg border border-ink-border px-4 py-2 text-sm font-medium text-ink hover:bg-canvas-subtle"
+            >
+              Try again
+            </button>
           </div>
         ) : cases.length === 0 ? (
-          <div className="empty-state">
-            <div className="empty-state-icon">📄</div>
-            <h3 className="empty-state-title">No Case Reports Found</h3>
-            <p className="empty-state-desc">
-              Complete a verification workflow to generate your first forensic report and legal complaint draft.
+          <div className="rounded-xl border border-ink-border bg-canvas-subtle px-6 py-10 text-center">
+            <FileText size={20} className="mx-auto mb-3 text-ink-muted" aria-hidden="true" />
+            <h3 className="text-base font-medium text-ink">No reports yet</h3>
+            <p className="mx-auto mt-2 max-w-md text-sm leading-relaxed text-ink-secondary">
+              When you complete an image check, its available findings and drafts will appear here.
             </p>
-            <Link to="/verification/consent" className="btn btn-primary">
-              Start Verification Flow
+            <Link
+              to="/verification/consent"
+              className="mt-5 inline-flex min-h-10 items-center rounded-lg bg-brand-forest px-4 py-2 text-sm font-medium text-white hover:bg-brand-hover"
+            >
+              Start an image check
             </Link>
           </div>
         ) : (
-          <div className="table-wrapper">
+          <div className="overflow-x-auto">
             <table className="data-table">
               <thead>
                 <tr>
-                  <th>Case Number</th>
-                  <th>Docket Title</th>
-                  <th>Adjudication</th>
+                  <th>Reference</th>
+                  <th>Request</th>
+                  <th>Review status</th>
                   <th>Created</th>
-                  <th style={{ textAlign: "right" }}>Report Package</th>
+                  <th style={{ textAlign: "right" }}>Action</th>
                 </tr>
               </thead>
               <tbody>
                 {cases.map((c) => (
                   <tr key={c.id}>
                     <td>
-                      <span className="code-pill">{c.case_number}</span>
+                      <span className="code-pill">{c.case_number || c.id.slice(0, 8)}</span>
                     </td>
-                    <td style={{ fontWeight: 600 }}>{c.title}</td>
+                    <td style={{ fontWeight: 500 }}>{c.title || "Image check"}</td>
                     <td>
                       <span className="badge badge-teal">
-                        {c.review_status || "UNREVIEWED"}
+                        {formatStatus(c.review_status)}
                       </span>
                     </td>
                     <td>{new Date(c.created_at).toLocaleDateString()}</td>
                     <td style={{ textAlign: "right" }}>
                       <Link to={`/cases/${c.id}`} className="btn btn-outline btn-sm">
-                        View Report & Draft →
+                        View request
                       </Link>
                     </td>
                   </tr>
@@ -130,7 +147,7 @@ export default function ReportsPage() {
             </table>
           </div>
         )}
-      </div>
+      </section>
     </div>
   );
 }

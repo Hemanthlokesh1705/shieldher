@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { AlertTriangle, FileQuestion, LockKeyhole } from "lucide-react";
 import { ElicitationQuestion, ElicitationQuestionsResponse } from "../types/models";
 import { getElicitationQuestions, submitElicitationRound } from "../services/api";
 
@@ -68,8 +69,8 @@ export const ElicitationCard: React.FC<ElicitationCardProps> = ({ caseId, onComp
     <div className="app-card animate-fade-in">
       <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "1.25rem", flexWrap: "wrap", gap: "0.5rem" }}>
         <div style={{ display: "flex", alignItems: "center", gap: "0.75rem" }}>
-          <div style={{ width: "40px", height: "40px", borderRadius: "10px", backgroundColor: "#ecfdf5", border: "1px solid #a7f3d0", display: "flex", alignItems: "center", justifyContent: "center", fontSize: "1.25rem", color: "#059669" }}>
-            📝
+          <div style={{ width: "40px", height: "40px", borderRadius: "10px", backgroundColor: "var(--accent-surface)", border: "1px solid var(--accent-border)", display: "flex", alignItems: "center", justifyContent: "center", color: "var(--accent-primary)" }}>
+            <FileQuestion size={20} aria-hidden="true" />
           </div>
           <div>
             <h2 style={{ fontSize: "1.25rem", fontWeight: 700, color: "var(--color-text)", letterSpacing: "-0.01em" }}>
@@ -95,7 +96,7 @@ export const ElicitationCard: React.FC<ElicitationCardProps> = ({ caseId, onComp
           style={{
             backgroundColor: "var(--color-error-bg)",
             color: "var(--color-error)",
-            border: "1px solid #fecaca",
+            border: "1px solid var(--status-error-border)",
             padding: "0.85rem 1rem",
             borderRadius: "10px",
             marginBottom: "1.25rem",
@@ -105,7 +106,7 @@ export const ElicitationCard: React.FC<ElicitationCardProps> = ({ caseId, onComp
             gap: "0.5rem",
           }}
         >
-          <span>⚠️</span> <span>{error}</span>
+          <AlertTriangle size={16} aria-hidden="true" /> <span>{error}</span>
         </div>
       )}
 
@@ -118,8 +119,8 @@ export const ElicitationCard: React.FC<ElicitationCardProps> = ({ caseId, onComp
               <div
                 key={q.question_id}
                 style={{
-                  backgroundColor: "#f8fafc",
-                  border: "1px solid #e2e8f0",
+                  backgroundColor: "var(--surface-secondary)",
+                  border: "1px solid var(--border-light)",
                   borderRadius: "12px",
                   padding: "1.25rem",
                 }}
@@ -134,9 +135,9 @@ export const ElicitationCard: React.FC<ElicitationCardProps> = ({ caseId, onComp
                       onClick={() => handleSkipQuestion(q.field_key)}
                       style={{
                         fontSize: "0.75rem",
-                        color: "#059669",
-                        backgroundColor: "#ecfdf5",
-                        border: "1px solid #a7f3d0",
+                        color: "var(--accent-primary)",
+                        backgroundColor: "var(--accent-surface)",
+                        border: "1px solid var(--accent-border)",
                         padding: "0.25rem 0.6rem",
                         borderRadius: "6px",
                         cursor: "pointer",
@@ -199,7 +200,8 @@ export const ElicitationCard: React.FC<ElicitationCardProps> = ({ caseId, onComp
 
           <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: "1rem" }}>
             <span style={{ fontSize: "0.8rem", color: "var(--color-text-muted)", display: "flex", alignItems: "center", gap: "0.4rem" }}>
-              🔒 Answers stored securely in encrypted case persistence
+              <LockKeyhole size={14} aria-hidden="true" />
+              Answers stored securely in encrypted case persistence
             </span>
             <button
               type="submit"

@@ -1,94 +1,93 @@
 /*
- * ShieldHer high-assurance system theme.
- * The OS color preference selects paper or midnight; no JavaScript theme state
- * is needed, and all Tailwind surfaces share the same design tokens.
+ * ShieldHer's light-only warm paper theme.
+ * Shared tokens keep Tailwind surfaces and CSS components consistent.
  */
 :root {
   color-scheme: light;
 
-  --c-canvas: 248 250 252;
+  --c-canvas: 250 249 246;
   --c-canvas-pearl: 255 255 255;
-  --c-canvas-subtle: 241 245 249;
-  --c-canvas-sand: 226 232 240;
+  --c-canvas-subtle: 248 250 252;
+  --c-canvas-sand: 241 241 236;
 
   --c-surface: 255 255 255;
   --c-surface-subtle: 248 250 252;
-  --c-surface-secondary: 241 245 249;
-  --c-surface-tertiary: 226 232 240;
-  --c-surface-tint: 239 246 255;
+  --c-surface-secondary: 248 250 252;
+  --c-surface-tertiary: 241 241 236;
+  --c-surface-tint: 232 240 235;
 
-  --c-brand-forest: 37 99 235;
-  --c-brand-rich: 29 78 216;
-  --c-brand-sage: 219 234 254;
-  --c-brand-hover: 29 78 216;
-  --c-brand-light: 239 246 255;
-  --c-brand-border: 191 219 254;
+  --c-brand-forest: 46 111 94;
+  --c-brand-rich: 59 122 107;
+  --c-brand-sage: 232 240 235;
+  --c-brand-hover: 36 91 77;
+  --c-brand-light: 232 240 235;
+  --c-brand-border: 198 217 206;
 
-  --c-ink: 15 23 42;
+  --c-ink: 30 41 59;
   --c-ink-secondary: 71 85 105;
   --c-ink-muted: 100 116 139;
-  --c-ink-subtle: 148 163 184;
+  --c-ink-subtle: 100 116 139;
   --c-ink-border: 226 232 240;
   --c-ink-border-strong: 203 213 225;
 
-  --c-accent-coral: 220 38 38;
-  --c-accent-gold: 217 119 6;
-  --c-accent-bluegrey: 226 232 240;
-  --c-accent-coral-soft: 254 242 242;
-  --c-accent-gold-soft: 255 251 235;
+  --c-accent-coral: 184 74 62;
+  --c-accent-gold: 164 116 44;
+  --c-accent-bluegrey: 230 236 235;
+  --c-accent-coral-soft: 253 242 240;
+  --c-accent-gold-soft: 253 248 238;
 
-  --c-status-success: 5 150 105;
-  --c-status-success-bg: 236 253 245;
-  --c-status-success-border: 167 243 208;
-  --c-status-warning: 180 83 9;
-  --c-status-warning-bg: 255 251 235;
-  --c-status-warning-border: 253 230 138;
-  --c-status-error: 220 38 38;
-  --c-status-error-bg: 254 242 242;
-  --c-status-error-border: 254 202 202;
-  --c-status-info: 37 99 235;
-  --c-status-info-bg: 239 246 255;
-  --c-status-info-border: 191 219 254;
+  --c-status-success: 46 111 94;
+  --c-status-success-bg: 237 245 240;
+  --c-status-success-border: 198 217 206;
+  --c-status-warning: 139 99 39;
+  --c-status-warning-bg: 250 246 235;
+  --c-status-warning-border: 232 220 185;
+  --c-status-error: 153 67 57;
+  --c-status-error-bg: 250 241 239;
+  --c-status-error-border: 231 204 199;
+  --c-status-info: 57 93 117;
+  --c-status-info-bg: 240 246 249;
+  --c-status-info-border: 205 222 232;
 
-  --c-shadow: 15 23 42;
+  --c-shadow: 30 41 59;
 
-  --bg-main: #f8fafc;
+  --bg-main: #faf9f6;
   --surface-primary: #ffffff;
-  --surface-secondary: #f1f5f9;
-  --surface-tertiary: #e2e8f0;
-  --text-primary: #0f172a;
+  --surface-secondary: #f8fafc;
+  --surface-tertiary: #f1f1ec;
+  --text-primary: #1e293b;
   --text-secondary: #475569;
   --text-muted: #64748b;
   --text-inverse: #ffffff;
-  --accent-primary: #2563eb;
-  --accent-hover: #1d4ed8;
-  --accent-active: #1e40af;
-  --accent-rich: #1d4ed8;
-  --accent-sage: #dbeafe;
-  --accent-surface: #eff6ff;
-  --accent-border: #bfdbfe;
-  --status-info-bg: #eff6ff;
-  --status-info-border: #bfdbfe;
-  --status-info: #2563eb;
-  --status-review: #b45309;
-  --status-review-bg: #fffbeb;
-  --status-review-border: #fde68a;
-  --status-ready: #059669;
-  --status-ready-bg: #ecfdf5;
-  --status-ready-border: #a7f3d0;
+  --accent-primary: #2e6f5e;
+  --accent-hover: #245b4d;
+  --accent-active: #1d4b40;
+  --accent-rich: #3b7a6b;
+  --accent-sage: #e8f0eb;
+  --accent-surface: #e8f0eb;
+  --accent-border: #c6d9ce;
+  --status-info-bg: #f0f6f9;
+  --status-info-border: #cddee8;
+  --status-info: #395d75;
+  --status-review: #8b6327;
+  --status-review-bg: #faf6eb;
+  --status-review-border: #e8dcb9;
+  --status-ready: #2e6f5e;
+  --status-ready-bg: #edf5f0;
+  --status-ready-border: #c6d9ce;
   --status-closed: #475569;
-  --status-closed-bg: #f1f5f9;
+  --status-closed-bg: #f8fafc;
   --status-closed-border: #e2e8f0;
-  --status-error: #dc2626;
-  --status-error-bg: #fef2f2;
-  --status-error-border: #fecaca;
+  --status-error: #994339;
+  --status-error-bg: #faf1ef;
+  --status-error-border: #e7ccc7;
   --border-light: #e2e8f0;
   --border-medium: #cbd5e1;
-  --border-strong: #94a3b8;
-  --shadow-xs: 0 1px 2px rgb(15 23 42 / 0.035);
-  --shadow-sm: 0 2px 6px rgb(15 23 42 / 0.045);
-  --shadow-md: 0 8px 18px rgb(15 23 42 / 0.07);
-  --shadow-lg: 0 12px 28px rgb(15 23 42 / 0.09);
+  --border-strong: #64748b;
+  --shadow-xs: 0 1px 2px rgb(30 41 59 / 0.04);
+  --shadow-sm: 0 2px 6px rgb(30 41 59 / 0.05);
+  --shadow-md: 0 8px 24px rgb(30 41 59 / 0.06);
+  --shadow-lg: 0 12px 28px rgb(30 41 59 / 0.08);
 
   --color-bg: var(--bg-main);
   --color-bg-subtle: var(--surface-secondary);
@@ -112,112 +111,91 @@
 
   --font-sans: Inter, "Segoe UI", -apple-system, BlinkMacSystemFont, sans-serif;
   --font-heading: Inter, "Segoe UI", -apple-system, BlinkMacSystemFont, sans-serif;
-  --font-editorial: Inter, "Segoe UI", -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-editorial: "Newsreader", Georgia, serif;
   --font-mono: "JetBrains Mono", "Cascadia Code", Consolas, monospace;
 
-  --radius-sm: 6px;
-  --radius-md: 8px;
-  --radius-lg: 12px;
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    color-scheme: dark;
-
-    --c-canvas: 9 13 22;
-    --c-canvas-pearl: 17 24 39;
-    --c-canvas-subtle: 15 23 42;
-    --c-canvas-sand: 31 41 55;
-
-    --c-surface: 17 24 39;
-    --c-surface-subtle: 15 23 42;
-    --c-surface-secondary: 17 24 39;
-    --c-surface-tertiary: 31 41 55;
-    --c-surface-tint: 23 37 59;
-
-    --c-brand-forest: 96 165 250;
-    --c-brand-rich: 147 197 253;
-    --c-brand-sage: 30 58 99;
-    --c-brand-hover: 59 130 246;
-    --c-brand-light: 23 37 59;
-    --c-brand-border: 37 74 119;
-
-    --c-ink: 226 232 240;
-    --c-ink-secondary: 148 163 184;
-    --c-ink-muted: 148 163 184;
-    --c-ink-subtle: 100 116 139;
-    --c-ink-border: 31 41 55;
-    --c-ink-border-strong: 51 65 85;
-
-    --c-accent-coral: 248 113 113;
-    --c-accent-gold: 245 158 11;
-    --c-accent-bluegrey: 31 41 55;
-    --c-accent-coral-soft: 69 26 26;
-    --c-accent-gold-soft: 69 45 14;
-
-    --c-status-success: 52 211 153;
-    --c-status-success-bg: 8 44 36;
-    --c-status-success-border: 20 83 65;
-    --c-status-warning: 245 158 11;
-    --c-status-warning-bg: 61 42 13;
-    --c-status-warning-border: 111 75 20;
-    --c-status-error: 248 113 113;
-    --c-status-error-bg: 69 26 26;
-    --c-status-error-border: 127 39 39;
-    --c-status-info: 96 165 250;
-    --c-status-info-bg: 19 39 66;
-    --c-status-info-border: 37 74 119;
-
-    --c-shadow: 0 0 0;
-
-    --bg-main: #090d16;
-    --surface-primary: #111827;
-    --surface-secondary: #111827;
-    --surface-tertiary: #1f2937;
-    --text-primary: #e2e8f0;
-    --text-secondary: #94a3b8;
-    --text-muted: #94a3b8;
-    --text-inverse: #090d16;
-    --accent-primary: #60a5fa;
-    --accent-hover: #93c5fd;
-    --accent-active: #3b82f6;
-    --accent-rich: #93c5fd;
-    --accent-sage: #1e3a63;
-    --accent-surface: #17253b;
-    --accent-border: #254a77;
-    --status-info-bg: #132742;
-    --status-info-border: #254a77;
-    --status-info: #60a5fa;
-    --status-review: #f59e0b;
-    --status-review-bg: #3d2a0d;
-    --status-review-border: #6f4b14;
-    --status-ready: #34d399;
-    --status-ready-bg: #082c24;
-    --status-ready-border: #145341;
-    --status-closed: #94a3b8;
-    --status-closed-bg: #111827;
-    --status-closed-border: #1f2937;
-    --status-error: #f87171;
-    --status-error-bg: #451a1a;
-    --status-error-border: #7f2727;
-    --border-light: #1f2937;
-    --border-medium: #334155;
-    --border-strong: #64748b;
-    --shadow-xs: 0 1px 2px rgb(0 0 0 / 0.22);
-    --shadow-sm: 0 2px 6px rgb(0 0 0 / 0.24);
-    --shadow-md: 0 8px 18px rgb(0 0 0 / 0.28);
-    --shadow-lg: 0 12px 28px rgb(0 0 0 / 0.32);
-  }
+  --radius-sm: 7px;
+  --radius-md: 10px;
+  --radius-lg: 14px;
 }
 
 html {
-  color-scheme: light dark;
+  color-scheme: light;
 }
 
 body {
-  transition:
-    background-color 180ms ease,
-    color 180ms ease;
+  background-color: var(--bg-main);
+  color: var(--text-primary);
+}
+
+.auth-shell h1,
+.auth-shell h2,
+.auth-shell h3,
+.auth-shell h4,
+.auth-shell h5,
+.auth-shell h6,
+.reviewer-page h1,
+.reviewer-page h2,
+.reviewer-page h3,
+.reviewer-page h4,
+.reviewer-page h5,
+.reviewer-page h6 {
+  font-weight: 500;
+}
+
+.reviewer-page .uppercase {
+  text-transform: none;
+  letter-spacing: normal;
+}
+
+.reviewer-page .text-xs {
+  font-size: 0.8125rem;
+  line-height: 1.45;
+}
+
+.reviewer-page .rounded-2xl {
+  border-radius: var(--radius-lg);
+}
+
+.reviewer-page .rounded-xl,
+.reviewer-page .rounded-lg {
+  border-radius: var(--radius-md);
+}
+
+.workspace-theme h1,
+.workspace-theme h2,
+.workspace-theme h3,
+.workspace-theme h4,
+.workspace-theme h5,
+.workspace-theme h6 {
+  font-weight: 500;
+}
+
+.workspace-theme .uppercase {
+  text-transform: none;
+  letter-spacing: normal;
+}
+
+.workspace-theme .rounded-2xl {
+  border-radius: var(--radius-lg);
+}
+
+.workspace-theme .rounded-xl,
+.workspace-theme .rounded-lg {
+  border-radius: var(--radius-md);
+}
+
+.workspace-theme [class*="text-xs"][class*="tracking-"] {
+  letter-spacing: normal;
+}
+
+.workspace-theme .text-xs {
+  font-size: 0.8125rem;
+  line-height: 1.45;
+}
+
+.workspace-theme button {
+  font-weight: 500;
 }
 
 :where(button, a, input, select, textarea):focus-visible {
@@ -233,22 +211,19 @@ body {
     box-shadow 160ms ease;
 }
 
-/* Preserve intentional paper surfaces while allowing system dark mode. */
-@media (prefers-color-scheme: dark) {
-  .bg-white {
-    background-color: rgb(var(--c-surface));
-  }
+.bg-white {
+  background-color: rgb(var(--c-surface));
+}
 
-  .support-callout,
-  .data-table tbody tr:hover {
-    background: rgb(var(--c-surface-secondary));
-  }
+.support-callout,
+.data-table tbody tr:hover {
+  background: rgb(var(--c-surface-secondary));
+}
 
-  .form-input:focus,
-  .form-select:focus,
-  .form-textarea:focus {
-    box-shadow: 0 0 0 3px rgb(var(--c-brand-forest) / 0.18);
-  }
+.form-input:focus,
+.form-select:focus,
+.form-textarea:focus {
+  box-shadow: 0 0 0 3px rgb(var(--c-brand-forest) / 0.18);
 }
 
 .bg-\[\#FAF8F5\],
@@ -323,16 +298,16 @@ body {
 }
 
 .bg-teal-600 {
-  background-color: #2563eb;
+  background-color: rgb(var(--c-brand-forest));
 }
 
 .hover\:bg-teal-700:hover,
 .active\:bg-teal-800:active {
-  background-color: #1d4ed8;
+  background-color: rgb(var(--c-brand-hover));
 }
 
 .bg-rose-600 {
-  background-color: #dc2626;
+  background-color: rgb(var(--c-status-error));
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -344,4 +319,147 @@ body {
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
   }
+}
+
+.confirmation-dialog {
+  width: min(440px, calc(100vw - 32px));
+  margin: auto;
+  padding: 24px;
+  border: 1px solid var(--border-light);
+  border-radius: var(--radius-lg);
+  background: var(--surface-primary);
+  color: var(--text-primary);
+  box-shadow: var(--shadow-lg);
+}
+
+.confirmation-dialog::backdrop {
+  background: rgb(30 41 59 / 0.3);
+  backdrop-filter: blur(2px);
+}
+
+.confirmation-dialog-content {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+}
+
+.confirmation-dialog-icon {
+  display: grid;
+  width: 40px;
+  height: 40px;
+  flex: 0 0 auto;
+  place-items: center;
+  border-radius: var(--radius-md);
+  background: var(--status-info-bg);
+  color: var(--status-info);
+}
+
+.confirmation-dialog-icon-destructive {
+  background: var(--status-error-bg);
+  color: var(--status-error);
+}
+
+.confirmation-dialog h2 {
+  margin: 2px 0 6px;
+  color: var(--text-primary);
+  font-size: 1.125rem;
+  font-weight: 500;
+  line-height: 1.35;
+}
+
+.confirmation-dialog p {
+  color: var(--text-secondary);
+  font-size: 0.9rem;
+  line-height: 1.55;
+}
+
+.confirmation-dialog .confirmation-dialog-error {
+  margin-top: 16px;
+  padding: 10px 12px;
+  border: 1px solid var(--status-error-border);
+  border-radius: var(--radius-sm);
+  background: var(--status-error-bg);
+  color: var(--status-error);
+}
+
+.confirmation-dialog-reason-label {
+  display: block;
+  margin-top: 20px;
+  color: var(--text-primary);
+  font-size: 0.875rem;
+  font-weight: 500;
+}
+
+.confirmation-dialog-reason {
+  display: block;
+  width: 100%;
+  min-height: 88px;
+  margin-top: 8px;
+  padding: 10px 12px;
+  border: 1px solid var(--border-light);
+  border-radius: var(--radius-sm);
+  background: var(--surface-primary);
+  color: var(--text-primary);
+  font: inherit;
+  resize: vertical;
+}
+
+.confirmation-dialog-reason:focus-visible {
+  outline: 2px solid var(--accent-primary);
+  outline-offset: 2px;
+}
+
+.confirmation-dialog .confirmation-dialog-hint {
+  margin-top: 6px;
+  color: var(--text-muted);
+  font-size: 0.8rem;
+}
+
+.confirmation-dialog-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 24px;
+}
+
+.confirmation-dialog-actions button {
+  min-height: 40px;
+  padding: 0 14px;
+  border: 1px solid transparent;
+  border-radius: var(--radius-sm);
+  font-size: 0.875rem;
+  font-weight: 500;
+}
+
+.confirmation-dialog-actions button:disabled {
+  cursor: wait;
+  opacity: 0.65;
+}
+
+.confirmation-dialog-cancel {
+  border-color: var(--border-light) !important;
+  background: var(--surface-primary);
+  color: var(--text-primary);
+}
+
+.confirmation-dialog-cancel:hover:not(:disabled) {
+  background: var(--surface-secondary);
+}
+
+.confirmation-dialog-confirm-primary {
+  background: var(--accent-primary);
+  color: var(--text-inverse);
+}
+
+.confirmation-dialog-confirm-primary:hover:not(:disabled) {
+  background: var(--accent-hover);
+}
+
+.confirmation-dialog-confirm-destructive {
+  background: var(--status-error);
+  color: var(--text-inverse);
+}
+
+.confirmation-dialog-confirm-destructive:hover:not(:disabled) {
+  background: #7f342c;
 }

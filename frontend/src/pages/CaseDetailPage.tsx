@@ -8,11 +8,12 @@ import {
   Check,
   Trash2,
   ArrowLeft,
-  Sparkles,
   Cpu,
   Loader2,
   FileImage,
+  FileText,
 } from "lucide-react";
+import { ConfirmDialog } from "../components/ui/ConfirmDialog";
 
 export default function CaseDetailPage() {
   const { caseId } = useParams<{ caseId: string }>();
@@ -24,7 +25,11 @@ export default function CaseDetailPage() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [copied, setCopied] = useState(false);
+  const [copyError, setCopyError] = useState<string | null>(null);
+  const [draftError, setDraftError] = useState<string | null>(null);
   const [deleting, setDeleting] = useState(false);
+  const [deleteConfirmationOpen, setDeleteConfirmationOpen] = useState(false);
+  const [deleteError, setDeleteError] = useState<string | null>(null);
 
   useEffect(() => {
     let isMounted = true;
@@ -32,14 +37,24 @@ export default function CaseDetailPage() {
       if (!caseId) return;
       setLoading(true);
       setError(null);
+      setDraftError(null);
       try {
         const c = await getCase(caseId);
         if (isMounted) setCaseItem(c);
 
         try {
           const draft = await getComplaintDraft(caseId);
-          if (isMounted) setComplaintDraft(draft);
-        } catch (_) {}
+          if (isMounted) {
+            setComplaintDraft(draft);
+            setDraftError(null);
+          }
+        } catch {
+          if (isMounted) {
+            setDraftError(
+              "The saved draft could not be loaded. Refresh this page to try again."
+            );
+          }
+        }
       } catch {
         if (isMounted) {
           setError(
@@ -59,25 +74,28 @@ export default function CaseDetailPage() {
 
   const handleDelete = async () => {
     if (!caseId) return;
-    const confirmDelete = window.confirm(
-      "Are you sure you want to delete this request and its records? This cannot be undone."
-    );
-    if (!confirmDelete) return;
 
     setDeleting(true);
+    setDeleteError(null);
     try {
       await deleteCase(caseId, "User requested removal");
+      setDeleteConfirmationOpen(false);
       navigate("/cases");
     } catch {
-      alert("Unable to delete request at this time. Please try again.");
+      setDeleteError("We couldn’t delete this request. Please try again.");
       setDeleting(false);
     }
   };
 
-  const handleCopyDraft = (text: string) => {
-    navigator.clipboard.writeText(text);
-    setCopied(true);
-    setTimeout(() => setCopied(false), 2000);
+  const handleCopyDraft = async (text: string) => {
+    setCopyError(null);
+    try {
+      await navigator.clipboard.writeText(text);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
+    } catch {
+      setCopyError("Could not copy the draft. You can select and copy its text manually.");
+    }
   };
 
   if (loading) {
@@ -152,7 +170,10 @@ export default function CaseDetailPage() {
           <button
             type="button"
             className="inline-flex items-center gap-1 px-3.5 py-2 rounded-xl text-xs font-semibold text-accent-coral hover:bg-accent-coralSoft transition-colors"
-            onClick={handleDelete}
+            onClick={() => {
+              setDeleteError(null);
+              setDeleteConfirmationOpen(true);
+            }}
             disabled={deleting}
           >
             <Trash2 className="w-3.5 h-3.5" />
@@ -173,10 +194,21 @@ export default function CaseDetailPage() {
           </p>
         </div>
 
+        {draftError && (
+          <p className="text-sm text-status-warning" role="status">
+            {draftError}
+          </p>
+        )}
+        {copyError && (
+          <p className="text-sm text-status-error" role="alert">
+            {copyError}
+          </p>
+        )}
+
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           <div className="p-5 rounded-2xl bg-[#FAF8F5] border border-ink-border/80 shadow-2xs">
             <div className="flex items-center gap-2 text-ink-muted text-[11px] font-bold uppercase tracking-wider mb-2 font-heading">
-              <Sparkles className="w-4 h-4 text-brand-forest" />
+              <FileText className="w-4 h-4 text-ink-secondary" />
               <span>Face Manipulation Check</span>
             </div>
             <div className="text-base font-bold text-ink font-heading">
@@ -290,6 +322,20 @@ export default function CaseDetailPage() {
           </div>
         )}
       </div>
+      <ConfirmDialog
+        open={deleteConfirmationOpen}
+        title="Delete this request?"
+        description="This removes the request and its saved records. This action cannot be undone."
+        confirmLabel="Delete request"
+        variant="destructive"
+        busy={deleting}
+        error={deleteError}
+        onCancel={() => {
+          setDeleteConfirmationOpen(false);
+          setDeleteError(null);
+        }}
+        onConfirm={handleDelete}
+      />
     </motion.div>
   );
 }

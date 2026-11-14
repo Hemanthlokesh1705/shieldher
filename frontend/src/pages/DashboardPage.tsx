@@ -1,7 +1,5 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { motion, useReducedMotion } from "framer-motion";
-import { useAuth } from "../firebase/AuthContext";
 import { listCases } from "../services/api";
 import { CaseItem } from "../types/models";
 import {
@@ -14,7 +12,6 @@ import {
   LifeBuoy,
   ChevronRight,
   RotateCcw,
-  Sparkles,
   ShieldAlert,
   FileText,
   KeyRound,
@@ -23,8 +20,6 @@ import DashboardSkeleton from "./DashboardSkeleton";
 import "./DashboardPage.css";
 
 export default function DashboardPage() {
-  const { user } = useAuth();
-  const reduceMotion = useReducedMotion();
   const [requests, setRequests] = useState<CaseItem[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -100,7 +95,6 @@ export default function DashboardPage() {
     }
   };
 
-  const userGreeting = user?.displayName ? `, ${user.displayName}` : "";
   const shortcuts = [
     {
       to: "/verification/consent",
@@ -125,9 +119,9 @@ export default function DashboardPage() {
     {
       to: "/settings",
       index: "03",
-      title: "Account & Retention",
+      title: "Account & Privacy",
       description:
-        "Manage retention preferences, pseudonyms, or permanent data erasure.",
+        "Review your account options and choose a retention period for each image check.",
       action: "Manage your privacy",
       icon: KeyRound,
       className: "dashboard-shortcut-account",
@@ -136,63 +130,20 @@ export default function DashboardPage() {
 
   return (
     <div className="dashboard-page pb-10">
-      <motion.section
+      <section
         className="dashboard-hero-card"
-        initial={reduceMotion ? false : { opacity: 0, y: 18 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: reduceMotion ? 0 : 0.55, ease: "easeOut" }}
         aria-labelledby="dashboard-welcome-title"
       >
-        <div className="dashboard-hero-art" aria-hidden="true">
-          <img src="/loginhero.jpeg" alt="" />
-          <span />
-        </div>
-        <div className="dashboard-hero-orbit dashboard-hero-orbit-one" aria-hidden="true" />
-        <div className="dashboard-hero-orbit dashboard-hero-orbit-two" aria-hidden="true" />
-
         <div className="dashboard-hero-content">
           <div className="dashboard-hero-copy">
-            <motion.div
-              className="dashboard-eyebrow"
-              initial={reduceMotion ? false : { opacity: 0, x: -12 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: reduceMotion ? 0 : 0.4, delay: 0.12 }}
-            >
-              <span className="dashboard-eyebrow-pulse" aria-hidden="true" />
-              <Sparkles className="dashboard-sparkle" aria-hidden="true" />
-              <span>Private & Confidential Sanctuary</span>
-            </motion.div>
-            <motion.h2
-              id="dashboard-welcome-title"
-              initial={reduceMotion ? false : { opacity: 0, y: 12 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: reduceMotion ? 0 : 0.45, delay: 0.18 }}
-            >
-              Your space.
-              <br />
-              <span>Your next step.</span>
-              {userGreeting && (
-                <span className="dashboard-user-greeting">
-                  Welcome back{userGreeting}
-                </span>
-              )}
-            </motion.h2>
-            <motion.p
-              className="dashboard-hero-description"
-              initial={reduceMotion ? false : { opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: reduceMotion ? 0 : 0.45, delay: 0.24 }}
-            >
+            <p className="dashboard-eyebrow">Private evidence workspace</p>
+            <h2 id="dashboard-welcome-title">Review your requests</h2>
+            <p className="dashboard-hero-description">
               Verify suspicious imagery, review forensic diagnostics, and
               prepare an incident package when you are ready. You remain in
               control at every step.
-            </motion.p>
-            <motion.div
-              className="dashboard-hero-actions"
-              initial={reduceMotion ? false : { opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: reduceMotion ? 0 : 0.45, delay: 0.3 }}
-            >
+            </p>
+            <div className="dashboard-hero-actions">
               <Link to="/verification/consent" className="dashboard-primary-action">
                 <PlusCircle aria-hidden="true" />
                 <span>Check an image</span>
@@ -202,16 +153,10 @@ export default function DashboardPage() {
                 <FileText aria-hidden="true" />
                 <span>View my requests</span>
               </Link>
-            </motion.div>
+            </div>
           </div>
 
-          <motion.aside
-            className="dashboard-posture"
-            aria-label="Active privacy posture"
-            initial={reduceMotion ? false : { opacity: 0, x: 22, scale: 0.97 }}
-            animate={{ opacity: 1, x: 0, scale: 1 }}
-            transition={{ duration: reduceMotion ? 0 : 0.55, delay: 0.2 }}
-          >
+          <aside className="dashboard-posture" aria-label="Active privacy posture">
             <div className="dashboard-posture-heading">
               <div className="dashboard-posture-icon">
                 <Shield aria-hidden="true" />
@@ -235,22 +180,14 @@ export default function DashboardPage() {
             <Link to="/settings" className="dashboard-posture-link">
               Review privacy settings <ArrowRight aria-hidden="true" />
             </Link>
-          </motion.aside>
+          </aside>
         </div>
 
-        <div className="dashboard-hero-footer" aria-hidden="true">
-          <span>SHIELDHER</span>
-          <span>01 / PRIVATE WORKSPACE</span>
-        </div>
-      </motion.section>
+      </section>
 
-      <motion.section
+      <section
         className="dashboard-guarantee"
         aria-label="Confidentiality guarantee"
-        initial={reduceMotion ? false : { opacity: 0, y: 16 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true, amount: 0.35 }}
-        transition={{ duration: reduceMotion ? 0 : 0.45 }}
       >
         <div className="dashboard-guarantee-icon">
           <Lock aria-hidden="true" />
@@ -263,41 +200,23 @@ export default function DashboardPage() {
             commercial aggregators or model trainers.
           </p>
         </div>
-        <div className="dashboard-guarantee-mark" aria-hidden="true">
-          <Shield />
-          <span>PRIVATE<br />BY DESIGN</span>
-        </div>
-      </motion.section>
+      </section>
 
       <section className="dashboard-shortcuts-section" aria-labelledby="dashboard-tools-title">
-        <motion.div
-          className="dashboard-section-heading"
-          initial={reduceMotion ? false : { opacity: 0, y: 12 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, amount: 0.5 }}
-          transition={{ duration: reduceMotion ? 0 : 0.4 }}
-        >
+        <div className="dashboard-section-heading">
           <div>
-            <span className="dashboard-section-eyebrow">A little at a time</span>
-            <h3 id="dashboard-tools-title">Choose what you need</h3>
+            <span className="dashboard-section-eyebrow">Next steps</span>
+            <h3 id="dashboard-tools-title">Choose where to continue</h3>
           </div>
-          <span className="dashboard-step-count">3 ways to continue</span>
-        </motion.div>
+          <span className="dashboard-step-count">3 options</span>
+        </div>
         <div className="dashboard-shortcuts">
-          {shortcuts.map((shortcut, index) => {
+          {shortcuts.map((shortcut) => {
             const Icon = shortcut.icon;
             return (
-              <motion.div
+              <div
                 key={shortcut.to}
                 className="dashboard-shortcut-wrap"
-                initial={reduceMotion ? false : { opacity: 0, y: 22 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, amount: 0.2 }}
-                transition={{
-                  duration: reduceMotion ? 0 : 0.45,
-                  delay: reduceMotion ? 0 : index * 0.1,
-                }}
-                whileHover={reduceMotion ? undefined : { y: -6 }}
               >
                 <Link to={shortcut.to} className={`dashboard-shortcut ${shortcut.className}`}>
                   <span className="dashboard-shortcut-index">{shortcut.index}</span>
@@ -313,21 +232,16 @@ export default function DashboardPage() {
                     {shortcut.action}
                     <ArrowRight aria-hidden="true" />
                   </span>
-                  <span className="dashboard-shortcut-glow" aria-hidden="true" />
                 </Link>
-              </motion.div>
+              </div>
             );
           })}
         </div>
       </section>
 
-      <motion.section
+      <section
         className="dashboard-requests"
         aria-labelledby="dashboard-requests-title"
-        initial={reduceMotion ? false : { opacity: 0, y: 18 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true, amount: 0.1 }}
-        transition={{ duration: reduceMotion ? 0 : 0.45 }}
       >
         <div className="dashboard-requests-heading">
           <div>
@@ -373,16 +287,10 @@ export default function DashboardPage() {
           </div>
         ) : (
           <div className="dashboard-request-list">
-            {requests.slice(0, 5).map((item, index) => (
-              <motion.article
+            {requests.slice(0, 5).map((item) => (
+              <article
                 key={item.id}
                 className="dashboard-request-item"
-                initial={reduceMotion ? false : { opacity: 0, x: -12 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{
-                  duration: reduceMotion ? 0 : 0.35,
-                  delay: reduceMotion ? 0 : index * 0.07,
-                }}
               >
                 <div className="dashboard-request-file-icon">
                   <FileCheck aria-hidden="true" />
@@ -404,11 +312,11 @@ export default function DashboardPage() {
                 >
                   <ArrowRight aria-hidden="true" />
                 </Link>
-              </motion.article>
+              </article>
             ))}
           </div>
         )}
-      </motion.section>
+      </section>
     </div>
   );
 }

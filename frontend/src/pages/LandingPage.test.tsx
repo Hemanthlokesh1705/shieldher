@@ -48,7 +48,7 @@ describe("LandingPage", () => {
 
     expect(
       screen.getByRole("heading", {
-        name: /clarity for a difficult moment/i,
+        name: /review image evidence.*decide what comes next/i,
       }),
     ).toBeInTheDocument();
     expect(screen.getAllByRole("link", { name: /create/i }).length).toBeGreaterThan(0);
@@ -65,15 +65,8 @@ describe("LandingPage", () => {
 
     expect(understandButton).toHaveAttribute("aria-expanded", "true");
     expect(
-      screen.getByRole("heading", { name: "See the evidence in context." }),
+      screen.getByRole("heading", { name: "See the evidence in context" }),
     ).toBeInTheDocument();
-    expect(
-      screen.getByRole("img", {
-        name: "A luminous network surrounding a glass sphere",
-      }),
-    ).toBeInTheDocument();
-    expect(
-      screen.getByText(/sample content, not a live case/i),
-    ).toBeInTheDocument();
+    expect(screen.getByText("Illustrative workflow, not a live case")).toBeInTheDocument();
   });
 });

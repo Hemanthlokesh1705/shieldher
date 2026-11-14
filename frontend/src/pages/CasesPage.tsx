@@ -69,7 +69,7 @@ export default function CasesPage() {
       return (
         <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-xs font-semibold bg-accent-goldSoft text-accent-gold border border-accent-gold/30">
           <span className="w-1.5 h-1.5 rounded-full bg-accent-gold" />
-          Review available
+          In review
         </span>
       );
     }

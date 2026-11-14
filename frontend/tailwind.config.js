@@ -1,7 +1,7 @@
 /** @type {import('tailwindcss').Config} */
 
 // Each color reads a CSS variable (space-separated RGB channels) and falls back
-// to the original light value. src/theme.css selects tokens from the OS theme.
+// to the warm light palette. The interface stays light regardless of OS theme.
 // <alpha-value> keeps opacity utilities such as bg-brand-sage/40 working.
 const c = (name, fallback) => `rgb(var(--c-${name}, ${fallback}) / <alpha-value>)`;
 
@@ -11,39 +11,39 @@ export default {
     extend: {
       colors: {
         canvas: {
-          DEFAULT: c("canvas", "247 246 242"),
-          ivory: c("canvas", "247 246 242"),
+          DEFAULT: c("canvas", "250 249 246"),
+          ivory: c("canvas", "250 249 246"),
           pearl: c("canvas-pearl", "255 255 255"),
-          subtle: c("canvas-subtle", "242 239 235"),
-          sand: c("canvas-sand", "234 229 218"),
+          subtle: c("canvas-subtle", "248 250 252"),
+          sand: c("canvas-sand", "241 241 236"),
         },
         surface: {
           DEFAULT: c("surface", "255 255 255"),
           pearl: c("surface", "255 255 255"),
           card: c("surface", "255 255 255"),
-          subtle: c("surface-subtle", "250 249 245"),
-          secondary: c("surface-secondary", "244 241 236"),
-          tertiary: c("surface-tertiary", "234 229 218"),
-          tint: c("surface-tint", "240 245 243"),
+          subtle: c("surface-subtle", "248 250 252"),
+          secondary: c("surface-secondary", "248 250 252"),
+          tertiary: c("surface-tertiary", "241 241 236"),
+          tint: c("surface-tint", "232 240 235"),
         },
         brand: {
-          forest: c("brand-forest", "20 91 83"),
-          DEFAULT: c("brand-forest", "20 91 83"),
-          rich: c("brand-rich", "25 121 109"),
-          sage: c("brand-sage", "220 234 227"),
-          hover: c("brand-hover", "15 70 64"),
-          light: c("brand-light", "234 243 239"),
-          border: c("brand-border", "197 220 210"),
+          forest: c("brand-forest", "46 111 94"),
+          DEFAULT: c("brand-forest", "46 111 94"),
+          rich: c("brand-rich", "59 122 107"),
+          sage: c("brand-sage", "232 240 235"),
+          hover: c("brand-hover", "36 91 77"),
+          light: c("brand-light", "232 240 235"),
+          border: c("brand-border", "198 217 206"),
         },
         ink: {
-          DEFAULT: c("ink", "25 43 41"),
-          primary: c("ink", "25 43 41"),
-          slate: c("ink-secondary", "83 97 94"),
-          secondary: c("ink-secondary", "83 97 94"),
-          muted: c("ink-muted", "137 147 143"),
-          subtle: c("ink-subtle", "176 184 181"),
-          border: c("ink-border", "226 221 213"),
-          borderStrong: c("ink-border-strong", "203 196 185"),
+          DEFAULT: c("ink", "30 41 59"),
+          primary: c("ink", "30 41 59"),
+          slate: c("ink-secondary", "71 85 105"),
+          secondary: c("ink-secondary", "71 85 105"),
+          muted: c("ink-muted", "100 116 139"),
+          subtle: c("ink-subtle", "100 116 139"),
+          border: c("ink-border", "226 232 240"),
+          borderStrong: c("ink-border-strong", "203 213 225"),
         },
         accent: {
           coral: c("accent-coral", "199 125 112"),
@@ -70,7 +70,7 @@ export default {
       fontFamily: {
         sans: ['"Inter"', '"Segoe UI"', "-apple-system", "BlinkMacSystemFont", "sans-serif"],
         heading: ['"Inter"', '"Segoe UI"', "sans-serif"],
-        editorial: ['"Inter"', '"Segoe UI"', "sans-serif"],
+        editorial: ['"Newsreader"', "Georgia", "serif"],
         mono: ['"JetBrains Mono"', "Consolas", "monospace"],
       },
       fontSize: {
@@ -91,8 +91,8 @@ export default {
       borderRadius: {
         sm: "0.4375rem",
         DEFAULT: "0.625rem",
-        card: "0.875rem",
-        panel: "1.125rem",
+        card: "0.75rem",
+        panel: "0.875rem",
       },
     },
   },

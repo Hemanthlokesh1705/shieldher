@@ -1,8 +1,9 @@
-import React from "react";
+import React, { useState } from "react";
 import { Outlet, useLocation, useNavigate } from "react-router-dom";
 import { useVerification } from "../../context/VerificationContext";
 import { Check, RotateCcw, ShieldCheck } from "lucide-react";
 import { cn } from "../../lib/utils";
+import { ConfirmDialog } from "../../components/ui/ConfirmDialog";
 
 const STEPS = [
   { id: 1, label: "Consent", path: "/verification/consent" },
@@ -17,6 +18,7 @@ const STEPS = [
 ];
 
 export const VerificationLayout: React.FC = () => {
+  const [resetConfirmationOpen, setResetConfirmationOpen] = useState(false);
   const location = useLocation();
   const navigate = useNavigate();
   const { uploadData, verificationData, activeCase, resetWorkflow } =
@@ -72,16 +74,7 @@ export const VerificationLayout: React.FC = () => {
             <button
               type="button"
               className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold text-ink-secondary hover:text-ink-primary hover:bg-canvas-subtle transition-colors border border-ink-border/50 hover:border-ink-border"
-              onClick={() => {
-                if (
-                  window.confirm(
-                    "Start a new check? In-flight changes will be cleared."
-                  )
-                ) {
-                  resetWorkflow();
-                  navigate("/verification/consent");
-                }
-              }}
+              onClick={() => setResetConfirmationOpen(true)}
             >
               <RotateCcw className="w-3.5 h-3.5 text-ink-muted" />
               <span>Start Over</span>
@@ -101,12 +94,13 @@ export const VerificationLayout: React.FC = () => {
                 <button
                   type="button"
                   className={cn(
-                    "flex flex-col items-center gap-1.5 transition-all focus:outline-none group",
+                    "flex flex-col items-center gap-1.5 transition-colors focus:outline-none focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-forest group",
                     !isClickable && "opacity-40 cursor-not-allowed"
                   )}
                   onClick={() => handleStepClick(idx, step.path)}
                   disabled={!isClickable}
                   title={`${step.id}. ${step.label}`}
+                  aria-current={isActive ? "step" : undefined}
                 >
                   <div
                     className={cn(
@@ -170,6 +164,18 @@ export const VerificationLayout: React.FC = () => {
 
       {/* Active Step Content */}
       <Outlet />
+      <ConfirmDialog
+        open={resetConfirmationOpen}
+        title="Start a new image check?"
+        description="Your current check and any information entered in this workflow will be cleared."
+        confirmLabel="Start new check"
+        onCancel={() => setResetConfirmationOpen(false)}
+        onConfirm={() => {
+          resetWorkflow();
+          setResetConfirmationOpen(false);
+          navigate("/verification/consent");
+        }}
+      />
     </div>
   );
 };

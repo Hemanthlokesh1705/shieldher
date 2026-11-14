@@ -3,7 +3,7 @@
 @tailwind utilities;
 
 /* ============================================================
-   ShieldHer — Victim-First Design System
+   ShieldHer — Warm, victim-first design system
    Trauma-informed, calm and discreet light interface
    ============================================================ */
 
@@ -17,71 +17,71 @@
 }
 
 :root {
-  /* Palette: Warm Ivory, Soft Pearl, Deep Forest Teal, Rich Teal, Muted Sage, Dark Ink, Slate, Soft Sand */
-  --bg-main: #F7F6F2;
+  /* Warm paper, quiet slate, and sage */
+  --bg-main: #FAF9F6;
   --surface-primary: #FFFFFF;
-  --surface-secondary: #F4F1EC;
-  --surface-tertiary: #EAE5DA;
+  --surface-secondary: #F8FAFC;
+  --surface-tertiary: #F1F1EC;
 
   /* Typography */
-  --text-primary: #192B29;
-  --text-secondary: #53615E;
-  --text-muted: #89938F;
+  --text-primary: #1E293B;
+  --text-secondary: #475569;
+  --text-muted: #64748B;
   --text-inverse: #FFFFFF;
 
-  /* Accent: Deep Forest Teal & Rich Teal */
-  --accent-primary: #145B53;
-  --accent-hover: #0F4640;
-  --accent-active: #0A3631;
-  --accent-rich: #19796D;
-  --accent-sage: #DCEAE3;
-  --accent-surface: #EAF3EF;
-  --accent-border: #C5DCD2;
+  /* Accent: Muted sage */
+  --accent-primary: #2E6F5E;
+  --accent-hover: #245B4D;
+  --accent-active: #1D4B40;
+  --accent-rich: #3B7A6B;
+  --accent-sage: #E8F0EB;
+  --accent-surface: #E8F0EB;
+  --accent-border: #C6D9CE;
 
   /* Restrained, Non-Alarmist Status Colors */
-  --status-info: #2C6E80;
-  --status-info-bg: #EEF6F8;
-  --status-info-border: #CBE4EC;
+  --status-info: #395D75;
+  --status-info-bg: #F0F6F9;
+  --status-info-border: #CDDEE8;
 
-  --status-review: #A4742C;
-  --status-review-bg: #FDF8EE;
-  --status-review-border: #EEDDBB;
+  --status-review: #8B6327;
+  --status-review-bg: #FAF6EB;
+  --status-review-border: #E8DCB9;
 
-  --status-ready: #1F7A59;
-  --status-ready-bg: #EDF7F2;
-  --status-ready-border: #C8E8D8;
+  --status-ready: #2E6F5E;
+  --status-ready-bg: #EDF5F0;
+  --status-ready-border: #C6D9CE;
 
-  --status-closed: #53615E;
-  --status-closed-bg: #F4F1EC;
-  --status-closed-border: #E2DDD5;
+  --status-closed: #475569;
+  --status-closed-bg: #F8FAFC;
+  --status-closed-border: #E2E8F0;
 
-  --status-error: #B84A3E;
-  --status-error-bg: #FDF2F0;
-  --status-error-border: #F3CAC4;
+  --status-error: #994339;
+  --status-error-bg: #FAF1EF;
+  --status-error-border: #E7CCC7;
 
   /* Borders & Dividers */
-  --border-light: #E2DDD5;
-  --border-medium: #CBC4B9;
-  --border-strong: #89938F;
+  --border-light: #E2E8F0;
+  --border-medium: #CBD5E1;
+  --border-strong: #64748B;
 
   /* Shadows (Sophisticated, layered, subtle) */
-  --shadow-xs: 0 1px 2px rgba(25, 43, 41, 0.03), 0 1px 1px rgba(25, 43, 41, 0.02);
-  --shadow-sm: 0 4px 16px -2px rgba(25, 43, 41, 0.05), 0 2px 6px -1px rgba(25, 43, 41, 0.03);
-  --shadow-md: 0 10px 25px -4px rgba(25, 43, 41, 0.06), 0 4px 10px -2px rgba(25, 43, 41, 0.04);
-  --shadow-lg: 0 20px 35px -6px rgba(25, 43, 41, 0.07), 0 8px 16px -4px rgba(25, 43, 41, 0.04);
+  --shadow-xs: 0 1px 2px rgba(30, 41, 59, 0.04);
+  --shadow-sm: 0 2px 6px rgba(30, 41, 59, 0.05);
+  --shadow-md: 0 8px 24px rgba(30, 41, 59, 0.06);
+  --shadow-lg: 0 12px 28px rgba(30, 41, 59, 0.08);
 
   /* Fonts */
-  --font-sans: "Plus Jakarta Sans", "DM Sans", -apple-system, BlinkMacSystemFont, sans-serif;
-  --font-heading: "Plus Jakarta Sans", -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-sans: "Inter", -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-heading: "Inter", -apple-system, BlinkMacSystemFont, sans-serif;
   --font-editorial: "Newsreader", Georgia, serif;
   --font-mono: "JetBrains Mono", Consolas, "Liberation Mono", Menlo, monospace;
 
   /* Dimensions & Radii */
   --sidebar-width: 256px;
   --topnav-height: 64px;
-  --radius-sm: 10px;
-  --radius-md: 16px;
-  --radius-lg: 20px;
+  --radius-sm: 7px;
+  --radius-md: 10px;
+  --radius-lg: 14px;
 
   /* Backward Compatibility Aliases */
   --color-bg: var(--bg-main);
@@ -131,7 +131,7 @@ h5,
 h6 {
   font-family: var(--font-heading);
   color: var(--text-primary);
-  letter-spacing: -0.02em;
+  letter-spacing: normal;
   line-height: 1.25;
 }
 
@@ -175,11 +175,138 @@ button {
   min-height: 100vh;
   display: flex;
   flex-direction: column;
-  background: linear-gradient(180deg, #f7f4f0 0%, #f2f5f4 100%);
+  background: var(--bg-main);
 }
 
 .auth-header {
   padding: 18px 24px 0;
+}
+
+.auth-shell .bg-white {
+  background-color: var(--surface-primary);
+}
+
+.auth-brand-panel {
+  display: flex;
+  min-height: 280px;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 28px;
+  padding: 28px clamp(24px, 4vw, 56px);
+  border-bottom: 1px solid var(--border-light);
+  background: var(--surface-secondary);
+  color: var(--text-primary);
+}
+
+.auth-panel-brand {
+  display: inline-flex;
+  width: fit-content;
+  align-items: center;
+  gap: 10px;
+  color: var(--text-primary);
+  font-size: 17px;
+  font-weight: 600;
+}
+
+.auth-panel-brand:hover {
+  text-decoration: none;
+}
+
+.auth-panel-mark {
+  display: grid;
+  width: 34px;
+  height: 34px;
+  place-items: center;
+  border-radius: 8px;
+  background: var(--accent-surface);
+  color: var(--accent-primary);
+}
+
+.auth-panel-copy {
+  max-width: 470px;
+}
+
+.auth-panel-eyebrow {
+  margin-bottom: 10px;
+  color: var(--accent-primary);
+  font-size: 0.8rem;
+  font-weight: 500;
+}
+
+.auth-panel-copy h2 {
+  margin-bottom: 10px;
+  font-family: var(--font-editorial);
+  font-size: clamp(1.8rem, 3vw, 2.5rem);
+  font-weight: 400;
+  line-height: 1.12;
+}
+
+.auth-panel-description,
+.auth-panel-note {
+  color: var(--text-secondary);
+  font-size: 0.9rem;
+  line-height: 1.65;
+}
+
+.auth-panel-copy ul {
+  display: grid;
+  gap: 12px;
+  margin-top: 24px;
+  list-style: none;
+}
+
+.auth-panel-copy li {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: var(--text-secondary);
+  font-size: 0.85rem;
+}
+
+.auth-panel-copy li svg {
+  flex: 0 0 auto;
+  color: var(--accent-primary);
+}
+
+.auth-panel-note {
+  margin: 0;
+  font-size: 0.8rem;
+}
+
+.auth-shell .auth-submit-button {
+  border: 1px solid var(--accent-primary);
+  background: var(--accent-primary);
+  color: var(--text-inverse);
+}
+
+.auth-shell .auth-submit-button:hover:not(:disabled) {
+  border-color: var(--accent-hover);
+  background: var(--accent-hover);
+}
+
+@media (min-width: 1024px) {
+  .auth-brand-panel {
+    min-height: 100vh;
+    border-right: 1px solid var(--border-light);
+    border-bottom: 0;
+  }
+}
+
+@media (max-width: 639px) {
+  .auth-brand-panel {
+    min-height: 0;
+    gap: 20px;
+    padding: 20px 20px 24px;
+  }
+
+  .auth-panel-copy ul,
+  .auth-panel-note {
+    display: none;
+  }
+
+  .auth-panel-copy h2 {
+    font-size: 1.8rem;
+  }
 }
 
 .auth-brand {
@@ -247,8 +374,7 @@ button {
 .eyebrow {
   display: inline-block;
   color: var(--accent-primary);
-  text-transform: uppercase;
-  letter-spacing: 0.1em;
+  letter-spacing: 0.01em;
   font-size: 0.7rem;
   font-weight: 700;
   margin-bottom: 8px;
@@ -304,7 +430,7 @@ button {
 .form-textarea:focus {
   outline: none;
   border-color: var(--accent-primary);
-  box-shadow: 0 0 0 4px rgba(26, 122, 113, 0.1);
+  box-shadow: 0 0 0 3px rgb(46 111 94 / 0.16);
 }
 
 .form-input::placeholder,
@@ -357,12 +483,16 @@ button {
   align-items: center;
   justify-content: center;
   gap: 8px;
-  border-radius: 12px;
+  border-radius: var(--radius-sm);
   border: 1px solid transparent;
   padding: 11px 16px;
   font-weight: 600;
   font-size: 0.95rem;
-  transition: all 0.15s ease;
+  transition:
+    color 150ms ease,
+    background-color 150ms ease,
+    border-color 150ms ease,
+    box-shadow 150ms ease;
 }
 
 .btn:hover {
@@ -431,8 +561,7 @@ button {
   align-items: center;
   color: var(--text-muted);
   font-size: 0.76rem;
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
+  letter-spacing: 0.01em;
   margin: 12px 0 18px;
 }
 
@@ -460,7 +589,7 @@ button {
   display: flex;
   gap: 8px;
   align-items: flex-start;
-  border-radius: 12px;
+  border-radius: var(--radius-md);
   padding: 10px 12px;
   margin-bottom: 16px;
   font-size: 0.88rem;
@@ -704,7 +833,7 @@ button {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  border-radius: 999px;
+  border-radius: 6px;
   padding: 5px 10px;
   font-size: 0.74rem;
   font-weight: 700;
@@ -737,8 +866,8 @@ button {
 
 /* ── Reassuring Callout ── */
 .support-callout {
-  background: #fbfaf8;
-  border: 1px solid var(--border-medium);
+  background: var(--surface-secondary);
+  border: 1px solid var(--border-light);
   border-left: 4px solid var(--accent-primary);
   border-radius: 12px;
   padding: 16px 18px;
@@ -783,7 +912,7 @@ button {
 .table-wrapper {
   overflow-x: auto;
   border: 1px solid var(--border-light);
-  border-radius: 12px;
+  border-radius: var(--radius-md);
   background: var(--surface-primary);
 }
 
@@ -794,7 +923,7 @@ button {
 
 .data-table th,
 .data-table td {
-  padding: 12px 14px;
+  padding: 14px 16px;
   border-bottom: 1px solid var(--border-light);
   text-align: left;
   font-size: 0.87rem;
@@ -803,13 +932,13 @@ button {
 .data-table th {
   background: var(--surface-secondary);
   color: var(--text-secondary);
-  text-transform: uppercase;
-  letter-spacing: 0.06em;
-  font-size: 0.72rem;
+  text-transform: none;
+  letter-spacing: normal;
+  font-size: 0.8rem;
 }
 
 .data-table tbody tr:hover {
-  background: #fafbf9;
+  background: var(--surface-secondary);
 }
 
 /* ── Code / Reference Pill ── */

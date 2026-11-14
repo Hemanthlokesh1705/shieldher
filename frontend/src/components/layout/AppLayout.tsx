@@ -3,7 +3,6 @@ import { motion, useReducedMotion } from "framer-motion";
 import { Outlet, useLocation } from "react-router-dom";
 import Sidebar from "./Sidebar";
 import TopNav from "./TopNav";
-import WorkspaceCursor from "./WorkspaceCursor";
 
 export const AppLayout: React.FC = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -12,7 +11,6 @@ export const AppLayout: React.FC = () => {
 
   return (
     <div className="workspace-theme min-h-screen bg-canvas flex flex-col selection:bg-brand-sage selection:text-brand-forest">
-      <WorkspaceCursor />
       <div className="flex-1 flex overflow-hidden">
         {/* Responsive Sidebar */}
         <Sidebar
@@ -26,7 +24,7 @@ export const AppLayout: React.FC = () => {
           <main className="flex-1 overflow-y-auto p-4 sm:p-6 lg:p-8">
             <motion.div
               key={location.pathname}
-              className="max-w-6xl mx-auto"
+              className="max-w-7xl mx-auto"
               initial={reduceMotion ? false : { opacity: 0, y: 4 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: reduceMotion ? 0 : 0.18, ease: "easeOut" }}
