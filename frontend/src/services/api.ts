@@ -184,7 +184,67 @@ export async function uploadImage(file: File): Promise<UploadResponse> {
   };
 }
 
-// ── Model Verification (EFFORT & Smaug) ──────────────────────────────────────
+export function normalizeVerificationResponse(data: any): VerificationResponse {
+  const rawEffort = data.effort_detection || data.effort_result || data.detection;
+  const rawSmaug = data.smaug_detection || data.smaug_result;
+  const rawGend = data.gend_detection || data.gend_result || data.results?.gend;
+  const rawFsd = data.fsd_detection || data.fsd_result || data.results?.fsd;
+
+  const normalizedEffort = rawEffort ? {
+    ...rawEffort,
+    status: rawEffort.status === 'SUCCESS' ? 'COMPLETED' : rawEffort.status,
+    checkpoint: rawEffort.checkpoint_identifier || rawEffort.checkpoint,
+    checkpoint_identifier: rawEffort.checkpoint_identifier || rawEffort.checkpoint,
+    manipulation_probability: rawEffort.manipulation_score ?? rawEffort.manipulation_probability,
+    manipulation_score: rawEffort.manipulation_score ?? rawEffort.manipulation_probability,
+    gradcam_available: Boolean(rawEffort.gradcam?.has_gradcam || rawEffort.gradcam?.overlay_base64_png),
+  } : undefined;
+
+  const normalizedSmaug = rawSmaug ? {
+    ...rawSmaug,
+    status: rawSmaug.status === 'SUCCESS' ? 'COMPLETED' : rawSmaug.status,
+    checkpoint: rawSmaug.checkpoint_identifier || rawSmaug.checkpoint,
+    checkpoint_identifier: rawSmaug.checkpoint_identifier || rawSmaug.checkpoint,
+    ai_generated_probability: rawSmaug.ai_generation_score ?? rawSmaug.ai_generated_probability,
+    ai_generation_score: rawSmaug.ai_generation_score ?? rawSmaug.ai_generated_probability,
+  } : undefined;
+
+  const normalizedGend = rawGend ? {
+    ...rawGend,
+    status: rawGend.status === 'SUCCESS' ? 'COMPLETED' : rawGend.status,
+    genuine_score: rawGend.genuine_score ?? (rawGend.class_scores?.authentic ?? rawGend.class_scores?.[0]),
+    fake_score: rawGend.fake_score ?? (rawGend.class_scores?.manipulated ?? rawGend.class_scores?.[1]),
+  } : undefined;
+
+  const normalizedFsd = rawFsd ? {
+    ...rawFsd,
+    status: rawFsd.status === 'SUCCESS' ? 'COMPLETED' : rawFsd.status,
+    native_z_score: rawFsd.native_z_score ?? rawFsd.raw_score,
+  } : undefined;
+
+  return {
+    ...data,
+    sha256: data.sha256 || data.sha256_hash,
+    sha256_hash: data.sha256 || data.sha256_hash,
+    verification_status: data.verification_status || (data.processing_status === 'SUCCESS' ? 'VERIFIED' : 'DETECTION_FAILED'),
+    processing_status: data.verification_status === 'VERIFIED' ? 'SUCCESS' : (data.processing_status || 'SUCCESS'),
+    message: data.message || data.summary_message,
+    summary_message: data.message || data.summary_message,
+    effort_detection: normalizedEffort,
+    effort_result: normalizedEffort,
+    smaug_detection: normalizedSmaug,
+    smaug_result: normalizedSmaug,
+    gend_detection: normalizedGend,
+    gend_result: normalizedGend,
+    fsd_detection: normalizedFsd,
+    fsd_result: normalizedFsd,
+    checkpoints: data.checkpoints || {},
+    model_registry: data.model_registry || {},
+    category_agreement: data.category_agreement || {},
+  };
+}
+
+// ── Model Verification (Four-Model Pipeline) ────────────────────────────────
 
 export async function verifyImage(file: File, caseId?: string): Promise<VerificationResponse> {
   const formData = new FormData();
@@ -202,41 +262,54 @@ export async function verifyImage(file: File, caseId?: string): Promise<Verifica
     throw new Error(err.detail || `Verification failed (${res.status})`);
   }
   const data = await res.json();
-  const rawEffort = data.effort_detection || data.effort_result || data.detection;
-  const rawSmaug = data.smaug_detection || data.smaug_result;
+  return normalizeVerificationResponse(data);
+}
 
-  const normalizedEffort = rawEffort ? {
-    ...rawEffort,
-    status: rawEffort.status === "SUCCESS" ? "COMPLETED" : rawEffort.status,
-    checkpoint: rawEffort.checkpoint_identifier || rawEffort.checkpoint,
-    checkpoint_identifier: rawEffort.checkpoint_identifier || rawEffort.checkpoint,
-    manipulation_probability: rawEffort.manipulation_score ?? rawEffort.manipulation_probability,
-    manipulation_score: rawEffort.manipulation_score ?? rawEffort.manipulation_probability,
-    gradcam_available: Boolean(rawEffort.gradcam?.has_gradcam || rawEffort.gradcam?.overlay_base64_png),
-  } : undefined;
+export async function startVerificationJob(
+  file: File,
+  caseId?: string,
+  options?: {
+    includeEffort?: boolean;
+    includeGenD?: boolean;
+    includeSmaug?: boolean;
+    includeFSD?: boolean;
+    includeGradcam?: boolean;
+  }
+): Promise<VerificationResponse> {
+  const formData = new FormData();
+  formData.append("file", file);
+  const queryParams = new URLSearchParams();
+  if (caseId) queryParams.append("case_id", caseId);
+  if (options?.includeEffort !== undefined) queryParams.append("include_effort", String(options.includeEffort));
+  if (options?.includeGenD !== undefined) queryParams.append("include_gend", String(options.includeGenD));
+  if (options?.includeSmaug !== undefined) queryParams.append("include_smaug", String(options.includeSmaug));
+  if (options?.includeFSD !== undefined) queryParams.append("include_fsd", String(options.includeFSD));
+  if (options?.includeGradcam !== undefined) queryParams.append("include_gradcam", String(options.includeGradcam));
 
-  const normalizedSmaug = rawSmaug ? {
-    ...rawSmaug,
-    status: rawSmaug.status === "SUCCESS" ? "COMPLETED" : rawSmaug.status,
-    checkpoint: rawSmaug.checkpoint_identifier || rawSmaug.checkpoint,
-    checkpoint_identifier: rawSmaug.checkpoint_identifier || rawSmaug.checkpoint,
-    ai_generated_probability: rawSmaug.ai_generation_score ?? rawSmaug.ai_generated_probability,
-    ai_generation_score: rawSmaug.ai_generation_score ?? rawSmaug.ai_generated_probability,
-  } : undefined;
+  const qs = queryParams.toString();
+  const url = `${API_BASE_URL}/verify/jobs${qs ? `?${qs}` : ""}`;
+  const res = await fetch(url, {
+    method: "POST",
+    body: formData,
+  });
+  if (!res.ok) {
+    const err = await res.json().catch(() => ({ detail: "Failed to start verification job" }));
+    throw new Error(err.detail || `Starting job failed (${res.status})`);
+  }
+  const data = await res.json();
+  return normalizeVerificationResponse(data);
+}
 
-  return {
-    ...data,
-    sha256: data.sha256 || data.sha256_hash,
-    sha256_hash: data.sha256 || data.sha256_hash,
-    verification_status: data.verification_status || (data.processing_status === "SUCCESS" ? "VERIFIED" : "DETECTION_FAILED"),
-    processing_status: data.verification_status === "VERIFIED" ? "SUCCESS" : (data.processing_status || "SUCCESS"),
-    message: data.message || data.summary_message,
-    summary_message: data.message || data.summary_message,
-    effort_detection: normalizedEffort,
-    effort_result: normalizedEffort,
-    smaug_detection: normalizedSmaug,
-    smaug_result: normalizedSmaug,
-  };
+export async function getVerificationJobStatus(jobId: string): Promise<VerificationResponse> {
+  const res = await fetch(`${API_BASE_URL}/verify/jobs/${encodeURIComponent(jobId)}`, {
+    headers: { Accept: "application/json" },
+  });
+  if (!res.ok) {
+    const err = await res.json().catch(() => ({ detail: "Failed to poll verification job" }));
+    throw new Error(err.detail || `Polling job failed (${res.status})`);
+  }
+  const data = await res.json();
+  return normalizeVerificationResponse(data);
 }
 
 // ── Deterministic Forensics ──────────────────────────────────────────────────

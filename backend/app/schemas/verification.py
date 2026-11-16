@@ -4,7 +4,7 @@ ShieldHer – Schemas for Face Manipulation & Face-Swap Verification (Effort Mod
 from __future__ import annotations
 
 from enum import Enum
-from typing import Dict, List, Optional
+from typing import Any, Dict, List, Optional
 from pydantic import BaseModel, Field
 
 from app.schemas.upload import UploadResponse
@@ -16,7 +16,32 @@ class ModelInferenceStatus(str, Enum):
     UNAVAILABLE = "UNAVAILABLE"
     DEPENDENCY_MISSING = "DEPENDENCY_MISSING"
     INCOMPATIBLE_WEIGHTS = "INCOMPATIBLE_WEIGHTS"
+    SKIPPED = "SKIPPED"
     ERROR = "ERROR"
+
+
+class CheckpointExecutionState(str, Enum):
+    NOT_STARTED = "NOT_STARTED"
+    QUEUED = "QUEUED"
+    INITIALIZING = "INITIALIZING"
+    RUNNING = "RUNNING"
+    COMPLETED = "COMPLETED"
+    FAILED = "FAILED"
+    UNAVAILABLE = "UNAVAILABLE"
+    SKIPPED = "SKIPPED"
+
+
+class ModelCategory(str, Enum):
+    FACE_MANIPULATION = "FACE_MANIPULATION"
+    AI_GENERATED_IMAGE = "AI_GENERATED_IMAGE"
+
+
+class AgreementStatus(str, Enum):
+    MODEL_AGREEMENT = "MODEL_AGREEMENT"
+    MODEL_DISAGREEMENT = "MODEL_DISAGREEMENT"
+    POSSIBLE_MANIPULATION = "POSSIBLE_MANIPULATION"
+    INCONCLUSIVE = "INCONCLUSIVE"
+    INSUFFICIENT_EVIDENCE = "INSUFFICIENT_EVIDENCE"
 
 
 class VerificationOutcome(str, Enum):
@@ -125,17 +150,146 @@ class SmaugDetectionDetails(BaseModel):
     )
 
 
+class GenDDetectionDetails(BaseModel):
+    model_name: str = "GenD (CLIP-ViT-L/14)"
+    model_version: str = "1.0"
+    checkpoint_id: str = "yermandy/GenD_CLIP_L_14"
+    official_repo: str = "https://github.com/yermandy/GenD"
+    paper_reference: str = "Deepfake Detection that Generalizes Across Benchmarks (WACV 2026)"
+    license: str = "MIT"
+    status: ModelInferenceStatus
+    raw_logits: Optional[List[float]] = Field(
+        default=None,
+        description="Raw output logits [logit_authentic (class 0), logit_manipulated (class 1)]",
+    )
+    class_scores: Optional[Dict[str, float]] = Field(
+        default=None,
+        description="Softmax class probabilities: {'authentic': p0, 'manipulated': p1}",
+    )
+    genuine_score: Optional[float] = Field(
+        default=None,
+        description="Probability that input face is authentic (class 0)",
+    )
+    fake_score: Optional[float] = Field(
+        default=None,
+        description="Probability that input face is manipulated / deepfake (class 1)",
+    )
+    predicted_class: Optional[str] = Field(
+        default=None,
+        description="'authentic' or 'manipulated'",
+    )
+    inference_duration_ms: Optional[float] = None
+    device_used: str = "cpu"
+    preprocessing_version: str = "CLIPProcessor_224x224_norm"
+    input_source_used: Optional[str] = Field(
+        default=None,
+        description="'face_crop' or 'full_image_fallback'",
+    )
+    score_semantics: str = Field(
+        default=(
+            "UNSCALED_HEURISTIC_SCORE: GenD outputs normalized linear probe logits over frozen "
+            "CLIP-ViT-L/14 embeddings. Class 0 represents authentic imagery and Class 1 represents deepfakes. "
+            "Softmax outputs indicate uncalibrated classification confidence across cross-dataset benchmarks."
+        ),
+        description="Legal and forensic interpretation of GenD score",
+    )
+    error_message: Optional[str] = None
+
+
+class FSDDetectionDetails(BaseModel):
+    model_name: str = "Forensic-Self-Descriptions (FSD)"
+    model_version: str = "1.2.0"
+    checkpoint_id: str = "ductai199x/Forensic-Self-Descriptions-CVPR25"
+    official_repo: str = "https://github.com/ductai199x/Forensic-Self-Descriptions-CVPR25"
+    paper_reference: str = "Forensic Self-Descriptions Are All You Need for Zero-Shot Detection, Open-Set Source Attribution, and Clustering of AI-generated Images (CVPR 2025)"
+    license: str = "CC BY-NC-SA 4.0 Non-Commercial Research License"
+    status: ModelInferenceStatus
+    native_z_score: Optional[float] = Field(
+        default=None,
+        description="Native GMM normalized z-score. More negative values indicate AI-generated residual deviation.",
+    )
+    raw_score: Optional[float] = Field(
+        default=None,
+        description="Raw GMM log-likelihood before z-score normalization.",
+    )
+    is_fake: Optional[bool] = Field(
+        default=None,
+        description="Native model classification decision based on documented threshold.",
+    )
+    threshold_used: float = Field(
+        default=-2.0,
+        description="Documented z-score threshold (default -2.0; z < -2.0 is flagged as AI-generated).",
+    )
+    model_derived_decision: Optional[str] = Field(
+        default=None,
+        description="'AI_GENERATED' or 'AUTHENTIC'",
+    )
+    documented_score_interpretation: str = Field(
+        default=(
+            "FORENSIC_Z_SCORE: The FSD model evaluates intrinsic pixel-level prediction-error residuals (FRE) "
+            "modeled with a Gaussian Mixture Model trained exclusively on natural images. "
+            "Negative z-scores indicate deviation from natural camera sensor noise. "
+            "By documented standard: z > -2.0 indicates authentic photographic residuals; "
+            "z < -2.0 indicates AI-generated residuals; z < -3.0 indicates strong synthetic divergence."
+        ),
+        description="Documented interpretation of native FSD forensic residual score",
+    )
+    inference_duration_ms: Optional[float] = None
+    device_used: str = "cpu"
+    licensing_notice: str = "Non-commercial research use only under CC BY-NC-SA 4.0 license"
+    error_message: Optional[str] = None
+
+
+class CategoryAgreement(BaseModel):
+    category: ModelCategory
+    status: AgreementStatus
+    summary: str
+    details: str
+    models_participating: List[str]
+    models_flagged: List[str]
+    confidence_assessment: str
+
+
+class ModelRegistryEntry(BaseModel):
+    model_id: str
+    model_name: str
+    category: ModelCategory
+    checkpoint_identifier: str
+    version: str
+    license: str
+    availability_status: str
+    execution_state: CheckpointExecutionState
+    score_semantics: str
+    execution_duration_ms: Optional[float] = None
+    raw_output: Optional[Dict[str, Any]] = None
+    error_details: Optional[str] = None
+
+
 class VerificationResponse(BaseModel):
     verification_status: VerificationOutcome
     message: str
     evidence_id: str
+    verification_id: Optional[str] = None
     sha256: Optional[str] = None
     quality_assessment: UploadResponse
-    # Effort-AIGI-Detection (Face manipulation & Face swap)
+
+    # Four-Model Suite:
+    # 1. Face Manipulation
     effort_detection: Optional[DetectionDetails] = None
-    # Smaug-AI-Image-Detector (Full-image AI generation)
+    gend_detection: Optional[GenDDetectionDetails] = None
+
+    # 2. Full-Image AI Generation
     smaug_detection: Optional[SmaugDetectionDetails] = None
+    fsd_detection: Optional[FSDDetectionDetails] = None
+
     # Backward compatibility alias
     detection: Optional[DetectionDetails] = None
+
+    # Four-Model Architecture Artifacts
+    checkpoints: Optional[Dict[str, CheckpointExecutionState]] = None
+    model_registry: Optional[Dict[str, ModelRegistryEntry]] = None
+    category_agreement: Optional[Dict[str, CategoryAgreement]] = None
+    results: Optional[Dict[str, Any]] = None
+
     # Optional deterministic forensic analysis
     forensic_report: Optional[ForensicReport] = None

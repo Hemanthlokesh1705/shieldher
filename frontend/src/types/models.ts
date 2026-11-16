@@ -124,6 +124,23 @@ export interface EffortResult {
   error_message?: string;
 }
 
+export interface GenDResult {
+  model_name?: string;
+  model_version?: string;
+  checkpoint_id?: string;
+  status: "COMPLETED" | "MODEL_UNAVAILABLE" | "SUCCESS" | "UNAVAILABLE" | "ERROR" | "SKIPPED" | string;
+  raw_logits?: number[];
+  class_scores?: { authentic: number; manipulated: number } | Record<string, number>;
+  genuine_score?: number;
+  fake_score?: number;
+  predicted_class?: "authentic" | "manipulated" | string;
+  inference_duration_ms?: number;
+  device_used?: string;
+  preprocessing_version?: string;
+  score_semantics?: string;
+  error_message?: string;
+}
+
 export interface SmaugResult {
   model_name?: string;
   checkpoint?: string;
@@ -142,21 +159,77 @@ export interface SmaugResult {
   error_message?: string;
 }
 
+export interface FSDResult {
+  model_name?: string;
+  model_version?: string;
+  checkpoint_id?: string;
+  status: "COMPLETED" | "MODEL_UNAVAILABLE" | "SUCCESS" | "UNAVAILABLE" | "ERROR" | "SKIPPED" | string;
+  native_z_score?: number;
+  raw_score?: number;
+  is_fake?: boolean;
+  threshold_used?: number;
+  model_derived_decision?: "AI_GENERATED" | "AUTHENTIC" | string;
+  documented_score_interpretation?: string;
+  inference_duration_ms?: number;
+  device_used?: string;
+  licensing_notice?: string;
+  error_message?: string;
+}
+
+export type CheckpointStatus = "PENDING" | "RUNNING" | "COMPLETED" | "FAILED" | "SKIPPED" | "UNAVAILABLE";
+
+export interface CategoryAgreementSummary {
+  category: "FACE_MANIPULATION" | "AI_GENERATED_IMAGE" | string;
+  status: "MODEL_AGREEMENT" | "MODEL_DISAGREEMENT" | "POSSIBLE_MANIPULATION" | "INCONCLUSIVE" | "INSUFFICIENT_EVIDENCE" | string;
+  summary: string;
+  details: string;
+  models_participating: string[];
+  models_flagged: string[];
+  confidence_assessment?: string;
+}
+
+export interface ModelRegistryItem {
+  model_id: string;
+  model_name: string;
+  category: string;
+  checkpoint_identifier: string;
+  version: string;
+  license: string;
+  availability_status: string;
+  execution_state: string;
+  score_semantics: string;
+  execution_duration_ms?: number;
+  raw_output?: Record<string, any>;
+  error_details?: string;
+}
+
 export interface VerificationResponse {
+  job_id?: string;
+  verification_id?: string;
   case_id?: string;
   sha256?: string;
   sha256_hash?: string;
   verification_status?: "VERIFIED" | "QUALITY_GATEWAY_REJECTED" | "QUALITY_GATEWAY_RETRY_REQUIRED" | "DETECTOR_UNAVAILABLE" | "DETECTION_FAILED" | string;
+  overall_status?: "PROCESSING" | "COMPLETED" | "FAILED" | "QUALITY_RETRY" | string;
   processing_status?: "SUCCESS" | "PARTIAL_SUCCESS" | "FAILED" | string;
   message?: string;
   summary_message?: string;
   quality_assessment?: any;
   effort_detection?: EffortResult;
+  gend_detection?: GenDResult;
   smaug_detection?: SmaugResult;
+  fsd_detection?: FSDResult;
   effort_result?: EffortResult;
+  gend_result?: GenDResult;
   smaug_result?: SmaugResult;
+  fsd_result?: FSDResult;
   detection?: EffortResult;
+  checkpoints?: Record<string, CheckpointStatus | string>;
+  model_registry?: Record<string, ModelRegistryItem>;
+  category_agreement?: Record<string, CategoryAgreementSummary>;
+  results?: Record<string, any>;
   forensic_report?: any;
+  error_message?: string;
 }
 
 // ── Forensic Analysis ───────────────────────────────────────────────────────

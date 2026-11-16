@@ -2,7 +2,8 @@
 ShieldHer – LangGraph Workflow Graph Assembly.
 
 Flow:
-Image Upload → Quality Gateway → Parallel EFFORT and Smaug inference → Optional Forensic Analysis → Evidence Summary.
+Image Upload → Quality Gateway → Parallel Four-Model Inference (EFFORT, GenD, Smaug, FSD)
+→ Optional Forensic Analysis → Evidence Summary & Manifest Synthesis.
 
 Orchestrates the independent models with fault isolation, native score preservation,
 evidentiary state synthesis, and human examiner review hooks.
@@ -17,6 +18,8 @@ from app.workflows.nodes import (
     effort_detection_node,
     evidence_summary_node,
     forensic_analysis_node,
+    fsd_detection_node,
+    gend_detection_node,
     quality_gateway_node,
     smaug_detection_node,
     upload_node,
@@ -27,20 +30,21 @@ from app.workflows.state import ImageState
 def route_after_quality_gateway(state: ImageState) -> Union[List[str], str]:
     """
     Branching condition after Quality Gateway:
-    - If Quality Gateway PASS: fan-out to parallel Effort and Smaug inference.
+    - If Quality Gateway PASS: fan-out to parallel Four-Model inference:
+      [EFFORT, GenD, Smaug, FSD].
     - If Quality Gateway UNSUPPORTED_INPUT or RETRY_REQUIRED: skip ML and route to summary.
     """
     qa = state.get("quality_assessment") or {}
     q_status = qa.get("status")
 
     if q_status == AssessmentStatus.PASS.value:
-        return ["effort_detection", "smaug_detection"]
+        return ["effort_detection", "gend_detection", "smaug_detection", "fsd_detection"]
     return "evidence_summary"
 
 
 def create_shieldher_workflow():
     """
-    Constructs and compiles the ShieldHer LangGraph forensic workflow.
+    Constructs and compiles the ShieldHer LangGraph four-model forensic workflow.
     """
     builder = StateGraph(ImageState)
 
@@ -48,7 +52,9 @@ def create_shieldher_workflow():
     builder.add_node("upload", upload_node)
     builder.add_node("quality_gateway", quality_gateway_node)
     builder.add_node("effort_detection", effort_detection_node)
+    builder.add_node("gend_detection", gend_detection_node)
     builder.add_node("smaug_detection", smaug_detection_node)
+    builder.add_node("fsd_detection", fsd_detection_node)
     builder.add_node("forensic_analysis", forensic_analysis_node)
     builder.add_node("evidence_summary", evidence_summary_node)
 
@@ -56,16 +62,24 @@ def create_shieldher_workflow():
     builder.add_edge(START, "upload")
     builder.add_edge("upload", "quality_gateway")
 
-    # 3. Conditional Fan-Out after Quality Gateway
+    # 3. Conditional Fan-Out after Quality Gateway to all four independent models
     builder.add_conditional_edges(
         "quality_gateway",
         route_after_quality_gateway,
-        ["effort_detection", "smaug_detection", "evidence_summary"],
+        [
+            "effort_detection",
+            "gend_detection",
+            "smaug_detection",
+            "fsd_detection",
+            "evidence_summary",
+        ],
     )
 
-    # 4. Parallel Fan-In: Effort and Smaug both lead to Forensic Analysis
+    # 4. Parallel Fan-In: All four models lead to Forensic Analysis
     builder.add_edge("effort_detection", "forensic_analysis")
+    builder.add_edge("gend_detection", "forensic_analysis")
     builder.add_edge("smaug_detection", "forensic_analysis")
+    builder.add_edge("fsd_detection", "forensic_analysis")
 
     # 5. Forensic Analysis leads to Evidence Summary
     builder.add_edge("forensic_analysis", "evidence_summary")

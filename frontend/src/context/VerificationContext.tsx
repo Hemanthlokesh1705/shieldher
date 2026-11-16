@@ -24,6 +24,8 @@ interface VerificationContextType {
   setUploadData: (data: UploadResponse | null) => void;
   activeCase: CaseItem | null;
   setActiveCase: (c: CaseItem | null) => void;
+  activeJobId: string | null;
+  setActiveJobId: (id: string | null) => void;
   verificationData: VerificationResponse | null;
   setVerificationData: (data: VerificationResponse | null) => void;
   forensicsData: ForensicsResponse | null;
@@ -50,6 +52,9 @@ export const VerificationProvider: React.FC<{ children: ReactNode }> = ({ childr
   const [filePreviewUrl, setFilePreviewUrl] = useState<string | null>(null);
   const [uploadData, setUploadData] = useState<UploadResponse | null>(null);
   const [activeCase, setActiveCase] = useState<CaseItem | null>(null);
+  const [activeJobId, setActiveJobId] = useState<string | null>(() => {
+    return sessionStorage.getItem("shieldher_active_job_id");
+  });
   const [verificationData, setVerificationData] = useState<VerificationResponse | null>(null);
   const [forensicsData, setForensicsData] = useState<ForensicsResponse | null>(null);
   const [reverseSearchResult, setReverseSearchResult] = useState<ReverseSearchResponse | null>(null);
@@ -70,6 +75,8 @@ export const VerificationProvider: React.FC<{ children: ReactNode }> = ({ childr
     setSelectedFile(null);
     setUploadData(null);
     setActiveCase(null);
+    setActiveJobId(null);
+    sessionStorage.removeItem("shieldher_active_job_id");
     setVerificationData(null);
     setForensicsData(null);
     setReverseSearchResult(null);
@@ -94,6 +101,8 @@ export const VerificationProvider: React.FC<{ children: ReactNode }> = ({ childr
         setUploadData,
         activeCase,
         setActiveCase,
+        activeJobId,
+        setActiveJobId,
         verificationData,
         setVerificationData,
         forensicsData,
