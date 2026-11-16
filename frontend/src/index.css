@@ -3,7 +3,7 @@
 @tailwind utilities;
 
 /* ============================================================
-   ShieldHer — Cream, deep-teal, victim-first design system
+   ShieldHer — Mist Alabaster, Forest Pine, Warm Amber design system
    Trauma-informed, calm and discreet light interface
    ============================================================ */
 
@@ -17,60 +17,60 @@
 }
 
 :root {
-  /* 60% warm cream, 30% deep teal, 10% coral actions */
-  --bg-main: #F1EEE8;
-  --surface-primary: #FFFFFF;
-  --surface-secondary: #FAF8F5;
-  --surface-tertiary: #F1EEE8;
+  /* Mist Alabaster surfaces, Forest Pine structure, Warm Amber actions */
+  --bg-main: #F4F4ED;
+  --surface-primary: #FFFEFA;
+  --surface-secondary: #F8F8F2;
+  --surface-tertiary: #F4F4ED;
 
   /* Typography */
-  --text-primary: #0E4F4A;
-  --text-secondary: #426360;
-  --text-muted: #426360;
+  --text-primary: #20352A;
+  --text-secondary: #53665A;
+  --text-muted: #53665A;
   --text-inverse: #FFFFFF;
 
-  /* Teal is structural; coral is reserved for primary actions and focus */
-  --accent-primary: #0E4F4A;
-  --accent-hover: #0A3C38;
-  --accent-active: #082F2C;
-  --accent-rich: #426360;
-  --accent-surface: #FAF8F5;
-  --accent-border: #DDD7CC;
-  --action-primary: #FF6F5E;
-  --action-hover: #F45F50;
-  --action-ink: #092F2D;
+  /* Forest Pine anchors the interface; Warm Amber marks primary actions */
+  --accent-primary: #244A38;
+  --accent-hover: #1A3C29;
+  --accent-active: #142F20;
+  --accent-rich: #4F6958;
+  --accent-surface: #F1F4EA;
+  --accent-border: #D7DCCF;
+  --action-primary: #E7B85C;
+  --action-hover: #D6A443;
+  --action-ink: #2B2619;
 
   /* Statuses stay within the same restrained palette */
-  --status-info: #0E4F4A;
-  --status-info-bg: #FAF8F5;
-  --status-info-border: #DDD7CC;
+  --status-info: #244A38;
+  --status-info-bg: #F1F4EA;
+  --status-info-border: #D7DCCF;
 
-  --status-review: #426360;
-  --status-review-bg: #FAF8F5;
-  --status-review-border: #DDD7CC;
+  --status-review: #80500A;
+  --status-review-bg: #FBF1DC;
+  --status-review-border: #EAD7AA;
 
-  --status-ready: #0E4F4A;
-  --status-ready-bg: #FAF8F5;
-  --status-ready-border: #DDD7CC;
+  --status-ready: #2F6B4E;
+  --status-ready-bg: #EDF4EC;
+  --status-ready-border: #CFE0D1;
 
-  --status-closed: #426360;
-  --status-closed-bg: #FAF8F5;
-  --status-closed-border: #DDD7CC;
+  --status-closed: #53665A;
+  --status-closed-bg: #F1F2EC;
+  --status-closed-border: #D7DCCF;
 
-  --status-error: #0E4F4A;
-  --status-error-bg: #FAF8F5;
-  --status-error-border: #DDD7CC;
+  --status-error: #9D3A32;
+  --status-error-bg: #F9EBE8;
+  --status-error-border: #E9C9C4;
 
   /* Borders & Dividers */
-  --border-light: #DDD7CC;
-  --border-medium: #DDD7CC;
-  --border-strong: #426360;
+  --border-light: #D7DCCF;
+  --border-medium: #D7DCCF;
+  --border-strong: #4F6958;
 
-  /* Subtle teal-tinted shadows */
-  --shadow-xs: 0 1px 2px rgba(14, 79, 74, 0.04);
-  --shadow-sm: 0 2px 6px rgba(14, 79, 74, 0.05);
-  --shadow-md: 0 8px 24px rgba(14, 79, 74, 0.06);
-  --shadow-lg: 0 12px 28px rgba(14, 79, 74, 0.08);
+  /* Neutral Forest Pine shadows */
+  --shadow-xs: 0 1px 2px rgba(32, 53, 42, 0.04);
+  --shadow-sm: 0 2px 6px rgba(32, 53, 42, 0.05);
+  --shadow-md: 0 8px 24px rgba(32, 53, 42, 0.06);
+  --shadow-lg: 0 12px 28px rgba(32, 53, 42, 0.08);
 
   /* Fonts */
   --font-sans: "Inter", -apple-system, BlinkMacSystemFont, sans-serif;

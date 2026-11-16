@@ -68,15 +68,15 @@ export const Sidebar: React.FC<SidebarProps> = ({ isOpen = false, onClose }) => 
         {/* Brand Header */}
         <div className="h-16 px-5 border-b border-ink-border/60 flex items-center justify-between">
           <div className="flex items-center gap-2.5">
-            <div className="w-8 h-8 rounded-lg bg-brand-forest text-white flex items-center justify-center">
-              <Shield className="w-4 h-4" />
+            <div className="w-9 h-9 rounded-lg bg-brand-forest text-white flex items-center justify-center">
+              <Shield className="w-[18px] h-[18px]" />
             </div>
             <div>
-              <span className="text-base font-semibold text-ink font-heading block leading-none">
+              <span className="text-lg font-semibold text-ink font-heading block leading-tight">
                 ShieldHer
               </span>
-              <span className="text-xs font-normal text-ink-muted block mt-1">
-                Private evidence workspace
+              <span className="text-xs font-normal text-ink-muted block mt-1 leading-4 whitespace-nowrap">
+                Evidence on your terms
               </span>
             </div>
           </div>
@@ -191,7 +191,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ isOpen = false, onClose }) => 
           <button
             type="button"
             onClick={handleLogout}
-            className="w-full flex min-h-10 items-center justify-center gap-2 px-3 py-2 rounded-lg text-sm font-medium text-ink-secondary hover:text-ink hover:bg-canvas-subtle border border-transparent transition-colors"
+            className="w-full flex min-h-10 items-center justify-center gap-2 px-3 py-2 rounded-lg text-sm font-medium text-status-error hover:bg-[var(--status-error-bg)] border border-transparent transition-colors"
           >
             <LogOut className="w-3.5 h-3.5" />
             <span>Sign Out</span>

@@ -144,8 +144,12 @@ export default function LandingPage() {
           <Link className="investor-signin" to="/login">
             Sign in
           </Link>
-          <Link className="investor-button investor-button-small" to="/register">
-            Create an account <ArrowRight size={16} aria-hidden="true" />
+          <Link
+            className="investor-button investor-button-small"
+            to="/register"
+          >
+            Create an account{" "}
+            <ArrowRight size={16} strokeWidth={1.5} aria-hidden="true" />
           </Link>
         </div>
       </header>
@@ -168,15 +172,17 @@ export default function LandingPage() {
 
               <div className="investor-hero-actions">
                 <Link className="investor-button" to="/register">
-                  Create an account <ArrowRight size={17} aria-hidden="true" />
+                  Create an account{" "}
+                  <ArrowRight size={16} strokeWidth={1.5} aria-hidden="true" />
                 </Link>
                 <a className="investor-text-button" href="#workflow">
-                  How it works <ArrowDown size={16} aria-hidden="true" />
+                  How it works{" "}
+                  <ArrowDown size={16} strokeWidth={1.5} aria-hidden="true" />
                 </a>
               </div>
 
               <div className="investor-trust-note">
-                <ShieldCheck size={17} aria-hidden="true" />
+                <ShieldCheck size={16} strokeWidth={1.5} aria-hidden="true" />
                 <span>Analysis supports review; it does not replace judgment.</span>
               </div>
             </div>
@@ -187,7 +193,7 @@ export default function LandingPage() {
             >
               <div className="investor-preview-topbar">
                 <span>Illustrative case review</span>
-                <LockKeyhole size={15} aria-hidden="true" />
+                <LockKeyhole size={16} strokeWidth={1.5} aria-hidden="true" />
               </div>
 
               <div className="investor-preview-content">
@@ -201,10 +207,22 @@ export default function LandingPage() {
 
                 <div className="investor-preview-case">
                   <div className="investor-preview-case-info">
-                    <div><LockKeyhole size={16} aria-hidden="true" /><span>Consent</span></div>
-                    <div><FileCheck2 size={16} aria-hidden="true" /><span>Evidence</span></div>
-                    <div><Search size={16} aria-hidden="true" /><span>Analysis signals</span></div>
-                    <div><Check size={16} aria-hidden="true" /><span>Your next step</span></div>
+                    <div>
+                      <LockKeyhole size={16} strokeWidth={1.5} aria-hidden="true" />
+                      <span>Consent</span>
+                    </div>
+                    <div>
+                      <FileCheck2 size={16} strokeWidth={1.5} aria-hidden="true" />
+                      <span>Evidence</span>
+                    </div>
+                    <div>
+                      <Search size={16} strokeWidth={1.5} aria-hidden="true" />
+                      <span>Analysis signals</span>
+                    </div>
+                    <div>
+                      <Check size={16} strokeWidth={1.5} aria-hidden="true" />
+                      <span>Your next step</span>
+                    </div>
                   </div>
                 </div>
 
@@ -262,13 +280,13 @@ export default function LandingPage() {
                       onClick={() => selectStep(index)}
                     >
                       <span className="investor-insight-icon">
-                        <Icon size={19} aria-hidden="true" />
+                        <Icon size={16} strokeWidth={1.5} aria-hidden="true" />
                       </span>
                       <span className="investor-insight-label">
                         <small>Step {step.number}</small>
                         <strong>{step.label}</strong>
                       </span>
-                      <ArrowRight size={17} aria-hidden="true" />
+                      <ArrowRight size={16} strokeWidth={1.5} aria-hidden="true" />
                     </button>
                     <AnimatePresence initial={false}>
                       {isActive && (
@@ -282,7 +300,7 @@ export default function LandingPage() {
                         >
                           <p>{step.description}</p>
                           <span>
-                            <Check size={14} aria-hidden="true" />
+                            <Check size={16} strokeWidth={1.5} aria-hidden="true" />
                             {step.status}
                           </span>
                         </motion.div>
@@ -314,7 +332,7 @@ export default function LandingPage() {
                   </div>
                   <div className="investor-insights-image-caption">
                     <span className="investor-insights-image-icon">
-                      <StepIcon size={19} aria-hidden="true" />
+                      <StepIcon size={16} strokeWidth={1.5} aria-hidden="true" />
                     </span>
                     <span className="investor-insights-image-label">{currentStep.label}</span>
                     <h3>{currentStep.title}</h3>
@@ -363,7 +381,7 @@ export default function LandingPage() {
             <div className="investor-principle-cards">
               <Reveal className="investor-principle-card" >
                 <span className="investor-principle-icon">
-                  <LockKeyhole size={20} aria-hidden="true" />
+                  <LockKeyhole size={16} strokeWidth={1.5} aria-hidden="true" />
                 </span>
                 <span className="investor-card-index">01 / Consent</span>
                 <h3>Choices stay visible</h3>
@@ -373,7 +391,7 @@ export default function LandingPage() {
               </Reveal>
               <Reveal className="investor-principle-card" >
                 <span className="investor-principle-icon">
-                  <Search size={20} aria-hidden="true" />
+                  <Search size={16} strokeWidth={1.5} aria-hidden="true" />
                 </span>
                 <span className="investor-card-index">02 / Clarity</span>
                 <h3>Signals need context</h3>
@@ -384,7 +402,7 @@ export default function LandingPage() {
               </Reveal>
               <Reveal className="investor-principle-card" >
                 <span className="investor-principle-icon">
-                  <FileCheck2 size={20} aria-hidden="true" />
+                  <FileCheck2 size={16} strokeWidth={1.5} aria-hidden="true" />
                 </span>
                 <span className="investor-card-index">03 / Agency</span>
                 <h3>People decide what is next</h3>
@@ -428,7 +446,7 @@ export default function LandingPage() {
                   key={capability.title}
                 >
                   <span className="investor-capability-icon">
-                    <Icon size={21} aria-hidden="true" />
+                    <Icon size={16} strokeWidth={1.5} aria-hidden="true" />
                   </span>
                     <span className="investor-card-index">
                       Platform / 0{index + 1}
@@ -455,7 +473,8 @@ export default function LandingPage() {
             </p>
             <div className="investor-closing-actions">
               <Link className="investor-button" to="/register">
-                Create a private account <ArrowRight size={17} aria-hidden="true" />
+                Create an account{" "}
+                <ArrowRight size={16} strokeWidth={1.5} aria-hidden="true" />
               </Link>
               <Link className="investor-closing-signin" to="/login">
                 Already have an account? Sign in

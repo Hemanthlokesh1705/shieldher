@@ -1,91 +1,91 @@
 /*
- * ShieldHer's light-only cream and deep-teal theme.
+ * ShieldHer's light Mist Alabaster, Forest Pine, and Warm Amber theme.
  * Shared tokens keep Tailwind surfaces and CSS components consistent.
  */
 :root {
   color-scheme: light;
 
-  --c-canvas: 241 238 232;
-  --c-canvas-pearl: 255 255 255;
-  --c-canvas-subtle: 250 248 245;
-  --c-canvas-sand: 221 215 204;
+  --c-canvas: 244 244 237;
+  --c-canvas-pearl: 255 254 250;
+  --c-canvas-subtle: 248 248 242;
+  --c-canvas-sand: 226 228 218;
 
-  --c-surface: 255 255 255;
-  --c-surface-subtle: 250 248 245;
-  --c-surface-secondary: 250 248 245;
-  --c-surface-tertiary: 241 238 232;
-  --c-surface-tint: 250 248 245;
+  --c-surface: 255 254 250;
+  --c-surface-subtle: 248 248 242;
+  --c-surface-secondary: 248 248 242;
+  --c-surface-tertiary: 244 244 237;
+  --c-surface-tint: 241 244 234;
 
-  --c-brand-forest: 14 79 74;
-  --c-brand-rich: 66 99 96;
-  --c-brand-hover: 10 60 56;
-  --c-brand-border: 221 215 204;
+  --c-brand-forest: 36 74 56;
+  --c-brand-rich: 79 105 88;
+  --c-brand-hover: 26 60 41;
+  --c-brand-border: 215 220 207;
 
-  --c-ink: 14 79 74;
-  --c-ink-secondary: 66 99 96;
-  --c-ink-muted: 66 99 96;
-  --c-ink-subtle: 66 99 96;
-  --c-ink-border: 221 215 204;
-  --c-ink-border-strong: 66 99 96;
+  --c-ink: 32 53 42;
+  --c-ink-secondary: 83 102 90;
+  --c-ink-muted: 83 102 90;
+  --c-ink-subtle: 83 102 90;
+  --c-ink-border: 215 220 207;
+  --c-ink-border-strong: 79 105 88;
 
-  --c-action-ink: 9 47 45;
-  --c-action-primary: 255 111 94;
-  --c-action-hover: 244 95 80;
+  --c-action-ink: 43 38 25;
+  --c-action-primary: 231 184 92;
+  --c-action-hover: 214 164 67;
 
-  --c-status-success: 14 79 74;
-  --c-status-success-bg: 250 248 245;
-  --c-status-success-border: 221 215 204;
-  --c-status-warning: 66 99 96;
-  --c-status-warning-bg: 250 248 245;
-  --c-status-warning-border: 221 215 204;
-  --c-status-error: 14 79 74;
-  --c-status-error-bg: 250 248 245;
-  --c-status-error-border: 221 215 204;
-  --c-status-info: 14 79 74;
-  --c-status-info-bg: 250 248 245;
-  --c-status-info-border: 221 215 204;
+  --c-status-success: 47 107 78;
+  --c-status-success-bg: 237 244 236;
+  --c-status-success-border: 207 224 209;
+  --c-status-warning: 128 80 10;
+  --c-status-warning-bg: 251 241 220;
+  --c-status-warning-border: 234 215 170;
+  --c-status-error: 157 58 50;
+  --c-status-error-bg: 249 235 232;
+  --c-status-error-border: 233 201 196;
+  --c-status-info: 36 74 56;
+  --c-status-info-bg: 241 244 234;
+  --c-status-info-border: 215 220 207;
 
-  --c-shadow: 14 79 74;
+  --c-shadow: 32 53 42;
 
-  --bg-main: #f1eee8;
-  --surface-primary: #ffffff;
-  --surface-secondary: #faf8f5;
-  --surface-tertiary: #f1eee8;
-  --text-primary: #0e4f4a;
-  --text-secondary: #426360;
-  --text-muted: #426360;
+  --bg-main: #f4f4ed;
+  --surface-primary: #fffefa;
+  --surface-secondary: #f8f8f2;
+  --surface-tertiary: #f4f4ed;
+  --text-primary: #20352a;
+  --text-secondary: #53665a;
+  --text-muted: #53665a;
   --text-inverse: #ffffff;
-  --accent-primary: #0e4f4a;
-  --accent-hover: #0a3c38;
-  --accent-active: #082f2c;
-  --accent-rich: #426360;
-  --accent-surface: #faf8f5;
-  --accent-border: #ddd7cc;
-  --action-primary: #ff6f5e;
-  --action-hover: #f45f50;
-  --action-ink: #092f2d;
-  --status-info-bg: #faf8f5;
-  --status-info-border: #ddd7cc;
-  --status-info: #0e4f4a;
-  --status-review: #426360;
-  --status-review-bg: #faf8f5;
-  --status-review-border: #ddd7cc;
-  --status-ready: #0e4f4a;
-  --status-ready-bg: #faf8f5;
-  --status-ready-border: #ddd7cc;
-  --status-closed: #426360;
-  --status-closed-bg: #faf8f5;
-  --status-closed-border: #ddd7cc;
-  --status-error: #0e4f4a;
-  --status-error-bg: #faf8f5;
-  --status-error-border: #ddd7cc;
-  --border-light: #ddd7cc;
-  --border-medium: #ddd7cc;
-  --border-strong: #426360;
-  --shadow-xs: 0 1px 2px rgb(14 79 74 / 0.04);
-  --shadow-sm: 0 2px 6px rgb(14 79 74 / 0.05);
-  --shadow-md: 0 8px 24px rgb(14 79 74 / 0.06);
-  --shadow-lg: 0 12px 28px rgb(14 79 74 / 0.08);
+  --accent-primary: #244a38;
+  --accent-hover: #1a3c29;
+  --accent-active: #142f20;
+  --accent-rich: #4f6958;
+  --accent-surface: #f1f4ea;
+  --accent-border: #d7dccf;
+  --action-primary: #e7b85c;
+  --action-hover: #d6a443;
+  --action-ink: #2b2619;
+  --status-info-bg: #f1f4ea;
+  --status-info-border: #d7dccf;
+  --status-info: #244a38;
+  --status-review: #80500a;
+  --status-review-bg: #fbf1dc;
+  --status-review-border: #ead7aa;
+  --status-ready: #2f6b4e;
+  --status-ready-bg: #edf4ec;
+  --status-ready-border: #cfe0d1;
+  --status-closed: #53665a;
+  --status-closed-bg: #f1f2ec;
+  --status-closed-border: #d7dccf;
+  --status-error: #9d3a32;
+  --status-error-bg: #f9ebe8;
+  --status-error-border: #e9c9c4;
+  --border-light: #d7dccf;
+  --border-medium: #d7dccf;
+  --border-strong: #4f6958;
+  --shadow-xs: 0 1px 2px rgb(32 53 42 / 0.04);
+  --shadow-sm: 0 2px 6px rgb(32 53 42 / 0.05);
+  --shadow-md: 0 8px 24px rgb(32 53 42 / 0.06);
+  --shadow-lg: 0 12px 28px rgb(32 53 42 / 0.08);
 
   --color-bg: var(--bg-main);
   --color-bg-subtle: var(--surface-secondary);
