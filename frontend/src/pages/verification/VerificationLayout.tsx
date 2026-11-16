@@ -1,8 +1,9 @@
-import React from "react";
+import React, { useState } from "react";
 import { Outlet, useLocation, useNavigate } from "react-router-dom";
 import { useVerification } from "../../context/VerificationContext";
 import { Check, RotateCcw, ShieldCheck } from "lucide-react";
 import { cn } from "../../lib/utils";
+import { ConfirmDialog } from "../../components/ui/ConfirmDialog";
 
 const STEPS = [
   { id: 1, label: "Consent", path: "/verification/consent" },
@@ -17,6 +18,7 @@ const STEPS = [
 ];
 
 export const VerificationLayout: React.FC = () => {
+  const [resetConfirmationOpen, setResetConfirmationOpen] = useState(false);
   const location = useLocation();
   const navigate = useNavigate();
   const { uploadData, verificationData, activeCase, resetWorkflow } =
@@ -54,7 +56,7 @@ export const VerificationLayout: React.FC = () => {
       <div className="bg-surface-pearl rounded-2xl border border-ink-border/80 p-5 sm:p-7 shadow-xs">
         <div className="flex flex-wrap items-center justify-between gap-3 mb-6">
           <div>
-            <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-brand-sage/40 text-brand-forest text-xs font-semibold mb-1 border border-brand-border">
+            <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-surface-subtle/40 text-brand-forest text-xs font-semibold mb-1 border border-brand-border">
               <ShieldCheck className="w-3.5 h-3.5" />
               <span>Confidential Verification &bull; Step {currentIdx + 1} of {STEPS.length}</span>
             </div>
@@ -72,16 +74,7 @@ export const VerificationLayout: React.FC = () => {
             <button
               type="button"
               className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold text-ink-secondary hover:text-ink-primary hover:bg-canvas-subtle transition-colors border border-ink-border/50 hover:border-ink-border"
-              onClick={() => {
-                if (
-                  window.confirm(
-                    "Start a new check? In-flight changes will be cleared."
-                  )
-                ) {
-                  resetWorkflow();
-                  navigate("/verification/consent");
-                }
-              }}
+              onClick={() => setResetConfirmationOpen(true)}
             >
               <RotateCcw className="w-3.5 h-3.5 text-ink-muted" />
               <span>Start Over</span>
@@ -101,21 +94,22 @@ export const VerificationLayout: React.FC = () => {
                 <button
                   type="button"
                   className={cn(
-                    "flex flex-col items-center gap-1.5 transition-all focus:outline-none group",
+                    "flex flex-col items-center gap-1.5 transition-colors focus:outline-none focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-action group",
                     !isClickable && "opacity-40 cursor-not-allowed"
                   )}
                   onClick={() => handleStepClick(idx, step.path)}
                   disabled={!isClickable}
                   title={`${step.id}. ${step.label}`}
+                  aria-current={isActive ? "step" : undefined}
                 >
                   <div
                     className={cn(
                       "w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold transition-all shadow-2xs",
                       isActive
-                        ? "bg-brand-forest text-surface-pearl ring-4 ring-brand-sage scale-105"
+                        ? "bg-action text-action-ink ring-4 ring-action/20 scale-105"
                         : isCompleted
-                        ? "bg-brand-rich text-surface-pearl"
-                        : "bg-[#FAF8F5] text-ink-secondary border border-ink-border group-hover:border-brand-rich"
+                        ? "bg-brand-forest text-surface-pearl"
+                        : "bg-surface-subtle text-ink-secondary border border-ink-border group-hover:border-brand-rich"
                     )}
                   >
                     {isCompleted ? <Check className="w-4 h-4 stroke-[2.5]" /> : step.id}
@@ -149,9 +143,9 @@ export const VerificationLayout: React.FC = () => {
 
         {/* Mobile & Tablet Compact Progress Indicator */}
         <div className="lg:hidden mt-2">
-          <div className="w-full bg-[#EAE5DA] rounded-full h-2 overflow-hidden">
+          <div className="w-full bg-ink-border rounded-full h-2 overflow-hidden">
             <div
-              className="bg-brand-forest h-2 rounded-full transition-all duration-300"
+              className="bg-action h-2 rounded-full transition-all duration-300"
               style={{
                 width: `${((currentIdx + 1) / STEPS.length) * 100}%`,
               }}
@@ -170,6 +164,18 @@ export const VerificationLayout: React.FC = () => {
 
       {/* Active Step Content */}
       <Outlet />
+      <ConfirmDialog
+        open={resetConfirmationOpen}
+        title="Start a new image check?"
+        description="Your current check and any information entered in this workflow will be cleared."
+        confirmLabel="Start new check"
+        onCancel={() => setResetConfirmationOpen(false)}
+        onConfirm={() => {
+          resetWorkflow();
+          setResetConfirmationOpen(false);
+          navigate("/verification/consent");
+        }}
+      />
     </div>
   );
 };

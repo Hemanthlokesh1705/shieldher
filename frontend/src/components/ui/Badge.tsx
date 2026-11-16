@@ -11,18 +11,18 @@ export function Badge({
   ...props
 }: BadgeProps) {
   const variantStyles = {
-    default: "bg-teal-50 text-teal-700 border-teal-200",
+    default: "bg-surface-subtle text-brand-forest border-brand-border",
     secondary: "bg-canvas-subtle text-ink-secondary border-ink-border",
-    success: "bg-sage-50 text-sage-600 border-green-200",
-    warning: "bg-amber-50 text-amber-600 border-amber-200",
-    destructive: "bg-rose-50 text-rose-600 border-rose-200",
+    success: "bg-status-successBg text-status-success border-status-successBorder",
+    warning: "bg-status-warningBg text-status-warning border-status-warningBorder",
+    destructive: "bg-status-errorBg text-status-error border-status-errorBorder",
     outline: "bg-transparent text-ink border-ink-border",
   };
 
   return (
     <div
       className={cn(
-        "inline-flex items-center rounded-full border px-2.5 py-0.5 text-xs font-medium tracking-wide transition-colors",
+        "inline-flex items-center rounded-full border px-2.5 py-0.5 text-xs font-medium transition-colors",
         variantStyles[variant],
         className
       )}

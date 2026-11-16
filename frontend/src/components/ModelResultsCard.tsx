@@ -1,4 +1,5 @@
 import React from "react";
+import { Brain } from "lucide-react";
 import { VerificationResponse } from "../types/models";
 
 interface ModelResultsCardProps {
@@ -28,8 +29,8 @@ export const ModelResultsCard: React.FC<ModelResultsCardProps> = ({
     <div className="app-card animate-fade-in">
       <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "1.25rem", flexWrap: "wrap", gap: "0.5rem" }}>
         <div style={{ display: "flex", alignItems: "center", gap: "0.75rem" }}>
-          <div style={{ width: "40px", height: "40px", borderRadius: "10px", backgroundColor: "rgba(16, 185, 129, 0.12)", border: "1px solid rgba(16, 185, 129, 0.3)", display: "flex", alignItems: "center", justifyContent: "center", fontSize: "1.25rem", color: "#10b981" }}>
-            🧠
+          <div style={{ width: "40px", height: "40px", borderRadius: "10px", backgroundColor: "var(--accent-surface)", border: "1px solid var(--accent-border)", display: "flex", alignItems: "center", justifyContent: "center", color: "var(--accent-primary)" }}>
+            <Brain size={19} aria-hidden="true" />
           </div>
           <div>
             <h2 style={{ fontSize: "1.25rem", fontWeight: 700, color: "var(--color-text)", letterSpacing: "-0.01em" }}>
@@ -52,31 +53,28 @@ export const ModelResultsCard: React.FC<ModelResultsCardProps> = ({
       {/* Critical Scientific Disclaimer */}
       <div
         style={{
-          backgroundColor: "rgba(245, 158, 11, 0.08)",
-          borderLeft: "4px solid #f59e0b",
-          borderTop: "1px solid rgba(245, 158, 11, 0.2)",
-          borderRight: "1px solid rgba(245, 158, 11, 0.2)",
-          borderBottom: "1px solid rgba(245, 158, 11, 0.2)",
+          backgroundColor: "var(--status-info-bg)",
+          border: "1px solid var(--status-info-border)",
           padding: "1rem 1.25rem",
           borderRadius: "10px",
           marginBottom: "1.5rem",
           fontSize: "0.85rem",
-          color: "#d97706",
+          color: "var(--status-info)",
           lineHeight: 1.55,
         }}
       >
-        <strong style={{ color: "#b45309" }}>Evidentiary Principle:</strong> A full-image AI-generation score is not interchangeable with a face-swap score. Neither score alone proves authenticity or malicious intent. Models provide probabilistic forensic indicators.
+        <strong style={{ color: "var(--text-primary)" }}>How to read these results:</strong> A full-image AI-generation score is not interchangeable with a face-swap score. Neither score alone proves authenticity or malicious intent. Models provide probabilistic forensic indicators.
       </div>
 
       <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))", gap: "1.25rem", marginBottom: "1.75rem" }}>
         {/* EFFORT Adapter Panel (Face Manipulation / Face-Swap) */}
         <div
           style={{
-            backgroundColor: "var(--color-surface, rgba(255,255,255,0.03))",
+            backgroundColor: "var(--surface-primary)",
             border: "1.5px solid var(--color-border)",
             borderRadius: "14px",
             padding: "1.5rem",
-            boxShadow: "0 1px 3px rgba(0,0,0,0.03)",
+            boxShadow: "var(--shadow-xs)",
           }}
         >
           <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: "0.5rem" }}>
@@ -97,7 +95,7 @@ export const ModelResultsCard: React.FC<ModelResultsCardProps> = ({
             <div style={{ display: "flex", flexDirection: "column", gap: "0.85rem", marginTop: "1rem" }}>
               <div
                 style={{
-                  backgroundColor: "var(--color-bg-subtle, rgba(255,255,255,0.02))",
+                  backgroundColor: "var(--surface-secondary)",
                   border: "1px solid var(--color-border)",
                   padding: "1.15rem",
                   borderRadius: "12px",
@@ -113,7 +111,7 @@ export const ModelResultsCard: React.FC<ModelResultsCardProps> = ({
                   style={{
                     fontSize: "2.25rem",
                     fontWeight: 800,
-                    color: effortScore > 0.5 ? "#ef4444" : "var(--color-primary)",
+                    color: effortScore > 0.5 ? "var(--status-review)" : "var(--color-primary)",
                     marginTop: "0.2rem",
                   }}
                 >
@@ -127,9 +125,9 @@ export const ModelResultsCard: React.FC<ModelResultsCardProps> = ({
                     fontWeight: 700,
                     padding: "0.25rem 0.6rem",
                     borderRadius: "6px",
-                    backgroundColor: effort_result?.predicted_label === "MANIPULATED" ? "rgba(239, 68, 68, 0.12)" : "rgba(16, 185, 129, 0.12)",
-                    color: effort_result?.predicted_label === "MANIPULATED" ? "#ef4444" : "var(--color-primary)",
-                    border: `1px solid ${effort_result?.predicted_label === "MANIPULATED" ? "rgba(239, 68, 68, 0.3)" : "rgba(16, 185, 129, 0.3)"}`,
+                    backgroundColor: effort_result?.predicted_label === "MANIPULATED" ? "var(--status-review-bg)" : "var(--accent-surface)",
+                    color: effort_result?.predicted_label === "MANIPULATED" ? "var(--status-review)" : "var(--color-primary)",
+                    border: `1px solid ${effort_result?.predicted_label === "MANIPULATED" ? "var(--status-review-border)" : "var(--accent-border)"}`,
                   }}
                 >
                   {effort_result?.predicted_label || "AUTHENTIC"}
@@ -153,7 +151,7 @@ export const ModelResultsCard: React.FC<ModelResultsCardProps> = ({
               </div>
             </div>
           ) : (
-            <div style={{ padding: "1.25rem", backgroundColor: "var(--color-bg-subtle, rgba(255,255,255,0.02))", borderRadius: "10px", fontSize: "0.825rem", color: "var(--color-text-muted)", marginTop: "1rem" }}>
+            <div style={{ padding: "1.25rem", backgroundColor: "var(--surface-secondary)", borderRadius: "10px", fontSize: "0.875rem", color: "var(--color-text-muted)", marginTop: "1rem" }}>
               {effort_result?.notes || effort_result?.error_message || "EFFORT model output unavailable or face not detected in input frame."}
             </div>
           )}
@@ -162,11 +160,11 @@ export const ModelResultsCard: React.FC<ModelResultsCardProps> = ({
         {/* Smaug AI Detector Panel (Full AI Generation) */}
         <div
           style={{
-            backgroundColor: "var(--color-surface, rgba(255,255,255,0.03))",
+            backgroundColor: "var(--surface-primary)",
             border: "1.5px solid var(--color-border)",
             borderRadius: "14px",
             padding: "1.5rem",
-            boxShadow: "0 1px 3px rgba(0,0,0,0.03)",
+            boxShadow: "var(--shadow-xs)",
           }}
         >
           <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: "0.5rem" }}>
@@ -187,7 +185,7 @@ export const ModelResultsCard: React.FC<ModelResultsCardProps> = ({
             <div style={{ display: "flex", flexDirection: "column", gap: "0.85rem", marginTop: "1rem" }}>
               <div
                 style={{
-                  backgroundColor: "var(--color-bg-subtle, rgba(255,255,255,0.02))",
+                  backgroundColor: "var(--surface-secondary)",
                   border: "1px solid var(--color-border)",
                   padding: "1.15rem",
                   borderRadius: "12px",
@@ -203,7 +201,7 @@ export const ModelResultsCard: React.FC<ModelResultsCardProps> = ({
                   style={{
                     fontSize: "2.25rem",
                     fontWeight: 800,
-                    color: smaugScore > 0.5 ? "#ef4444" : "var(--color-primary)",
+                    color: smaugScore > 0.5 ? "var(--status-review)" : "var(--color-primary)",
                     marginTop: "0.2rem",
                   }}
                 >
@@ -217,9 +215,9 @@ export const ModelResultsCard: React.FC<ModelResultsCardProps> = ({
                     fontWeight: 700,
                     padding: "0.25rem 0.6rem",
                     borderRadius: "6px",
-                    backgroundColor: smaug_result?.predicted_label === "AI_GENERATED" ? "rgba(239, 68, 68, 0.12)" : "rgba(16, 185, 129, 0.12)",
-                    color: smaug_result?.predicted_label === "AI_GENERATED" ? "#ef4444" : "var(--color-primary)",
-                    border: `1px solid ${smaug_result?.predicted_label === "AI_GENERATED" ? "rgba(239, 68, 68, 0.3)" : "rgba(16, 185, 129, 0.3)"}`,
+                    backgroundColor: smaug_result?.predicted_label === "AI_GENERATED" ? "var(--status-review-bg)" : "var(--accent-surface)",
+                    color: smaug_result?.predicted_label === "AI_GENERATED" ? "var(--status-review)" : "var(--color-primary)",
+                    border: `1px solid ${smaug_result?.predicted_label === "AI_GENERATED" ? "var(--status-review-border)" : "var(--accent-border)"}`,
                   }}
                 >
                   {smaug_result?.predicted_label || "HUMAN_CAPTURED"}
@@ -233,7 +231,7 @@ export const ModelResultsCard: React.FC<ModelResultsCardProps> = ({
               </div>
             </div>
           ) : (
-            <div style={{ padding: "1.25rem", backgroundColor: "var(--color-bg-subtle, rgba(255,255,255,0.02))", borderRadius: "10px", fontSize: "0.825rem", color: "var(--color-text-muted)", marginTop: "1rem" }}>
+            <div style={{ padding: "1.25rem", backgroundColor: "var(--surface-secondary)", borderRadius: "10px", fontSize: "0.875rem", color: "var(--color-text-muted)", marginTop: "1rem" }}>
               {smaug_result?.notes || smaug_result?.error_message || "Smaug model output unavailable or inference did not complete."}
             </div>
           )}

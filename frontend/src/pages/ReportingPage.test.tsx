@@ -23,7 +23,7 @@ describe("ReportingPage", () => {
     expect(screen.getByText("ShieldHer")).toBeInTheDocument();
     expect(screen.getByText("1. Secure Evidence Intake")).toBeInTheDocument();
     expect(screen.getByText(/Supports JPEG, PNG, WebP/i)).toBeInTheDocument();
-    expect(screen.getByText(/Local Boundary Processing/i)).toBeInTheDocument();
+    expect(screen.getByText(/Image processing/i)).toBeInTheDocument();
   });
 
   it("uploads an image and renders QualityGatewayCard with provisional thresholds", async () => {

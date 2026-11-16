@@ -1,6 +1,13 @@
 import React, { useState } from "react";
+import {
+  Archive,
+  Download,
+  Info,
+  KeyRound,
+} from "lucide-react";
 import { CaseItem, DownloadUrlResponse } from "../types/models";
 import { getEvidenceDownloadUrl, deleteEvidence, deleteCase } from "../services/api";
+import { ConfirmDialog } from "./ui/ConfirmDialog";
 
 interface EvidenceInventoryCardProps {
   caseData: CaseItem;
@@ -38,10 +45,10 @@ export const EvidenceInventoryCard: React.FC<EvidenceInventoryCardProps> = ({
     try {
       if (deleteModal.type === "evidence") {
         await deleteEvidence(caseData.id, deleteModal.id, deleteReason);
-        setMessage("Evidence item securely purged and shredded.");
+        setMessage("Evidence item deleted.");
       } else {
         await deleteCase(caseData.id, deleteReason);
-        setMessage("Entire case and all associated evidence securely purged.");
+        setMessage("Request and its associated evidence deleted.");
       }
       setDeleteModal(null);
       setDeleteReason("");
@@ -57,8 +64,8 @@ export const EvidenceInventoryCard: React.FC<EvidenceInventoryCardProps> = ({
     <div className="app-card animate-fade-in">
       <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "1.25rem", flexWrap: "wrap", gap: "0.5rem" }}>
         <div style={{ display: "flex", alignItems: "center", gap: "0.75rem" }}>
-          <div style={{ width: "40px", height: "40px", borderRadius: "10px", backgroundColor: "#ecfdf5", border: "1px solid #a7f3d0", display: "flex", alignItems: "center", justifyContent: "center", fontSize: "1.25rem", color: "#059669" }}>
-            🗄️
+          <div style={{ width: "40px", height: "40px", borderRadius: "10px", backgroundColor: "var(--accent-surface)", border: "1px solid var(--accent-border)", display: "flex", alignItems: "center", justifyContent: "center", color: "var(--accent-primary)" }}>
+            <Archive size={20} aria-hidden="true" />
           </div>
           <div>
             <h2 style={{ fontSize: "1.25rem", fontWeight: 700, color: "var(--color-text)", letterSpacing: "-0.01em" }}>
@@ -74,8 +81,8 @@ export const EvidenceInventoryCard: React.FC<EvidenceInventoryCardProps> = ({
         </span>
       </div>
 
-      <div style={{ display: "flex", gap: "1.5rem", flexWrap: "wrap", fontSize: "0.85rem", color: "var(--color-text-secondary)", marginBottom: "1.5rem", backgroundColor: "#f8fafc", padding: "0.85rem 1.15rem", borderRadius: "10px", border: "1px solid #e2e8f0" }}>
-        <span><strong>Case ID:</strong> <code style={{ color: "#065f46", fontFamily: "var(--font-mono)" }}>{caseData.id}</code></span>
+      <div style={{ display: "flex", gap: "1.5rem", flexWrap: "wrap", fontSize: "0.85rem", color: "var(--color-text-secondary)", marginBottom: "1.5rem", backgroundColor: "var(--surface-secondary)", padding: "0.85rem 1.15rem", borderRadius: "10px", border: "1px solid var(--border-light)" }}>
+        <span><strong>Case ID:</strong> <code style={{ color: "var(--accent-primary)", fontFamily: "var(--font-mono)" }}>{caseData.id}</code></span>
         <span><strong>Retention Policy:</strong> <span style={{ color: "var(--color-text)", fontWeight: 700 }}>{caseData.retention_policy}</span></span>
         <span>
           <strong>Retention Expiration:</strong>{" "}
@@ -91,9 +98,9 @@ export const EvidenceInventoryCard: React.FC<EvidenceInventoryCardProps> = ({
         <div
           className="animate-fade-in"
           style={{
-            backgroundColor: "#f0fdf4",
-            border: "1px solid #a7f3d0",
-            color: "#065f46",
+            backgroundColor: "var(--status-info-bg)",
+            border: "1px solid var(--status-info-border)",
+            color: "var(--status-info)",
             padding: "0.85rem 1.15rem",
             borderRadius: "10px",
             marginBottom: "1.25rem",
@@ -101,7 +108,7 @@ export const EvidenceInventoryCard: React.FC<EvidenceInventoryCardProps> = ({
             fontWeight: 500,
           }}
         >
-          ℹ️ {message}
+          <Info size={16} aria-hidden="true" /> {message}
         </div>
       )}
 
@@ -112,23 +119,23 @@ export const EvidenceInventoryCard: React.FC<EvidenceInventoryCardProps> = ({
             <div
               key={item.id}
               style={{
-                backgroundColor: "#ffffff",
+                backgroundColor: "var(--surface-primary)",
                 padding: "1.15rem 1.25rem",
                 borderRadius: "12px",
-                border: "1px solid #e2e8f0",
+                border: "1px solid var(--border-light)",
                 display: "flex",
                 justifyContent: "space-between",
                 alignItems: "center",
                 flexWrap: "wrap",
                 gap: "1rem",
-                boxShadow: "0 1px 3px rgba(0,0,0,0.03)",
+                boxShadow: "var(--shadow-xs)",
               }}
             >
               <div style={{ display: "flex", flexDirection: "column", gap: "0.25rem" }}>
                 <span style={{ fontWeight: 700, color: "var(--color-text)", fontSize: "0.925rem" }}>
                   {item.filename_sanitized} {item.is_deleted ? " [PURGED]" : ""}
                 </span>
-                <span style={{ fontSize: "0.775rem", color: "#065f46", fontFamily: "var(--font-mono)", fontWeight: 600 }}>
+                <span style={{ fontSize: "0.775rem", color: "var(--accent-primary)", fontFamily: "var(--font-mono)", fontWeight: 500 }}>
                   SHA-256: {item.original_sha256}
                 </span>
                 <span style={{ fontSize: "0.75rem", color: "var(--color-text-muted)" }}>
@@ -146,7 +153,7 @@ export const EvidenceInventoryCard: React.FC<EvidenceInventoryCardProps> = ({
                         className="btn-emerald btn-success"
                         style={{ padding: "0.5rem 1rem", fontSize: "0.8rem", textDecoration: "none" }}
                       >
-                        ⬇️ Download Original (Expires {new Date(downloadLinks[item.id].expires_at_utc).toLocaleTimeString()})
+                        <Download size={15} aria-hidden="true" /> Download original (expires {new Date(downloadLinks[item.id].expires_at_utc).toLocaleTimeString()})
                       </a>
                     ) : (
                       <button
@@ -156,7 +163,7 @@ export const EvidenceInventoryCard: React.FC<EvidenceInventoryCardProps> = ({
                         className="btn-emerald btn-secondary"
                         style={{ padding: "0.5rem 1rem", fontSize: "0.8rem" }}
                       >
-                        {loadingEvidenceId === item.id ? "Signing..." : "🔑 Issue Signed Download"}
+                        {loadingEvidenceId === item.id ? "Signing..." : <><KeyRound size={15} aria-hidden="true" /> Issue signed download</>}
                       </button>
                     )}
 
@@ -166,7 +173,7 @@ export const EvidenceInventoryCard: React.FC<EvidenceInventoryCardProps> = ({
                       className="btn-danger"
                       style={{ padding: "0.5rem 1rem", fontSize: "0.8rem" }}
                     >
-                      Purge Item
+                      Delete item
                     </button>
                   </>
                 )}
@@ -181,7 +188,7 @@ export const EvidenceInventoryCard: React.FC<EvidenceInventoryCardProps> = ({
       {/* Case-Level Secure Deletion */}
       <div
         style={{
-          borderTop: "1px solid #e2e8f0",
+          borderTop: "1px solid var(--border-light)",
           paddingTop: "1.25rem",
           display: "flex",
           justifyContent: "space-between",
@@ -191,9 +198,9 @@ export const EvidenceInventoryCard: React.FC<EvidenceInventoryCardProps> = ({
         }}
       >
         <div>
-          <h4 style={{ fontSize: "0.925rem", fontWeight: 700, color: "#b91c1c" }}>Cryptographic Case Shredding</h4>
+          <h4 style={{ fontSize: "0.925rem", fontWeight: 500, color: "var(--text-primary)" }}>Delete this request</h4>
           <p style={{ fontSize: "0.8rem", color: "var(--color-text-muted)", marginTop: "0.2rem" }}>
-            Permanently destroys all encrypted original files, metadata, and derived reports.
+            This also removes the evidence and reports linked to this request.
           </p>
         </div>
         <button
@@ -202,80 +209,52 @@ export const EvidenceInventoryCard: React.FC<EvidenceInventoryCardProps> = ({
           className="btn-danger"
           style={{ padding: "0.6rem 1.25rem", fontSize: "0.825rem" }}
         >
-          Purge Entire Case
+          Delete request
         </button>
       </div>
 
-      {/* Delete Confirmation Modal */}
-      {deleteModal && (
-        <div
-          style={{
-            position: "fixed",
-            top: 0,
-            left: 0,
-            right: 0,
-            bottom: 0,
-            backgroundColor: "rgba(15, 23, 42, 0.6)",
-            backdropFilter: "blur(4px)",
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-            zIndex: 1000,
-          }}
+      <ConfirmDialog
+        open={Boolean(deleteModal)}
+        title={
+          deleteModal?.type === "case"
+            ? "Delete this request?"
+            : "Delete this evidence item?"
+        }
+        description={
+          deleteModal?.type === "case"
+            ? "This also removes the evidence and reports linked to this request."
+            : "This removes the selected evidence item from this request."
+        }
+        confirmLabel="Delete"
+        variant="destructive"
+        busy={isDeleting}
+        confirmDisabled={deleteReason.trim().length < 5}
+        onCancel={() => {
+          setDeleteModal(null);
+          setDeleteReason("");
+        }}
+        onConfirm={handleExecuteDelete}
+      >
+        <label
+          className="confirmation-dialog-reason-label"
+          htmlFor="evidence-deletion-reason"
         >
-          <div
-            className="app-card"
-            style={{
-              padding: "2rem",
-              maxWidth: "520px",
-              width: "90%",
-              boxShadow: "0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)",
-              marginBottom: 0,
-            }}
-          >
-            <div style={{ display: "flex", alignItems: "center", gap: "0.5rem", marginBottom: "0.75rem" }}>
-              <span style={{ fontSize: "1.3rem" }}>⚠️</span>
-              <h3 style={{ color: "#b91c1c", fontSize: "1.2rem", fontWeight: 700 }}>
-                Confirm Cryptographic Shredding
-              </h3>
-            </div>
-            <p style={{ fontSize: "0.875rem", color: "var(--color-text-secondary)", marginBottom: "1rem", lineHeight: 1.55 }}>
-              This operation executes multi-pass cryptographic overwrite and removes the decryption keys.
-              Please provide a documented justification for this deletion request:
-            </p>
-            <textarea
-              rows={3}
-              value={deleteReason}
-              onChange={(e) => setDeleteReason(e.target.value)}
-              placeholder="e.g. Victim explicit right-to-erasure request under personal privacy protocol."
-              className="textarea-clean"
-              style={{ marginBottom: "1.25rem" }}
-            />
-            <div style={{ display: "flex", justifyContent: "flex-end", gap: "0.85rem" }}>
-              <button
-                type="button"
-                onClick={() => {
-                  setDeleteModal(null);
-                  setDeleteReason("");
-                }}
-                className="btn-emerald btn-secondary"
-                style={{ padding: "0.6rem 1.25rem", fontSize: "0.85rem" }}
-              >
-                Cancel
-              </button>
-              <button
-                type="button"
-                onClick={handleExecuteDelete}
-                disabled={deleteReason.trim().length < 5 || isDeleting}
-                className="btn-danger"
-                style={{ padding: "0.6rem 1.25rem", fontSize: "0.85rem" }}
-              >
-                {isDeleting ? "Shredding..." : "Confirm Secure Deletion"}
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
+          Reason for deletion
+        </label>
+        <textarea
+          id="evidence-deletion-reason"
+          rows={3}
+          value={deleteReason}
+          onChange={(event) => setDeleteReason(event.target.value)}
+          placeholder="Enter at least 5 characters"
+          className="confirmation-dialog-reason"
+        />
+        {deleteReason.trim().length > 0 && deleteReason.trim().length < 5 && (
+          <p className="confirmation-dialog-hint">
+            Please enter at least 5 characters.
+          </p>
+        )}
+      </ConfirmDialog>
     </div>
   );
 };

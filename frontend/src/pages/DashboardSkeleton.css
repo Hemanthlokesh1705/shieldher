@@ -1,0 +1,114 @@
+.dashboard-skeleton {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  padding-bottom: 2.5rem;
+}
+
+.dashboard-skeleton-hero,
+.dashboard-skeleton-posture,
+.dashboard-skeleton-shortcuts,
+.dashboard-skeleton-requests {
+  border: 1px solid rgb(var(--c-ink-border));
+  border-radius: 12px;
+  background: rgb(var(--c-surface));
+}
+
+.dashboard-skeleton-hero {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(240px, 0.6fr);
+  gap: 2rem;
+  padding: 2rem;
+}
+
+.dashboard-skeleton-hero > div:first-child {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.875rem;
+}
+
+.dashboard-skeleton-posture {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  padding: 1rem;
+  background: rgb(var(--c-surface-subtle));
+}
+
+.dashboard-skeleton-shortcuts,
+.dashboard-skeleton-requests {
+  padding: 1.25rem;
+}
+
+.dashboard-skeleton-shortcut,
+.dashboard-skeleton-request {
+  display: grid;
+  grid-template-columns: 2rem minmax(0, 1fr) minmax(0, 2fr);
+  align-items: center;
+  gap: 1rem;
+  min-height: 64px;
+  border-bottom: 1px solid rgb(var(--c-ink-border));
+}
+
+.dashboard-skeleton-request {
+  grid-template-columns: 2rem minmax(0, 1fr) 5rem;
+}
+
+.dashboard-skeleton-block {
+  display: block;
+  height: 0.75rem;
+  border-radius: 4px;
+  background: rgb(var(--c-ink) / 0.1);
+}
+
+.dashboard-skeleton-kicker {
+  width: 10rem;
+  background: rgb(var(--c-brand-forest) / 0.18);
+}
+
+.dashboard-skeleton-title {
+  width: min(18rem, 80%);
+  height: 2rem;
+}
+
+.dashboard-skeleton-subtitle {
+  width: min(26rem, 100%);
+}
+
+.dashboard-skeleton-label {
+  width: 8rem;
+}
+
+.dashboard-skeleton-icon {
+  width: 1.5rem;
+  height: 1.5rem;
+}
+
+.dashboard-skeleton-button {
+  width: 9rem;
+  height: 2.75rem;
+  margin-top: 0.75rem;
+  background: rgb(var(--c-brand-forest) / 0.18);
+}
+
+@media (max-width: 680px) {
+  .dashboard-skeleton {
+    gap: 1.5rem;
+  }
+
+  .dashboard-skeleton-hero {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+    padding: 1.5rem;
+  }
+
+  .dashboard-skeleton-shortcut {
+    grid-template-columns: 1.5rem minmax(0, 1fr);
+    gap: 0.75rem;
+  }
+
+  .dashboard-skeleton-shortcut .dashboard-skeleton-subtitle {
+    grid-column: 2;
+  }
+}

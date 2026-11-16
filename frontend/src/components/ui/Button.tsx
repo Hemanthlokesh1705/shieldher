@@ -23,11 +23,11 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
     ref
   ) => {
     const baseStyles =
-      "inline-flex items-center justify-center font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-600 focus-visible:ring-offset-2 disabled:opacity-50 disabled:pointer-events-none select-none rounded";
+      "inline-flex items-center justify-center font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-action focus-visible:ring-offset-2 disabled:opacity-50 disabled:pointer-events-none select-none rounded-md";
 
     const variantStyles = {
       primary:
-        "bg-teal-600 text-white hover:bg-teal-700 active:bg-teal-800 shadow-sm",
+        "bg-action text-action-ink hover:bg-action-hover active:bg-action-hover shadow-sm",
       secondary:
         "bg-canvas-subtle text-ink hover:bg-canvas-muted active:bg-ink-border border border-ink-border",
       outline:
@@ -35,9 +35,9 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
       ghost:
         "text-ink-secondary hover:text-ink hover:bg-canvas-subtle active:bg-canvas-muted",
       destructive:
-        "bg-rose-600 text-white hover:bg-rose-700 active:bg-rose-800 shadow-sm",
+        "bg-status-error text-white hover:bg-status-error/90 active:bg-status-error shadow-sm",
       subtle:
-        "bg-teal-50 text-teal-700 hover:bg-teal-100 border border-teal-200",
+        "bg-surface-subtle text-brand-forest hover:bg-canvas border border-ink-border",
     };
 
     const sizeStyles = {

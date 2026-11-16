@@ -11,19 +11,25 @@ export default function Step8EvidenceReview() {
     useVerification();
 
   const [copied, setCopied] = useState(false);
+  const [copyError, setCopyError] = useState<string | null>(null);
 
-  const caseNumber = activeCase?.case_number || "SH-TEMP";
-  const sha256 =
-    uploadData?.sha256 || uploadData?.sha256_hash || "sha256:computed";
-  const fileName = selectedFile?.name || "image_sample.jpg";
+  const caseNumber = activeCase?.case_number || activeCase?.id.slice(0, 8);
+  const sha256 = uploadData?.sha256 || uploadData?.sha256_hash || null;
+  const fileName = selectedFile?.name || "Not available";
   const fileSize = selectedFile
     ? `${(selectedFile.size / 1024).toFixed(1)} KB`
-    : "104.2 KB";
+    : "Not available";
 
-  const handleCopyHash = () => {
-    navigator.clipboard.writeText(sha256);
-    setCopied(true);
-    setTimeout(() => setCopied(false), 2000);
+  const handleCopyHash = async () => {
+    if (!sha256) return;
+    setCopyError(null);
+    try {
+      await navigator.clipboard.writeText(sha256);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
+    } catch {
+      setCopyError("Could not copy the digest. You can select and copy it manually.");
+    }
   };
 
   return (
@@ -44,13 +50,13 @@ export default function Step8EvidenceReview() {
       </div>
 
       {/* Case Identity Box */}
-      <div className="p-5 rounded-2xl bg-[#FAF8F5] border border-ink-border/80 flex flex-wrap items-center justify-between gap-4 shadow-2xs">
+      <div className="p-5 rounded-2xl bg-surface-subtle border border-ink-border/80 flex flex-wrap items-center justify-between gap-4 shadow-2xs">
         <div>
           <span className="text-[10px] font-bold uppercase tracking-wider text-ink-muted block font-heading">
             Request Reference
           </span>
           <div className="text-base sm:text-lg font-bold text-ink font-mono mt-0.5">
-            {caseNumber}
+            {caseNumber || "Not available"}
           </div>
         </div>
 
@@ -58,10 +64,10 @@ export default function Step8EvidenceReview() {
           <span className="text-[10px] font-bold uppercase tracking-wider text-ink-muted block mb-1 font-heading">
             Retention Mode
           </span>
-          <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold bg-brand-sage/50 text-brand-forest border border-brand-border">
+          <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold bg-surface-subtle/50 text-brand-forest border border-brand-border">
             {consent.retentionPolicy === "PRESERVED"
               ? "Saved for reporting (365 days)"
-              : "Temporary session (7 days)"}
+              : "Temporary check (7 days)"}
           </span>
         </div>
       </div>
@@ -94,7 +100,7 @@ export default function Step8EvidenceReview() {
                 <div>
                   <span className="text-ink-muted block text-[11px]">Format:</span>
                   <span className="font-semibold text-ink">
-                    {selectedFile?.type || "image/jpeg"}
+                    {selectedFile?.type || "Not available"}
                   </span>
                 </div>
                 <div>
@@ -109,13 +115,14 @@ export default function Step8EvidenceReview() {
                 </span>
                 <div className="flex items-center gap-2">
                   <span className="font-mono text-[11px] px-2.5 py-1.5 rounded-lg bg-canvas-sand text-ink break-all select-all flex-1 font-medium">
-                    {sha256}
+                    {sha256 || "Not available"}
                   </span>
                   <button
                     type="button"
                     onClick={handleCopyHash}
-                    className="p-2 rounded-lg border border-ink-border bg-surface-pearl hover:bg-canvas-subtle transition-colors flex-shrink-0 shadow-2xs"
-                    title="Copy SHA-256 digest"
+                    disabled={!sha256}
+                    className="min-h-10 min-w-10 p-2 rounded-lg border border-ink-border bg-surface-pearl hover:bg-canvas-subtle transition-colors flex-shrink-0 shadow-2xs disabled:cursor-not-allowed disabled:opacity-50"
+                    aria-label="Copy SHA-256 digest"
                   >
                     {copied ? (
                       <Check className="w-3.5 h-3.5 text-brand-rich" />
@@ -124,25 +131,35 @@ export default function Step8EvidenceReview() {
                     )}
                   </button>
                 </div>
+                {copyError && (
+                  <p className="mt-1 text-[11px] text-status-error" role="alert">
+                    {copyError}
+                  </p>
+                )}
+                {copied && (
+                  <p className="mt-1 text-[11px] text-brand-forest" role="status">
+                    Digest copied.
+                  </p>
+                )}
               </div>
             </div>
           </div>
         </div>
       </div>
 
-      {/* Forensic Guarantee Box */}
-      <div className="p-4 sm:p-5 rounded-2xl bg-brand-sage/20 border border-brand-border flex items-start gap-3.5 text-xs text-ink-secondary leading-relaxed">
-        <div className="w-8 h-8 rounded-xl bg-brand-sage/60 text-brand-forest flex items-center justify-center flex-shrink-0 mt-0.5 border border-brand-border">
+      {/* Digest explanation */}
+      <div className="p-4 sm:p-5 rounded-2xl bg-surface-subtle/20 border border-brand-border flex items-start gap-3.5 text-xs text-ink-secondary leading-relaxed">
+        <div className="w-8 h-8 rounded-xl bg-surface-subtle/60 text-brand-forest flex items-center justify-center flex-shrink-0 mt-0.5 border border-brand-border">
           <Shield className="w-4 h-4" />
         </div>
         <div>
           <strong className="text-ink font-semibold">
-            Digital Chain of Custody Standard:
+            About this digest:
           </strong>{" "}
-          The SHA-256 cryptographic digest mathematically fixes the condition of
-          the file at the exact moment of intake. If you choose to submit an
-          official cybercrime report, this guarantees that evidence integrity
-          has not been compromised.
+          A SHA-256 digest is a fingerprint of the file. Matching digests
+          indicate matching file contents; the digest alone does not establish
+          where or when the file was obtained. Keep the original file and note
+          how you received it.
         </div>
       </div>
 
@@ -159,7 +176,7 @@ export default function Step8EvidenceReview() {
 
         <button
           type="button"
-          className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-brand-forest hover:bg-brand-rich active:bg-brand-hover text-surface-pearl text-xs sm:text-sm font-semibold transition-all shadow-xs hover:shadow"
+          className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-action hover:bg-action-hover active:bg-action-hover text-action-ink text-xs sm:text-sm font-semibold transition-all shadow-xs hover:shadow"
           onClick={() => navigate("/verification/report")}
         >
           <span>Continue to Complaint Preparation</span>

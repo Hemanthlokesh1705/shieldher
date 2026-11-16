@@ -1,4 +1,5 @@
 import React from "react";
+import { Activity } from "lucide-react";
 import { ForensicsResponse } from "../types/models";
 
 interface ForensicsViewerCardProps {
@@ -31,15 +32,15 @@ export const ForensicsViewerCard: React.FC<ForensicsViewerCardProps> = ({ forens
     <div className="app-card animate-fade-in">
       <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "1.25rem", flexWrap: "wrap", gap: "0.5rem" }}>
         <div style={{ display: "flex", alignItems: "center", gap: "0.75rem" }}>
-          <div style={{ width: "40px", height: "40px", borderRadius: "10px", backgroundColor: "rgba(16, 185, 129, 0.12)", border: "1px solid rgba(16, 185, 129, 0.3)", display: "flex", alignItems: "center", justifyContent: "center", fontSize: "1.25rem", color: "#10b981" }}>
-            🔬
+          <div style={{ width: "40px", height: "40px", borderRadius: "10px", backgroundColor: "var(--accent-surface)", border: "1px solid var(--accent-border)", display: "flex", alignItems: "center", justifyContent: "center", color: "var(--accent-primary)" }}>
+            <Activity size={19} aria-hidden="true" />
           </div>
           <div>
             <h2 style={{ fontSize: "1.25rem", fontWeight: 700, color: "var(--color-text)", letterSpacing: "-0.01em" }}>
-              4. Deterministic Forensic Measurements
+              4. Additional image checks
             </h2>
             <p style={{ fontSize: "0.825rem", color: "var(--color-text-muted)" }}>
-              Mathematical signal residual, high-pass frequency, and compression artifact extraction
+              These checks examine image noise, frequency patterns, and compression details.
             </p>
           </div>
         </div>
@@ -50,20 +51,17 @@ export const ForensicsViewerCard: React.FC<ForensicsViewerCardProps> = ({ forens
 
       <div
         style={{
-          backgroundColor: "rgba(16, 185, 129, 0.08)",
-          borderLeft: "4px solid var(--color-primary)",
-          borderTop: "1px solid rgba(16, 185, 129, 0.2)",
-          borderRight: "1px solid rgba(16, 185, 129, 0.2)",
-          borderBottom: "1px solid rgba(16, 185, 129, 0.2)",
+          backgroundColor: "var(--status-info-bg)",
+          border: "1px solid var(--status-info-border)",
           padding: "1rem 1.25rem",
           borderRadius: "10px",
           marginBottom: "1.5rem",
           fontSize: "0.85rem",
-          color: "var(--color-primary)",
+          color: "var(--status-info)",
           lineHeight: 1.55,
         }}
       >
-        <strong style={{ color: "var(--color-primary)" }}>Forensic Methodology Disclosure:</strong> {disclaimer}
+        <strong style={{ color: "var(--text-primary)" }}>About these checks:</strong> {disclaimer}
       </div>
 
       <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))", gap: "1.25rem" }}>
@@ -71,20 +69,20 @@ export const ForensicsViewerCard: React.FC<ForensicsViewerCardProps> = ({ forens
         {freq && (
           <div
             style={{
-              backgroundColor: "var(--color-surface, rgba(255,255,255,0.03))",
+              backgroundColor: "var(--surface-primary)",
               border: "1px solid var(--color-border)",
               borderRadius: "14px",
               padding: "1.25rem",
               display: "flex",
               flexDirection: "column",
-              boxShadow: "0 1px 3px rgba(0,0,0,0.03)",
+              boxShadow: "var(--shadow-xs)",
             }}
           >
             <h4 style={{ color: "var(--color-primary)", fontSize: "0.95rem", fontWeight: 700, marginBottom: "0.75rem" }}>
               A. 2D FFT Spectrum & Energy Bands
             </h4>
             {freq.spectrum_visualization_b64 && (
-              <div style={{ borderRadius: "10px", overflow: "hidden", border: "1px solid var(--color-border)", marginBottom: "0.75rem", backgroundColor: "#000" }}>
+              <div style={{ borderRadius: "10px", overflow: "hidden", border: "1px solid var(--color-border)", marginBottom: "0.75rem", backgroundColor: "var(--surface-secondary)" }}>
                 <img
                   src={`data:image/png;base64,${freq.spectrum_visualization_b64}`}
                   alt="2D FFT Spectrum"
@@ -106,20 +104,20 @@ export const ForensicsViewerCard: React.FC<ForensicsViewerCardProps> = ({ forens
         {noise && (
           <div
             style={{
-              backgroundColor: "var(--color-surface, rgba(255,255,255,0.03))",
+              backgroundColor: "var(--surface-primary)",
               border: "1px solid var(--color-border)",
               borderRadius: "14px",
               padding: "1.25rem",
               display: "flex",
               flexDirection: "column",
-              boxShadow: "0 1px 3px rgba(0,0,0,0.03)",
+              boxShadow: "var(--shadow-xs)",
             }}
           >
             <h4 style={{ color: "var(--color-primary)", fontSize: "0.95rem", fontWeight: 700, marginBottom: "0.75rem" }}>
               B. High-Pass Noise Residuals
             </h4>
             {noise.visualization_b64 && (
-              <div style={{ borderRadius: "10px", overflow: "hidden", border: "1px solid var(--color-border)", marginBottom: "0.75rem", backgroundColor: "#000" }}>
+              <div style={{ borderRadius: "10px", overflow: "hidden", border: "1px solid var(--color-border)", marginBottom: "0.75rem", backgroundColor: "var(--surface-secondary)" }}>
                 <img
                   src={`data:image/png;base64,${noise.visualization_b64}`}
                   alt="Noise Residual Map"
@@ -143,20 +141,20 @@ export const ForensicsViewerCard: React.FC<ForensicsViewerCardProps> = ({ forens
         {comp && (
           <div
             style={{
-              backgroundColor: "var(--color-surface, rgba(255,255,255,0.03))",
+              backgroundColor: "var(--surface-primary)",
               border: "1px solid var(--color-border)",
               borderRadius: "14px",
               padding: "1.25rem",
               display: "flex",
               flexDirection: "column",
-              boxShadow: "0 1px 3px rgba(0,0,0,0.03)",
+              boxShadow: "var(--shadow-xs)",
             }}
           >
             <h4 style={{ color: "var(--color-primary)", fontSize: "0.95rem", fontWeight: 700, marginBottom: "0.75rem" }}>
               C. Compression & ELA Analysis
             </h4>
             {comp.ela_visualization_b64 && (
-              <div style={{ borderRadius: "10px", overflow: "hidden", border: "1px solid var(--color-border)", marginBottom: "0.75rem", backgroundColor: "#000" }}>
+              <div style={{ borderRadius: "10px", overflow: "hidden", border: "1px solid var(--color-border)", marginBottom: "0.75rem", backgroundColor: "var(--surface-secondary)" }}>
                 <img
                   src={`data:image/png;base64,${comp.ela_visualization_b64}`}
                   alt="ELA Visualization"
@@ -186,13 +184,13 @@ export const ForensicsViewerCard: React.FC<ForensicsViewerCardProps> = ({ forens
         {spatial && (
           <div
             style={{
-              backgroundColor: "var(--color-surface, rgba(255,255,255,0.03))",
+              backgroundColor: "var(--surface-primary)",
               border: "1px solid var(--color-border)",
               borderRadius: "14px",
               padding: "1.25rem",
               display: "flex",
               flexDirection: "column",
-              boxShadow: "0 1px 3px rgba(0,0,0,0.03)",
+              boxShadow: "var(--shadow-xs)",
             }}
           >
             <h4 style={{ color: "var(--color-primary)", fontSize: "0.95rem", fontWeight: 700, marginBottom: "0.75rem" }}>

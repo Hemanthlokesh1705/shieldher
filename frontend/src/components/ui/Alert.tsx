@@ -9,17 +9,17 @@ export interface AlertProps extends React.HTMLAttributes<HTMLDivElement> {
 export const Alert = React.forwardRef<HTMLDivElement, AlertProps>(
   ({ className, variant = "info", children, ...props }, ref) => {
     const variantStyles = {
-      info: "bg-slate-50 text-slate-700 border-sky-200",
-      success: "bg-sage-50 text-sage-700 border-green-200",
-      warning: "bg-amber-50 text-amber-700 border-amber-200",
-      destructive: "bg-rose-50 text-rose-700 border-rose-200",
+      info: "bg-status-infoBg text-status-info border-status-infoBorder",
+      success: "bg-status-successBg text-status-success border-status-successBorder",
+      warning: "bg-status-warningBg text-status-warning border-status-warningBorder",
+      destructive: "bg-status-errorBg text-status-error border-status-errorBorder",
     };
 
     const icons = {
-      info: <Info className="w-5 h-5 text-slate-600 flex-shrink-0 mt-0.5" />,
-      success: <CheckCircle2 className="w-5 h-5 text-sage-600 flex-shrink-0 mt-0.5" />,
-      warning: <AlertTriangle className="w-5 h-5 text-amber-600 flex-shrink-0 mt-0.5" />,
-      destructive: <AlertCircle className="w-5 h-5 text-rose-600 flex-shrink-0 mt-0.5" />,
+      info: <Info className="w-5 h-5 flex-shrink-0 mt-0.5" />,
+      success: <CheckCircle2 className="w-5 h-5 flex-shrink-0 mt-0.5" />,
+      warning: <AlertTriangle className="w-5 h-5 flex-shrink-0 mt-0.5" />,
+      destructive: <AlertCircle className="w-5 h-5 flex-shrink-0 mt-0.5" />,
     };
 
     return (
@@ -27,7 +27,7 @@ export const Alert = React.forwardRef<HTMLDivElement, AlertProps>(
         ref={ref}
         role="alert"
         className={cn(
-          "relative w-full rounded border p-4 flex gap-3 text-sm leading-relaxed",
+          "relative w-full rounded-md border p-4 flex gap-3 text-sm leading-relaxed",
           variantStyles[variant],
           className
         )}

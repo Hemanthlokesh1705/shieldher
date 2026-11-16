@@ -3,7 +3,7 @@
 @tailwind utilities;
 
 /* ============================================================
-   ShieldHer — Victim-First Design System
+   ShieldHer — Mist Alabaster, Forest Pine, Warm Amber design system
    Trauma-informed, calm and discreet light interface
    ============================================================ */
 
@@ -17,71 +17,73 @@
 }
 
 :root {
-  /* Palette: Warm Ivory, Soft Pearl, Deep Forest Teal, Rich Teal, Muted Sage, Dark Ink, Slate, Soft Sand */
-  --bg-main: #F7F6F2;
-  --surface-primary: #FFFFFF;
-  --surface-secondary: #F4F1EC;
-  --surface-tertiary: #EAE5DA;
+  /* Mist Alabaster surfaces, Forest Pine structure, Warm Amber actions */
+  --bg-main: #F4F4ED;
+  --surface-primary: #FFFEFA;
+  --surface-secondary: #F8F8F2;
+  --surface-tertiary: #F4F4ED;
 
   /* Typography */
-  --text-primary: #192B29;
-  --text-secondary: #53615E;
-  --text-muted: #89938F;
+  --text-primary: #20352A;
+  --text-secondary: #53665A;
+  --text-muted: #53665A;
   --text-inverse: #FFFFFF;
 
-  /* Accent: Deep Forest Teal & Rich Teal */
-  --accent-primary: #145B53;
-  --accent-hover: #0F4640;
-  --accent-active: #0A3631;
-  --accent-rich: #19796D;
-  --accent-sage: #DCEAE3;
-  --accent-surface: #EAF3EF;
-  --accent-border: #C5DCD2;
+  /* Forest Pine anchors the interface; Warm Amber marks primary actions */
+  --accent-primary: #244A38;
+  --accent-hover: #1A3C29;
+  --accent-active: #142F20;
+  --accent-rich: #4F6958;
+  --accent-surface: #F1F4EA;
+  --accent-border: #D7DCCF;
+  --action-primary: #E7B85C;
+  --action-hover: #D6A443;
+  --action-ink: #2B2619;
 
-  /* Restrained, Non-Alarmist Status Colors */
-  --status-info: #2C6E80;
-  --status-info-bg: #EEF6F8;
-  --status-info-border: #CBE4EC;
+  /* Statuses stay within the same restrained palette */
+  --status-info: #244A38;
+  --status-info-bg: #F1F4EA;
+  --status-info-border: #D7DCCF;
 
-  --status-review: #A4742C;
-  --status-review-bg: #FDF8EE;
-  --status-review-border: #EEDDBB;
+  --status-review: #80500A;
+  --status-review-bg: #FBF1DC;
+  --status-review-border: #EAD7AA;
 
-  --status-ready: #1F7A59;
-  --status-ready-bg: #EDF7F2;
-  --status-ready-border: #C8E8D8;
+  --status-ready: #2F6B4E;
+  --status-ready-bg: #EDF4EC;
+  --status-ready-border: #CFE0D1;
 
-  --status-closed: #53615E;
-  --status-closed-bg: #F4F1EC;
-  --status-closed-border: #E2DDD5;
+  --status-closed: #53665A;
+  --status-closed-bg: #F1F2EC;
+  --status-closed-border: #D7DCCF;
 
-  --status-error: #B84A3E;
-  --status-error-bg: #FDF2F0;
-  --status-error-border: #F3CAC4;
+  --status-error: #9D3A32;
+  --status-error-bg: #F9EBE8;
+  --status-error-border: #E9C9C4;
 
   /* Borders & Dividers */
-  --border-light: #E2DDD5;
-  --border-medium: #CBC4B9;
-  --border-strong: #89938F;
+  --border-light: #D7DCCF;
+  --border-medium: #D7DCCF;
+  --border-strong: #4F6958;
 
-  /* Shadows (Sophisticated, layered, subtle) */
-  --shadow-xs: 0 1px 2px rgba(25, 43, 41, 0.03), 0 1px 1px rgba(25, 43, 41, 0.02);
-  --shadow-sm: 0 4px 16px -2px rgba(25, 43, 41, 0.05), 0 2px 6px -1px rgba(25, 43, 41, 0.03);
-  --shadow-md: 0 10px 25px -4px rgba(25, 43, 41, 0.06), 0 4px 10px -2px rgba(25, 43, 41, 0.04);
-  --shadow-lg: 0 20px 35px -6px rgba(25, 43, 41, 0.07), 0 8px 16px -4px rgba(25, 43, 41, 0.04);
+  /* Neutral Forest Pine shadows */
+  --shadow-xs: 0 1px 2px rgba(32, 53, 42, 0.04);
+  --shadow-sm: 0 2px 6px rgba(32, 53, 42, 0.05);
+  --shadow-md: 0 8px 24px rgba(32, 53, 42, 0.06);
+  --shadow-lg: 0 12px 28px rgba(32, 53, 42, 0.08);
 
   /* Fonts */
-  --font-sans: "Plus Jakarta Sans", "DM Sans", -apple-system, BlinkMacSystemFont, sans-serif;
-  --font-heading: "Plus Jakarta Sans", -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-sans: "Inter", -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-heading: "Inter", -apple-system, BlinkMacSystemFont, sans-serif;
   --font-editorial: "Newsreader", Georgia, serif;
   --font-mono: "JetBrains Mono", Consolas, "Liberation Mono", Menlo, monospace;
 
   /* Dimensions & Radii */
   --sidebar-width: 256px;
   --topnav-height: 64px;
-  --radius-sm: 10px;
-  --radius-md: 16px;
-  --radius-lg: 20px;
+  --radius-sm: 7px;
+  --radius-md: 10px;
+  --radius-lg: 14px;
 
   /* Backward Compatibility Aliases */
   --color-bg: var(--bg-main);
@@ -131,7 +133,7 @@ h5,
 h6 {
   font-family: var(--font-heading);
   color: var(--text-primary);
-  letter-spacing: -0.02em;
+  letter-spacing: normal;
   line-height: 1.25;
 }
 
@@ -169,69 +171,144 @@ button {
 }
 
 /* ============================================================
-   QUICK EXIT BAR (Trauma-Informed Safety Feature)
-   ============================================================ */
-.quick-exit-bar {
-  background: #1d2d2b;
-  color: var(--text-inverse);
-  padding: 10px 18px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 12px;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-}
-
-.quick-exit-bar-content {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  min-width: 0;
-}
-
-.quick-exit-btn {
-  border: none;
-  border-radius: 999px;
-  background: #d85b4a;
-  color: #fff;
-  padding: 8px 14px;
-  font-weight: 700;
-  font-size: 0.78rem;
-  letter-spacing: 0.02em;
-  min-height: 36px;
-}
-
-.quick-exit-btn:hover {
-  background: #bf4838;
-}
-
-.quick-exit-hint {
-  color: rgba(255, 255, 255, 0.76);
-  font-size: 0.74rem;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-
-.quick-exit-status {
-  font-size: 0.72rem;
-  color: rgba(255, 255, 255, 0.72);
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
-}
-
-/* ============================================================
    CALM AUTHENTICATION (Login / Register / Forgot Password)
    ============================================================ */
 .auth-page-container {
   min-height: 100vh;
   display: flex;
   flex-direction: column;
-  background: linear-gradient(180deg, #f7f4f0 0%, #f2f5f4 100%);
+  background: var(--bg-main);
 }
 
 .auth-header {
   padding: 18px 24px 0;
+}
+
+.auth-shell .bg-white {
+  background-color: var(--surface-primary);
+}
+
+.auth-brand-panel {
+  display: flex;
+  min-height: 280px;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 28px;
+  padding: 28px clamp(24px, 4vw, 56px);
+  border-bottom: 1px solid var(--border-light);
+  background: var(--surface-secondary);
+  color: var(--text-primary);
+}
+
+.auth-panel-brand {
+  display: inline-flex;
+  width: fit-content;
+  align-items: center;
+  gap: 10px;
+  color: var(--text-primary);
+  font-size: 17px;
+  font-weight: 600;
+}
+
+.auth-panel-brand:hover {
+  text-decoration: none;
+}
+
+.auth-panel-mark {
+  display: grid;
+  width: 34px;
+  height: 34px;
+  place-items: center;
+  border-radius: 8px;
+  background: var(--accent-surface);
+  color: var(--accent-primary);
+}
+
+.auth-panel-copy {
+  max-width: 470px;
+}
+
+.auth-panel-eyebrow {
+  margin-bottom: 10px;
+  color: var(--accent-primary);
+  font-size: 0.8rem;
+  font-weight: 500;
+}
+
+.auth-panel-copy h2 {
+  margin-bottom: 10px;
+  font-family: var(--font-editorial);
+  font-size: clamp(1.8rem, 3vw, 2.5rem);
+  font-weight: 400;
+  line-height: 1.12;
+}
+
+.auth-panel-description,
+.auth-panel-note {
+  color: var(--text-secondary);
+  font-size: 0.9rem;
+  line-height: 1.65;
+}
+
+.auth-panel-copy ul {
+  display: grid;
+  gap: 12px;
+  margin-top: 24px;
+  list-style: none;
+}
+
+.auth-panel-copy li {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: var(--text-secondary);
+  font-size: 0.85rem;
+}
+
+.auth-panel-copy li svg {
+  flex: 0 0 auto;
+  color: var(--accent-primary);
+}
+
+.auth-panel-note {
+  margin: 0;
+  font-size: 0.8rem;
+}
+
+.auth-shell .auth-submit-button {
+  border: 1px solid var(--action-primary);
+  background: var(--action-primary);
+  color: var(--action-ink);
+}
+
+.auth-shell .auth-submit-button:hover:not(:disabled) {
+  border-color: var(--action-hover);
+  background: var(--action-hover);
+}
+
+@media (min-width: 1024px) {
+  .auth-brand-panel {
+    min-height: 100vh;
+    border-right: 1px solid var(--border-light);
+    border-bottom: 0;
+  }
+}
+
+@media (max-width: 639px) {
+  .auth-brand-panel {
+    min-height: 0;
+    gap: 20px;
+    padding: 20px 20px 24px;
+  }
+
+  .auth-panel-copy ul,
+  .auth-panel-note {
+    display: none;
+  }
+
+  .auth-panel-copy h2 {
+    font-size: 1.8rem;
+  }
 }
 
 .auth-brand {
@@ -299,8 +376,7 @@ button {
 .eyebrow {
   display: inline-block;
   color: var(--accent-primary);
-  text-transform: uppercase;
-  letter-spacing: 0.1em;
+  letter-spacing: 0.01em;
   font-size: 0.7rem;
   font-weight: 700;
   margin-bottom: 8px;
@@ -356,7 +432,7 @@ button {
 .form-textarea:focus {
   outline: none;
   border-color: var(--accent-primary);
-  box-shadow: 0 0 0 4px rgba(26, 122, 113, 0.1);
+  box-shadow: 0 0 0 3px rgb(255 111 94 / 0.2);
 }
 
 .form-input::placeholder,
@@ -409,12 +485,16 @@ button {
   align-items: center;
   justify-content: center;
   gap: 8px;
-  border-radius: 12px;
+  border-radius: var(--radius-sm);
   border: 1px solid transparent;
   padding: 11px 16px;
   font-weight: 600;
   font-size: 0.95rem;
-  transition: all 0.15s ease;
+  transition:
+    color 150ms ease,
+    background-color 150ms ease,
+    border-color 150ms ease,
+    box-shadow 150ms ease;
 }
 
 .btn:hover {
@@ -431,13 +511,13 @@ button {
 }
 
 .btn-primary {
-  background: var(--accent-primary);
-  color: #fff;
-  border-color: var(--accent-primary);
+  background: var(--action-primary);
+  color: var(--action-ink);
+  border-color: var(--action-primary);
 }
 
 .btn-primary:hover:not(:disabled) {
-  background: var(--accent-hover);
+  background: var(--action-hover);
 }
 
 .btn-secondary {
@@ -483,8 +563,7 @@ button {
   align-items: center;
   color: var(--text-muted);
   font-size: 0.76rem;
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
+  letter-spacing: 0.01em;
   margin: 12px 0 18px;
 }
 
@@ -512,7 +591,7 @@ button {
   display: flex;
   gap: 8px;
   align-items: flex-start;
-  border-radius: 12px;
+  border-radius: var(--radius-md);
   padding: 10px 12px;
   margin-bottom: 16px;
   font-size: 0.88rem;
@@ -756,7 +835,7 @@ button {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  border-radius: 999px;
+  border-radius: 6px;
   padding: 5px 10px;
   font-size: 0.74rem;
   font-weight: 700;
@@ -789,8 +868,8 @@ button {
 
 /* ── Reassuring Callout ── */
 .support-callout {
-  background: #fbfaf8;
-  border: 1px solid var(--border-medium);
+  background: var(--surface-secondary);
+  border: 1px solid var(--border-light);
   border-left: 4px solid var(--accent-primary);
   border-radius: 12px;
   padding: 16px 18px;
@@ -835,7 +914,7 @@ button {
 .table-wrapper {
   overflow-x: auto;
   border: 1px solid var(--border-light);
-  border-radius: 12px;
+  border-radius: var(--radius-md);
   background: var(--surface-primary);
 }
 
@@ -846,7 +925,7 @@ button {
 
 .data-table th,
 .data-table td {
-  padding: 12px 14px;
+  padding: 14px 16px;
   border-bottom: 1px solid var(--border-light);
   text-align: left;
   font-size: 0.87rem;
@@ -855,13 +934,13 @@ button {
 .data-table th {
   background: var(--surface-secondary);
   color: var(--text-secondary);
-  text-transform: uppercase;
-  letter-spacing: 0.06em;
-  font-size: 0.72rem;
+  text-transform: none;
+  letter-spacing: normal;
+  font-size: 0.8rem;
 }
 
 .data-table tbody tr:hover {
-  background: #fafbf9;
+  background: var(--surface-secondary);
 }
 
 /* ── Code / Reference Pill ── */
@@ -965,17 +1044,4 @@ button {
     padding: 18px 16px;
   }
 
-  .quick-exit-bar {
-    padding: 10px 12px;
-    flex-wrap: wrap;
-  }
-
-  .quick-exit-bar-content {
-    width: 100%;
-    justify-content: space-between;
-  }
-
-  .quick-exit-hint {
-    display: none;
-  }
 }
