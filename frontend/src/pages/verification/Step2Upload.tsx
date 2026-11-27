@@ -35,6 +35,7 @@ export default function Step2Upload() {
   );
   const [uploading, setUploading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [evidenceUploadPending, setEvidenceUploadPending] = useState(false);
 
   const fileInputRef = useRef<HTMLInputElement>(null);
 
@@ -62,6 +63,7 @@ export default function Step2Upload() {
     if (e.target.files && e.target.files[0]) {
       validateAndSetFile(e.target.files[0]);
     }
+    e.target.value = "";
   };
 
   const validateAndSetFile = (file: File) => {
@@ -115,15 +117,20 @@ export default function Step2Upload() {
           consent.retentionPolicy === "TEMPORARY_EXPLORATORY" ? 7 : 365
         );
         setActiveCase(currentCase);
-        try {
-          await uploadCaseEvidence(currentCase.id, selectedFile);
-        } catch (_) {}
+        setEvidenceUploadPending(true);
+      }
+
+      if (!activeCase || evidenceUploadPending) {
+        await uploadCaseEvidence(currentCase.id, selectedFile);
+        setEvidenceUploadPending(false);
       }
 
       navigate("/verification/quality");
-    } catch {
+    } catch (err) {
       setError(
-        "Could not complete the image upload. Please verify your connection or try another image."
+        err instanceof Error
+          ? err.message
+          : "Could not complete the image upload. Please verify your connection or try another image."
       );
     } finally {
       setUploading(false);
@@ -149,7 +156,7 @@ export default function Step2Upload() {
 
       {error && (
         <div
-          className="mb-5 p-4 rounded-xl bg-accent-coralSoft border border-accent-coral/30 text-accent-coral text-xs leading-relaxed flex items-start gap-2.5"
+          className="mb-5 p-4 rounded-xl bg-surface-subtle border border-ink-border text-ink-primary text-xs leading-relaxed flex items-start gap-2.5"
           role="alert"
         >
           <AlertCircle className="w-4 h-4 flex-shrink-0 mt-0.5" />
@@ -168,7 +175,7 @@ export default function Step2Upload() {
           </label>
           <input
             id="request-title"
-            className="w-full max-w-lg h-11 px-3.5 py-2.5 text-xs sm:text-sm text-ink placeholder:text-ink-muted bg-surface-pearl border border-ink-border rounded-xl focus:outline-none focus:ring-2 focus:ring-brand-rich focus:border-brand-rich transition-colors shadow-2xs"
+            className="w-full max-w-lg h-11 px-3.5 py-2.5 text-xs sm:text-sm text-ink placeholder:text-ink-muted bg-surface-pearl border border-ink-border rounded-xl focus:outline-none focus:ring-2 focus:ring-action focus:border-brand-rich transition-colors shadow-2xs"
             type="text"
             value={requestTitle}
             onChange={(e) => setRequestTitle(e.target.value)}
@@ -182,41 +189,57 @@ export default function Step2Upload() {
 
         {/* Upload Dropzone */}
         {!selectedFile ? (
-          <div
-            onDragEnter={handleDrag}
-            onDragLeave={handleDrag}
-            onDragOver={handleDrag}
-            onDrop={handleDrop}
-            onClick={() => fileInputRef.current?.click()}
-            className={cn(
-              "border-2 border-dashed rounded-2xl p-10 text-center cursor-pointer transition-all",
-              dragActive
-                ? "border-brand-forest bg-brand-sage/20 scale-[0.99]"
-                : "border-ink-border bg-[#FAF9F6] hover:bg-[#F5F2EC] hover:border-brand-rich/50"
-            )}
-          >
+          <>
             <input
               ref={fileInputRef}
               type="file"
               accept="image/jpeg,image/png,image/webp"
               onChange={handleChange}
+              aria-label="Choose an image"
               className="hidden"
             />
-            <div className="w-14 h-14 rounded-2xl bg-brand-sage/40 text-brand-forest flex items-center justify-center mx-auto mb-3.5 border border-brand-border shadow-2xs">
-              <UploadCloud className="w-7 h-7" />
+            <div
+              role="button"
+              tabIndex={0}
+              aria-describedby="image-upload-help"
+              onKeyDown={(e) => {
+                if (e.key === "Enter" || e.key === " ") {
+                  e.preventDefault();
+                  fileInputRef.current?.click();
+                }
+              }}
+              onDragEnter={handleDrag}
+              onDragLeave={handleDrag}
+              onDragOver={handleDrag}
+              onDrop={handleDrop}
+              onClick={() => fileInputRef.current?.click()}
+              className={cn(
+                "border-2 border-dashed rounded-2xl p-10 text-center cursor-pointer transition-colors",
+                "focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-action",
+                dragActive
+                  ? "border-brand-forest bg-surface-subtle/20"
+                  : "border-ink-border bg-surface-subtle hover:bg-canvas hover:border-brand-rich/50"
+              )}
+            >
+              <div className="w-14 h-14 rounded-2xl bg-surface-subtle/40 text-brand-forest flex items-center justify-center mx-auto mb-3.5 border border-brand-border shadow-2xs">
+                <UploadCloud className="w-7 h-7" />
+              </div>
+              <h4 className="text-sm font-bold text-ink font-heading">
+                Drag and drop your image here
+              </h4>
+              <p
+                id="image-upload-help"
+                className="text-xs text-ink-secondary mt-1 mb-2.5"
+              >
+                or click to browse from your device
+              </p>
+              <span className="text-[11px] text-ink-muted font-medium bg-canvas-sand/60 px-2.5 py-0.5 rounded-full">
+                Supports JPEG, PNG, and WebP up to 15MB
+              </span>
             </div>
-            <h4 className="text-sm font-bold text-ink font-heading">
-              Drag and drop your image here
-            </h4>
-            <p className="text-xs text-ink-secondary mt-1 mb-2.5">
-              or click to browse from your device
-            </p>
-            <span className="text-[11px] text-ink-muted font-medium bg-canvas-sand/60 px-2.5 py-0.5 rounded-full">
-              Supports JPEG, PNG, and WebP up to 15MB
-            </span>
-          </div>
+          </>
         ) : (
-          <div className="p-4 sm:p-5 rounded-2xl bg-[#FAF9F6] border border-ink-border/80 flex flex-wrap items-center justify-between gap-4 shadow-2xs">
+          <div className="p-4 sm:p-5 rounded-2xl bg-surface-subtle border border-ink-border/80 flex flex-wrap items-center justify-between gap-4 shadow-2xs">
             <div className="flex items-center gap-4 min-w-0">
               {/* Privacy Blurred Thumbnail */}
               {filePreviewUrl && (
@@ -225,14 +248,14 @@ export default function Step2Upload() {
                     src={filePreviewUrl}
                     alt="Privacy protected preview"
                     className={cn(
-                      "w-full h-full object-cover transition-all duration-300",
+                      "w-full h-full object-cover transition-[filter,transform] duration-300",
                       blurPreview ? "blur-md scale-110" : "blur-0 scale-100"
                     )}
                   />
                   <button
                     type="button"
                     onClick={() => setBlurPreview((v) => !v)}
-                    className="absolute bottom-1 right-1 px-1.5 py-0.5 rounded-md bg-black/75 text-white text-[10px] hover:bg-black/90 transition-colors flex items-center gap-1 font-medium"
+                    className="absolute bottom-1 right-1 px-1.5 py-0.5 rounded-md bg-ink-primary/90 text-surface-pearl text-[10px] hover:bg-ink-primary transition-colors flex items-center gap-1 font-medium"
                     title={blurPreview ? "Unblur thumbnail" : "Blur thumbnail"}
                   >
                     {blurPreview ? (
@@ -275,7 +298,7 @@ export default function Step2Upload() {
               </button>
               <button
                 type="button"
-                className="inline-flex items-center gap-1 px-3 py-1.5 rounded-xl text-xs font-semibold text-accent-coral hover:bg-accent-coralSoft transition-colors"
+                className="inline-flex items-center gap-1 px-3 py-1.5 rounded-xl text-xs font-semibold text-ink-primary hover:bg-surface-subtle transition-colors"
                 onClick={handleClear}
                 disabled={uploading}
               >
@@ -307,7 +330,7 @@ export default function Step2Upload() {
 
           <button
             type="submit"
-            className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-brand-forest hover:bg-brand-rich active:bg-brand-hover text-surface-pearl text-xs sm:text-sm font-semibold transition-all shadow-xs hover:shadow disabled:opacity-50 disabled:pointer-events-none"
+            className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-action hover:bg-action-hover active:bg-action-hover text-action-ink text-xs sm:text-sm font-semibold transition-all shadow-xs hover:shadow disabled:opacity-50 disabled:pointer-events-none"
             disabled={!selectedFile || uploading}
           >
             {uploading && <Loader2 className="w-4 h-4 animate-spin" />}

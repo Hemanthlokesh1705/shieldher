@@ -1,4 +1,10 @@
 import React, { useState } from "react";
+import {
+  AlertTriangle,
+  CheckCircle2,
+  FileUp,
+  ShieldCheck,
+} from "lucide-react";
 
 interface EvidenceUploadCardProps {
   onUpload: (file: File, localConsent: boolean) => Promise<void>;
@@ -61,15 +67,15 @@ export const EvidenceUploadCard: React.FC<EvidenceUploadCardProps> = ({ onUpload
     <div className="app-card animate-fade-in">
       <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: "0.75rem", flexWrap: "wrap", gap: "0.5rem" }}>
         <div style={{ display: "flex", alignItems: "center", gap: "0.75rem" }}>
-          <div style={{ width: "40px", height: "40px", borderRadius: "10px", backgroundColor: "#ecfdf5", border: "1px solid #a7f3d0", display: "flex", alignItems: "center", justifyContent: "center", fontSize: "1.25rem", color: "#059669" }}>
-            🛡️
+          <div style={{ width: "40px", height: "40px", borderRadius: "10px", backgroundColor: "var(--accent-surface)", border: "1px solid var(--accent-border)", display: "flex", alignItems: "center", justifyContent: "center", color: "var(--accent-primary)" }}>
+            <ShieldCheck size={20} aria-hidden="true" />
           </div>
           <div>
             <h2 style={{ fontSize: "1.25rem", fontWeight: 700, color: "var(--color-text)", letterSpacing: "-0.01em" }}>
               1. Secure Evidence Intake
             </h2>
             <p style={{ fontSize: "0.85rem", color: "var(--color-text-muted)" }}>
-              Upload suspicious imagery for local forensic quality gateway evaluation. Files are processed with strict isolation.
+              Upload an image to ShieldHer for quality checks. Optional online search is a separate step and requires your consent.
             </p>
           </div>
         </div>
@@ -85,14 +91,18 @@ export const EvidenceUploadCard: React.FC<EvidenceUploadCardProps> = ({ onUpload
           onDragOver={handleDrag}
           onDrop={handleDrop}
           style={{
-            border: dragActive ? "2px solid #059669" : "2px dashed #a7f3d0",
+            border: dragActive
+              ? "2px solid var(--accent-primary)"
+              : "2px dashed var(--accent-border)",
             borderRadius: "14px",
             padding: "2.75rem 1.5rem",
             textAlign: "center",
-            backgroundColor: dragActive ? "#ecfdf5" : "#fcfdfc",
+            backgroundColor: dragActive
+              ? "var(--accent-surface)"
+              : "var(--surface-primary)",
             cursor: "pointer",
             marginBottom: "1.25rem",
-            boxShadow: dragActive ? "0 0 0 4px rgba(16, 185, 129, 0.1)" : "inset 0 1px 2px rgba(0,0,0,0.02)",
+            boxShadow: dragActive ? "var(--shadow-xs)" : "none",
             transition: "all 0.2s ease",
           }}
           onClick={() => document.getElementById("file-input")?.click()}
@@ -108,15 +118,15 @@ export const EvidenceUploadCard: React.FC<EvidenceUploadCardProps> = ({ onUpload
               }
             }}
           />
-          <div style={{ width: "54px", height: "54px", borderRadius: "50%", backgroundColor: "#ecfdf5", margin: "0 auto 1rem", display: "flex", alignItems: "center", justifyContent: "center", fontSize: "1.75rem", color: "#059669", boxShadow: "0 2px 8px rgba(5, 150, 105, 0.15)" }}>
-            📥
+          <div style={{ width: "54px", height: "54px", borderRadius: "50%", backgroundColor: "var(--accent-surface)", margin: "0 auto 1rem", display: "flex", alignItems: "center", justifyContent: "center", color: "var(--accent-primary)" }}>
+            <FileUp size={23} aria-hidden="true" />
           </div>
           {selectedFile ? (
             <div className="animate-fade-in">
               <span className="badge-clean badge-emerald" style={{ marginBottom: "0.5rem" }}>
-                ✓ File Attached
+                <CheckCircle2 size={14} aria-hidden="true" /> File attached
               </span>
-              <p style={{ fontWeight: 700, color: "#065f46", fontSize: "1.05rem", marginTop: "0.35rem" }}>
+              <p style={{ fontWeight: 700, color: "var(--text-primary)", fontSize: "1.05rem", marginTop: "0.35rem" }}>
                 {selectedFile.name}
               </p>
               <p style={{ fontSize: "0.825rem", color: "var(--color-text-muted)", marginTop: "0.2rem" }}>
@@ -141,7 +151,7 @@ export const EvidenceUploadCard: React.FC<EvidenceUploadCardProps> = ({ onUpload
             style={{
               backgroundColor: "var(--color-error-bg)",
               color: "var(--color-error)",
-              border: "1px solid #fecaca",
+              border: "1px solid var(--status-error-border)",
               padding: "0.85rem 1rem",
               borderRadius: "10px",
               marginBottom: "1.25rem",
@@ -152,23 +162,24 @@ export const EvidenceUploadCard: React.FC<EvidenceUploadCardProps> = ({ onUpload
               fontWeight: 500,
             }}
           >
-            <span>⚠️</span> <span>{errorMessage}</span>
+            <AlertTriangle size={16} aria-hidden="true" />
+            <span>{errorMessage}</span>
           </div>
         )}
 
         {/* Consent and Privacy Controls */}
         <div
           style={{
-            backgroundColor: "#f8fafc",
-            border: "1px solid #e2e8f0",
+            backgroundColor: "var(--surface-secondary)",
+            border: "1px solid var(--border-light)",
             padding: "1.25rem",
             borderRadius: "12px",
             marginBottom: "1.25rem",
           }}
         >
           <div style={{ display: "flex", alignItems: "center", gap: "0.5rem", marginBottom: "0.85rem" }}>
-            <span style={{ width: "8px", height: "8px", borderRadius: "50%", backgroundColor: "#059669" }} />
-            <h4 style={{ fontSize: "0.85rem", textTransform: "uppercase", letterSpacing: "0.05em", color: "#065f46", fontWeight: 700 }}>
+            <span style={{ width: "8px", height: "8px", borderRadius: "50%", backgroundColor: "var(--accent-primary)" }} />
+            <h4 style={{ fontSize: "0.85rem", color: "var(--text-primary)", fontWeight: 600 }}>
               Privacy & Consent Protocol
             </h4>
           </div>
@@ -189,10 +200,10 @@ export const EvidenceUploadCard: React.FC<EvidenceUploadCardProps> = ({ onUpload
               type="checkbox"
               checked={localConsent}
               onChange={(e) => setLocalConsent(e.target.checked)}
-              style={{ marginTop: "0.2rem", accentColor: "#059669", cursor: "pointer", width: "17px", height: "17px" }}
+              style={{ marginTop: "0.2rem", accentColor: "var(--accent-primary)", cursor: "pointer", width: "17px", height: "17px" }}
             />
             <span>
-              <strong style={{ color: "var(--color-text)" }}>Local Boundary Processing:</strong> I consent to processing this image within ShieldHer's secure environment. No raw image bytes will be sent to external LLMs or third parties without explicit separate authorization.
+              <strong style={{ color: "var(--color-text)" }}>Image processing:</strong> I consent to uploading this image to ShieldHer for analysis. Optional online search requires separate consent.
             </span>
           </label>
           <label
@@ -210,7 +221,7 @@ export const EvidenceUploadCard: React.FC<EvidenceUploadCardProps> = ({ onUpload
               type="checkbox"
               checked={forensicConsent}
               onChange={(e) => setForensicConsent(e.target.checked)}
-              style={{ marginTop: "0.2rem", accentColor: "#059669", cursor: "pointer", width: "17px", height: "17px" }}
+              style={{ marginTop: "0.2rem", accentColor: "var(--accent-primary)", cursor: "pointer", width: "17px", height: "17px" }}
             />
             <span>
               <strong style={{ color: "var(--color-text)" }}>Forensic Support Notice:</strong> I understand ShieldHer provides technical and evidentiary documentation for legal review and does not replace official police investigation.

@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { AlertTriangle, ClipboardCopy, Download, Scale } from "lucide-react";
 import { ComplaintDraftResponse } from "../types/models";
 
 interface ComplaintDraftViewerProps {
@@ -40,15 +41,15 @@ export const ComplaintDraftViewer: React.FC<ComplaintDraftViewerProps> = ({
       <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "1.25rem", flexWrap: "wrap", gap: "0.5rem" }}>
         <div>
           <div style={{ display: "flex", alignItems: "center", gap: "0.75rem" }}>
-            <div style={{ width: "40px", height: "40px", borderRadius: "10px", backgroundColor: "#ecfdf5", border: "1px solid #a7f3d0", display: "flex", alignItems: "center", justifyContent: "center", fontSize: "1.25rem", color: "#059669" }}>
-              ⚖️
+            <div style={{ width: "40px", height: "40px", borderRadius: "10px", backgroundColor: "var(--accent-surface)", border: "1px solid var(--accent-border)", display: "flex", alignItems: "center", justifyContent: "center", color: "var(--accent-primary)" }}>
+              <Scale size={20} aria-hidden="true" />
             </div>
             <div>
               <h2 style={{ fontSize: "1.25rem", fontWeight: 700, color: "var(--color-text)", letterSpacing: "-0.01em" }}>
                 7. Formal Legal Complaint Draft
               </h2>
-              <span style={{ fontSize: "0.75rem", color: "#b91c1c", fontWeight: 700, letterSpacing: "0.06em", display: "block", marginTop: "0.15rem" }}>
-                DRAFT — FOR USER AND LEGAL REVIEW ONLY
+              <span style={{ fontSize: "0.75rem", color: "var(--status-review)", fontWeight: 500, display: "block", marginTop: "0.15rem" }}>
+                Draft for user and legal review only
               </span>
             </div>
           </div>
@@ -61,31 +62,31 @@ export const ComplaintDraftViewer: React.FC<ComplaintDraftViewerProps> = ({
       {/* Mandatory Non-Transmission Safeguard Banner */}
       <div
         style={{
-          backgroundColor: "#fef2f2",
-          border: "1.5px solid #fecaca",
+          backgroundColor: "var(--status-info-bg)",
+          border: "1px solid var(--status-info-border)",
           borderRadius: "12px",
           padding: "1.25rem",
           marginBottom: "1.5rem",
         }}
       >
         <div style={{ display: "flex", alignItems: "center", gap: "0.5rem", marginBottom: "0.6rem" }}>
-          <span style={{ fontSize: "1.25rem" }}>🛑</span>
-          <h4 style={{ color: "#991b1b", fontSize: "0.95rem", fontWeight: 700 }}>
-            STRICT LEGAL SAFEGUARD: NO AUTOMATIC TRANSMISSION
+          <AlertTriangle size={19} aria-hidden="true" />
+          <h4 style={{ color: "var(--status-info)", fontSize: "0.95rem", fontWeight: 600 }}>
+            Legal safeguard: no automatic transmission
           </h4>
         </div>
-        <p style={{ fontSize: "0.85rem", color: "#7f1d1d", lineHeight: 1.55 }}>
+        <p style={{ fontSize: "0.85rem", color: "var(--text-secondary)", lineHeight: 1.55 }}>
           {draft.mandatory_human_review_notice}
         </p>
-        <div style={{ marginTop: "1rem", display: "flex", gap: "1.5rem", flexWrap: "wrap", fontSize: "0.85rem", color: "#991b1b" }}>
+        <div style={{ marginTop: "1rem", display: "flex", gap: "1.5rem", flexWrap: "wrap", fontSize: "0.85rem", color: "var(--text-primary)" }}>
           <span>
-            <strong>Official Filing Portal:</strong>{" "}
-            <a href={draft.filing_portal_url} target="_blank" rel="noopener noreferrer" style={{ color: "#059669", textDecoration: "underline", fontWeight: 700 }}>
+            <strong>Official filing portal:</strong>{" "}
+            <a href={draft.filing_portal_url} target="_blank" rel="noopener noreferrer" style={{ color: "var(--accent-primary)", textDecoration: "underline", fontWeight: 600 }}>
               {draft.filing_portal_url}
             </a>
           </span>
           <span>
-            <strong>Emergency Helpline:</strong> <span style={{ fontWeight: 800, color: "#065f46" }}>{draft.emergency_helpline}</span>
+            <strong>Emergency helpline:</strong> <span style={{ fontWeight: 600, color: "var(--accent-primary)" }}>{draft.emergency_helpline}</span>
           </span>
         </div>
       </div>
@@ -94,14 +95,14 @@ export const ComplaintDraftViewer: React.FC<ComplaintDraftViewerProps> = ({
       {draft.statutory_provisions_cited && draft.statutory_provisions_cited.length > 0 && (
         <div
           style={{
-            backgroundColor: "#f8fafc",
-            border: "1px solid #e2e8f0",
+            backgroundColor: "var(--surface-secondary)",
+            border: "1px solid var(--border-light)",
             padding: "1rem 1.25rem",
             borderRadius: "12px",
             marginBottom: "1.5rem",
           }}
         >
-          <strong style={{ fontSize: "0.85rem", color: "#065f46" }}>Statutory Citations Incorporated:</strong>
+          <strong style={{ fontSize: "0.85rem", color: "var(--accent-primary)" }}>Statutory citations included</strong>
           <div style={{ display: "flex", flexWrap: "wrap", gap: "0.5rem", marginTop: "0.6rem" }}>
             {draft.statutory_provisions_cited.map((citation, idx) => (
               <span
@@ -129,7 +130,7 @@ export const ComplaintDraftViewer: React.FC<ComplaintDraftViewerProps> = ({
               className="btn-emerald btn-secondary"
               style={{ padding: "0.5rem 1rem", fontSize: "0.8rem" }}
             >
-              {copyFeedback ? "✓ Copied!" : "📋 Copy to Clipboard"}
+              {copyFeedback ? "Copied!" : <><ClipboardCopy size={15} aria-hidden="true" /> Copy to clipboard</>}
             </button>
             <button
               type="button"
@@ -137,7 +138,7 @@ export const ComplaintDraftViewer: React.FC<ComplaintDraftViewerProps> = ({
               className="btn-emerald btn-secondary"
               style={{ padding: "0.5rem 1rem", fontSize: "0.8rem" }}
             >
-              💾 Download Markdown (.md)
+              <><Download size={15} aria-hidden="true" /> Download Markdown (.md)</>
             </button>
           </div>
         </div>
@@ -151,7 +152,7 @@ export const ComplaintDraftViewer: React.FC<ComplaintDraftViewerProps> = ({
             fontFamily: "var(--font-mono)",
             fontSize: "0.875rem",
             lineHeight: 1.6,
-            backgroundColor: "#fcfdfc",
+            backgroundColor: "var(--surface-primary)",
           }}
         />
       </div>
@@ -159,22 +160,22 @@ export const ComplaintDraftViewer: React.FC<ComplaintDraftViewerProps> = ({
       {/* Review Acknowledgment Form */}
       <div
         style={{
-          backgroundColor: "#f0fdf4",
-          border: "1px solid #a7f3d0",
+          backgroundColor: "var(--accent-surface)",
+          border: "1px solid var(--accent-border)",
           padding: "1.25rem",
           borderRadius: "12px",
           marginBottom: "1.5rem",
         }}
       >
-        <label style={{ display: "flex", alignItems: "flex-start", gap: "0.75rem", fontSize: "0.875rem", color: "#064e3b", cursor: "pointer", lineHeight: 1.5 }}>
+        <label style={{ display: "flex", alignItems: "flex-start", gap: "0.75rem", fontSize: "0.875rem", color: "var(--text-primary)", cursor: "pointer", lineHeight: 1.5 }}>
           <input
             type="checkbox"
             checked={hasAcknowledgedReview}
             onChange={(e) => setHasAcknowledgedReview(e.target.checked)}
-            style={{ marginTop: "0.2rem", accentColor: "#059669", width: "17px", height: "17px", cursor: "pointer" }}
+            style={{ marginTop: "0.2rem", accentColor: "var(--accent-primary)", width: "17px", height: "17px", cursor: "pointer" }}
           />
           <span>
-            <strong>Affirmative Review Confirmation:</strong> I have personally reviewed this complaint draft and verify that the factual statements reflect my personal knowledge. I understand that I must independently file this with authorities at <em>cybercrime.gov.in</em> or the local police station.
+            <strong>Review confirmation:</strong> I have personally reviewed this complaint draft and verify that the factual statements reflect my personal knowledge. I understand that I must independently file this with authorities at <em>cybercrime.gov.in</em> or the local police station.
           </span>
         </label>
       </div>
@@ -186,7 +187,7 @@ export const ComplaintDraftViewer: React.FC<ComplaintDraftViewerProps> = ({
         className="btn-emerald btn-success"
         style={{ width: "100%", padding: "0.85rem 1.5rem" }}
       >
-        {isFinalizing ? "Recording Review Confirmation..." : "Confirm Review & Finalize Draft for Export"}
+        {isFinalizing ? "Recording your review..." : "Confirm review and finalize draft"}
       </button>
     </div>
   );

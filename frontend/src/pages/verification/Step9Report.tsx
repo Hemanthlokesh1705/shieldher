@@ -24,6 +24,8 @@ export default function Step9Report() {
 
   const [generating, setGenerating] = useState(false);
   const [copied, setCopied] = useState(false);
+  const [copyError, setCopyError] = useState<string | null>(null);
+  const [generationError, setGenerationError] = useState<string | null>(null);
 
   useEffect(() => {
     let isMounted = true;
@@ -36,8 +38,12 @@ export default function Step9Report() {
         if (isMounted) {
           setComplaintDraft(res);
         }
-      } catch (_) {
-        // Fallback draft is available automatically
+      } catch {
+        if (isMounted) {
+          setGenerationError(
+            "We could not prepare a request-specific draft. A neutral template is available below."
+          );
+        }
       } finally {
         if (isMounted) setGenerating(false);
       }
@@ -50,40 +56,32 @@ export default function Step9Report() {
   }, [activeCase, complaintDraft, setComplaintDraft]);
 
   const getFallbackDraft = () => {
-    const caseNum = activeCase?.case_number || "SH-REF-2026";
-    const sha =
-      uploadData?.sha256 || uploadData?.sha256_hash || "sha256:computed";
-    return `FORMAL COMPLAINT REGARDING UNLAWFUL DIGITAL MEDIA GENERATION / DISSEMINATION
-Prepared via ShieldHer Digital Support Platform
+    const caseNum = activeCase?.case_number || "[Add your request reference]";
+    const sha = uploadData?.sha256 || uploadData?.sha256_hash;
+    return `COMPLAINT STATEMENT — DRAFT
 
-Reference Identifier: ${caseNum}
-Date of Preservation: ${new Date().toLocaleDateString("en-US", {
+Reference: ${caseNum}
+Date prepared: ${new Date().toLocaleDateString("en-US", {
       year: "numeric",
       month: "long",
       day: "numeric",
     })}
 
-1. STATEMENT OF COMPLAINT:
-I am submitting this formal complaint concerning the unauthorized creation, manipulation, or distribution of intimate imagery depicting my likeness without my knowledge or consent.
+1. WHAT HAPPENED
+[Describe what happened in your own words, including when you became aware of it.]
 
-2. EVIDENCE SPECIFICATIONS:
-- File Name: ${selectedFile?.name || "image_evidence.jpg"}
-- Cryptographic SHA-256 Digest: ${sha}
-- Preservation Standard: ISO/IEC 27037 Digital Evidence Integrity Baseline
-- Findings: Digital assessment identified manipulation indicators requiring official examination.
+2. WHERE IT HAPPENED
+[Add the website, platform, account name, or other details you know.]
 
-3. RELEVANT STATUTES (INDIA / APPLICABLE JURISDICTIONS):
-- Section 66E, Information Technology Act, 2000 (Violation of bodily privacy)
-- Section 67 & 67A, Information Technology Act, 2000 (Transmission of sexually explicit or obscene material)
-- Section 354D, Indian Penal Code / Bharatiya Nyaya Sanhita, 2023 (Cyber stalking and harassment)
+3. INFORMATION I CAN PROVIDE
+- Image file: ${selectedFile?.name || "[Add file name, if available]"}
+- SHA-256 digest: ${sha || "[Add digest, if available]"}
+- Relevant dates, messages, or account details: [Add details, if available]
 
-4. PRAYER FOR RELIEF:
-- Immediate issuance of content takedown directives to intermediary platforms.
-- Investigation and registration of an FIR against the responsible parties.
-- Preservation of network connection records from transmission intermediaries.
+4. SUPPORT REQUESTED
+[Describe what help or follow-up you are requesting.]
 
-Submitted respectfully,
-Verified Complainant`;
+Submitted by: [Add your name or preferred contact details]`;
   };
 
   const draftContent =
@@ -91,10 +89,15 @@ Verified Complainant`;
     complaintDraft?.markdown_body ||
     getFallbackDraft();
 
-  const handleCopy = () => {
-    navigator.clipboard.writeText(draftContent);
-    setCopied(true);
-    setTimeout(() => setCopied(false), 2500);
+  const handleCopy = async () => {
+    setCopyError(null);
+    try {
+      await navigator.clipboard.writeText(draftContent);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2500);
+    } catch {
+      setCopyError("Could not copy the draft. You can select and copy its text manually.");
+    }
   };
 
   const handleDownload = () => {
@@ -122,15 +125,16 @@ Verified Complainant`;
             9. Formal Complaint Draft
           </h3>
           <p className="text-xs sm:text-sm text-ink-secondary mt-1 leading-relaxed font-sans">
-            Here is your structured complaint draft. You can copy the text or
-            download it to file an official report with authorities or online platforms.
+            Review and edit this starting point before sharing it with a platform
+            or support service.
           </p>
         </div>
 
         <div className="flex items-center gap-2.5">
           <button
             type="button"
-            className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl border border-ink-border bg-surface-pearl text-xs font-semibold text-ink-secondary hover:text-ink hover:bg-canvas-subtle transition-colors shadow-2xs"
+            disabled={generating}
+            className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl border border-ink-border bg-surface-pearl text-xs font-semibold text-ink-secondary hover:text-ink hover:bg-canvas-subtle transition-colors shadow-2xs disabled:cursor-wait disabled:opacity-50"
             onClick={handleCopy}
           >
             {copied ? (
@@ -148,7 +152,8 @@ Verified Complainant`;
 
           <button
             type="button"
-            className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-brand-forest hover:bg-brand-rich active:bg-brand-hover text-surface-pearl text-xs font-semibold transition-all shadow-xs hover:shadow"
+            disabled={generating}
+            className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-action hover:bg-action-hover active:bg-action-hover text-action-ink text-xs font-semibold transition-colors shadow-xs hover:shadow disabled:cursor-wait disabled:opacity-50"
             onClick={handleDownload}
           >
             <Download className="w-3.5 h-3.5" />
@@ -163,15 +168,14 @@ Verified Complainant`;
           href="https://cybercrime.gov.in"
           target="_blank"
           rel="noopener noreferrer"
-          className="p-4 sm:p-5 rounded-2xl bg-[#FAF8F5] border border-ink-border/80 hover:border-brand-rich/50 transition-all group block shadow-2xs"
+          className="p-4 sm:p-5 rounded-2xl bg-surface-subtle border border-ink-border/80 hover:border-brand-rich/50 transition-all group block shadow-2xs"
         >
           <div className="text-xs font-bold text-ink font-heading flex items-center justify-between">
             <span>Cybercrime Portal (India)</span>
             <ExternalLink className="w-3.5 h-3.5 text-ink-muted group-hover:text-brand-forest transition-colors" />
           </div>
           <p className="text-[11px] text-ink-secondary mt-1.5 leading-relaxed">
-            Submit formal FIR complaint at <strong>cybercrime.gov.in</strong> or
-            call 24/7 helpline <strong className="text-brand-forest">1930</strong>.
+            Visit the government portal for current reporting options and guidance.
           </p>
         </a>
 
@@ -179,7 +183,7 @@ Verified Complainant`;
           href="https://stopncii.org"
           target="_blank"
           rel="noopener noreferrer"
-          className="p-4 sm:p-5 rounded-2xl bg-[#FAF8F5] border border-ink-border/80 hover:border-brand-rich/50 transition-all group block shadow-2xs"
+          className="p-4 sm:p-5 rounded-2xl bg-surface-subtle border border-ink-border/80 hover:border-brand-rich/50 transition-all group block shadow-2xs"
         >
           <div className="text-xs font-bold text-ink font-heading flex items-center justify-between">
             <span>StopNCII.org (Global)</span>
@@ -195,7 +199,7 @@ Verified Complainant`;
           href="https://takeitdown.ncmec.org"
           target="_blank"
           rel="noopener noreferrer"
-          className="p-4 sm:p-5 rounded-2xl bg-[#FAF8F5] border border-ink-border/80 hover:border-brand-rich/50 transition-all group block shadow-2xs"
+          className="p-4 sm:p-5 rounded-2xl bg-surface-subtle border border-ink-border/80 hover:border-brand-rich/50 transition-all group block shadow-2xs"
         >
           <div className="text-xs font-bold text-ink font-heading flex items-center justify-between">
             <span>Take It Down (NCMEC)</span>
@@ -207,21 +211,39 @@ Verified Complainant`;
         </a>
       </div>
 
-      {/* Monospace Complaint Draft */}
+      {/* Complaint draft */}
       <div className="space-y-2.5">
         <h4 className="text-xs font-bold text-ink uppercase tracking-wider font-heading">
-          Prepared Formal Complaint
+          Complaint draft
         </h4>
 
+        <div className="rounded-xl border border-ink-border bg-surface-secondary p-4 text-sm leading-relaxed text-ink-secondary">
+          This is a starting point, not legal advice or a filed report. Check
+          that every detail is accurate, remove anything you do not want to
+          share, and consider asking a trusted support person to review it.
+        </div>
+
+        {generationError && (
+          <p className="rounded-lg border border-status-warningBorder bg-status-warningBg px-4 py-3 text-sm text-status-warning" role="status">
+            {generationError}
+          </p>
+        )}
+
+        {copyError && (
+          <p className="rounded-lg border border-status-errorBorder bg-status-errorBg px-4 py-3 text-sm text-status-error" role="alert">
+            {copyError}
+          </p>
+        )}
+
         {generating ? (
-          <div className="p-12 text-center rounded-2xl bg-[#FAF8F5] border border-ink-border/80">
+          <div className="p-12 text-center rounded-2xl bg-surface-subtle border border-ink-border/80">
             <Loader2 className="w-6 h-6 animate-spin text-brand-forest mx-auto mb-2.5" />
             <p className="text-xs text-ink-secondary font-medium">
-              Generating legal complaint draft…
+              Preparing your draft…
             </p>
           </div>
         ) : (
-          <div className="p-5 sm:p-6 rounded-2xl bg-[#F8F6F1] border border-ink-border/80 font-mono text-xs text-ink leading-relaxed whitespace-pre-wrap max-h-96 overflow-y-auto select-all shadow-inner">
+          <div className="p-5 sm:p-6 rounded-2xl bg-surface-subtle border border-ink-border/80 font-mono text-xs text-ink leading-relaxed whitespace-pre-wrap max-h-96 overflow-y-auto select-all shadow-inner">
             {draftContent}
           </div>
         )}
@@ -239,7 +261,7 @@ Verified Complainant`;
 
         <Link
           to="/dashboard"
-          className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-brand-forest hover:bg-brand-rich active:bg-brand-hover text-surface-pearl text-xs sm:text-sm font-semibold transition-all shadow-xs hover:shadow"
+          className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-action hover:bg-action-hover active:bg-action-hover text-action-ink text-xs sm:text-sm font-semibold transition-all shadow-xs hover:shadow"
         >
           <CheckCircle2 className="w-4 h-4" />
           <span>Finish & Return to Home</span>

@@ -3,6 +3,7 @@ import { AuthProvider, useAuth } from "./firebase/AuthContext";
 import { VerificationProvider } from "./context/VerificationContext";
 import { ProtectedRoute } from "./components/ProtectedRoute";
 import AppLayout from "./components/layout/AppLayout";
+import LandingPage from "./pages/LandingPage";
 
 // Auth Pages (Calm, minimal, trauma-informed)
 import LoginPage from "./pages/LoginPage";
@@ -38,8 +39,8 @@ import NotFoundPage from "./pages/NotFoundPage";
 
 /**
  * RootRouteHandler:
- * Unauthenticated visitors ALWAYS see the login screen first.
- * Authenticated users are directed directly to their private Home space.
+ * Unauthenticated visitors see the public product page; authenticated users
+ * are directed directly to their private Home space.
  */
 function RootRouteHandler() {
   const { user, loading } = useAuth();
@@ -66,11 +67,7 @@ function RootRouteHandler() {
       </div>
     );
   }
-  return user ? (
-    <Navigate to="/dashboard" replace />
-  ) : (
-    <Navigate to="/login" replace />
-  );
+  return user ? <Navigate to="/dashboard" replace /> : <LandingPage />;
 }
 
 function ModeratorRoute({ children }: { children: React.ReactNode }) {

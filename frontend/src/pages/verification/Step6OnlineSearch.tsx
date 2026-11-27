@@ -75,16 +75,16 @@ export default function Step6OnlineSearch() {
       </div>
 
       {error && (
-        <div className="p-4 rounded-xl bg-accent-goldSoft border border-accent-gold/40 text-ink text-xs">
+        <div className="p-4 rounded-xl bg-surface-subtle border border-ink-border text-ink text-xs" role="alert">
           <span>{error}</span>
         </div>
       )}
 
       {/* Explicit Consent Guard */}
       {!consent.allowReverseSearch && !reverseSearchResult ? (
-        <div className="p-6 sm:p-7 rounded-2xl bg-[#FAF8F5] border border-ink-border/80 shadow-2xs">
+        <div className="p-6 sm:p-7 rounded-2xl bg-surface-subtle border border-ink-border/80 shadow-2xs">
           <div className="flex items-start gap-4">
-            <div className="w-10 h-10 rounded-xl bg-brand-sage/40 text-brand-forest flex items-center justify-center flex-shrink-0 mt-0.5 border border-brand-border">
+            <div className="w-10 h-10 rounded-xl bg-surface-subtle/40 text-brand-forest flex items-center justify-center flex-shrink-0 mt-0.5 border border-brand-border">
               <Lock className="w-5 h-5" />
             </div>
             <div className="flex-1">
@@ -99,7 +99,7 @@ export default function Step6OnlineSearch() {
               </p>
               <button
                 type="button"
-                className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-brand-forest hover:bg-brand-rich active:bg-brand-hover text-surface-pearl text-xs sm:text-sm font-semibold transition-all shadow-xs hover:shadow disabled:opacity-50"
+                className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-action hover:bg-action-hover active:bg-action-hover text-action-ink text-xs sm:text-sm font-semibold transition-all shadow-xs hover:shadow disabled:opacity-50"
                 onClick={handleExecuteSearch}
                 disabled={searching}
               >
@@ -119,7 +119,7 @@ export default function Step6OnlineSearch() {
         </div>
       ) : (
         <div className="space-y-4">
-          <div className="p-4 rounded-xl bg-brand-sage/20 border border-brand-border flex items-center justify-between gap-3 text-xs text-ink-secondary">
+          <div className="p-4 rounded-xl bg-surface-subtle/20 border border-brand-border flex items-center justify-between gap-3 text-xs text-ink-secondary">
             <div className="flex items-center gap-2">
               <Globe className="w-4 h-4 text-brand-forest flex-shrink-0" />
               <span>
@@ -145,7 +145,7 @@ export default function Step6OnlineSearch() {
           </div>
 
           {matches.length === 0 ? (
-            <div className="p-8 text-center rounded-2xl bg-[#FAF8F5] border border-ink-border/80">
+            <div className="p-8 text-center rounded-2xl bg-surface-subtle border border-ink-border/80">
               <CheckCircle2 className="w-8 h-8 text-brand-rich mx-auto mb-2" />
               <h5 className="text-sm font-bold text-ink font-heading">
                 No public matches found
@@ -158,7 +158,7 @@ export default function Step6OnlineSearch() {
           ) : (
             <div className="overflow-x-auto rounded-2xl border border-ink-border/80 bg-surface-pearl shadow-2xs">
               <table className="w-full text-left text-xs">
-                <thead className="bg-[#FAF9F6] border-b border-ink-border text-ink-muted font-heading font-semibold uppercase tracking-wider text-[11px]">
+                <thead className="bg-surface-subtle border-b border-ink-border text-ink-muted font-heading font-semibold uppercase tracking-wider text-[11px]">
                   <tr>
                     <th className="py-3 px-4 sm:px-6">Platform / Source</th>
                     <th className="py-3 px-4 sm:px-6">Date Detected</th>
@@ -212,7 +212,7 @@ export default function Step6OnlineSearch() {
 
         <button
           type="button"
-          className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-brand-forest hover:bg-brand-rich active:bg-brand-hover text-surface-pearl text-xs sm:text-sm font-semibold transition-all shadow-xs hover:shadow"
+          className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-action hover:bg-action-hover active:bg-action-hover text-action-ink text-xs sm:text-sm font-semibold transition-all shadow-xs hover:shadow"
           onClick={() => navigate("/verification/incident-details")}
         >
           <span>Continue to Incident Information</span>

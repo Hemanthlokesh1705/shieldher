@@ -27,8 +27,8 @@ describe("RegisterPage", () => {
     expect(screen.getByPlaceholderText(/Jane Doe/i)).toBeInTheDocument();
     expect(screen.getByPlaceholderText("you@example.com")).toBeInTheDocument();
     expect(screen.getByRole("combobox")).toBeInTheDocument();
-    expect(screen.getByRole("button", { name: "Create Encrypted Account" })).toBeInTheDocument();
-    expect(screen.getByText(/Sign up with Google/i)).toBeInTheDocument();
+    expect(screen.getByRole("checkbox")).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: "Create secure account" })).toBeInTheDocument();
   });
 
   it("validates password length and match before submitting", async () => {
@@ -47,9 +47,33 @@ describe("RegisterPage", () => {
     const passwordInputs = screen.getAllByPlaceholderText("••••••••••••");
     await user.type(passwordInputs[0], "short");
     await user.type(passwordInputs[1], "short");
-    await user.click(screen.getByRole("button", { name: "Create Encrypted Account" }));
+    await user.click(screen.getByRole("button", { name: "Create secure account" }));
 
     expect(screen.getByText("Password must be at least 8 characters long.")).toBeInTheDocument();
+    expect(api.registerUser).not.toHaveBeenCalled();
+  });
+
+  it("requires agreeing to the terms before registering", async () => {
+    const user = userEvent.setup();
+
+    render(
+      <AuthProvider>
+        <MemoryRouter>
+          <RegisterPage />
+        </MemoryRouter>
+      </AuthProvider>
+    );
+
+    await user.type(screen.getByPlaceholderText(/Jane Doe/i), "Test Victim");
+    await user.type(screen.getByPlaceholderText("you@example.com"), "victim@example.com");
+    const passwordInputs = screen.getAllByPlaceholderText("••••••••••••");
+    await user.type(passwordInputs[0], "StrongP@ssw0rd");
+    await user.type(passwordInputs[1], "StrongP@ssw0rd");
+    await user.click(screen.getByRole("button", { name: "Create secure account" }));
+
+    expect(
+      screen.getByText("Please agree to the Terms of Service and Privacy Policy to continue.")
+    ).toBeInTheDocument();
     expect(api.registerUser).not.toHaveBeenCalled();
   });
 
@@ -85,7 +109,8 @@ describe("RegisterPage", () => {
     const passwordInputs = screen.getAllByPlaceholderText("••••••••••••");
     await user.type(passwordInputs[0], "StrongP@ssw0rd");
     await user.type(passwordInputs[1], "StrongP@ssw0rd");
-    await user.click(screen.getByRole("button", { name: "Create Encrypted Account" }));
+    await user.click(screen.getByRole("checkbox"));
+    await user.click(screen.getByRole("button", { name: "Create secure account" }));
 
     await waitFor(() => {
       expect(api.registerUser).toHaveBeenCalledWith(

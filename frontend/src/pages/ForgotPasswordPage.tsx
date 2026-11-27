@@ -2,8 +2,14 @@ import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import { useAuth } from "../firebase/AuthContext";
-import QuickExitBar from "../components/common/QuickExitBar";
-import { Shield, KeyRound, CheckCircle2, ArrowLeft, ArrowRight } from "lucide-react";
+import {
+  AlertTriangle,
+  ArrowLeft,
+  ArrowRight,
+  CheckCircle2,
+  KeyRound,
+  Shield,
+} from "lucide-react";
 
 export default function ForgotPasswordPage() {
   const [email, setEmail] = useState("");
@@ -31,14 +37,12 @@ export default function ForgotPasswordPage() {
   };
 
   return (
-    <div className="min-h-screen bg-canvas flex flex-col justify-between selection:bg-brand-sage selection:text-brand-forest">
-      <QuickExitBar />
-
+    <div className="min-h-screen bg-canvas flex flex-col justify-between selection:bg-surface-subtle selection:text-brand-forest">
       <div className="flex-1 flex flex-col justify-center items-center px-4 py-12 sm:px-6 lg:px-8">
         {/* Brand Banner */}
         <div className="flex items-center gap-3 mb-8">
           <div className="w-10 h-10 rounded-xl bg-brand-forest text-surface-pearl flex items-center justify-center shadow-md shadow-brand-forest/20">
-            <Shield className="w-5 h-5 text-accent-gold" />
+            <Shield className="w-5 h-5 text-ink-secondary" />
           </div>
           <div>
             <span className="text-xl font-bold tracking-tight text-ink font-heading block leading-none">
@@ -58,7 +62,7 @@ export default function ForgotPasswordPage() {
           className="w-full max-w-md bg-surface-pearl rounded-2xl border border-ink-border/80 p-7 sm:p-9 shadow-md shadow-ink-primary/5"
         >
           <div className="mb-6">
-            <div className="w-10 h-10 rounded-xl bg-brand-sage/40 text-brand-forest flex items-center justify-center mb-3.5 border border-brand-border">
+            <div className="w-10 h-10 rounded-xl bg-surface-subtle/40 text-brand-forest flex items-center justify-center mb-3.5 border border-brand-border">
               <KeyRound className="w-5 h-5" />
             </div>
             <h1 className="text-2xl sm:text-3xl font-bold text-ink font-heading tracking-tight">
@@ -72,16 +76,16 @@ export default function ForgotPasswordPage() {
 
           {error && (
             <div
-              className="mb-5 p-3.5 rounded-xl bg-accent-coralSoft border border-accent-coral/30 text-accent-coral text-xs leading-relaxed flex items-start gap-2.5"
+              className="mb-5 p-3.5 rounded-xl bg-surface-subtle border border-ink-border text-ink-primary text-xs leading-relaxed flex items-start gap-2.5"
               role="alert"
             >
-              <span className="text-sm">⚠️</span>
+              <AlertTriangle className="h-4 w-4 flex-shrink-0" aria-hidden="true" />
               <span className="flex-1 font-medium">{error}</span>
             </div>
           )}
 
           {submitted ? (
-            <div className="p-5 rounded-xl bg-brand-sage/30 border border-brand-border text-ink space-y-3">
+            <div className="p-5 rounded-xl bg-surface-subtle/30 border border-brand-border text-ink space-y-3">
               <div className="flex items-center gap-2 text-brand-forest font-semibold text-sm">
                 <CheckCircle2 className="w-4 h-4 flex-shrink-0" />
                 <span>Reset instructions sent</span>
@@ -117,14 +121,14 @@ export default function ForgotPasswordPage() {
                   placeholder="you@example.com"
                   autoComplete="email"
                   disabled={loading}
-                  className="w-full h-11 px-3.5 py-2.5 text-xs sm:text-sm text-ink placeholder:text-ink-muted bg-surface-pearl border border-ink-border rounded-xl focus:outline-none focus:ring-2 focus:ring-brand-rich focus:border-brand-rich transition-colors shadow-2xs"
+                  className="w-full h-11 px-3.5 py-2.5 text-xs sm:text-sm text-ink placeholder:text-ink-muted bg-surface-pearl border border-ink-border rounded-xl focus:outline-none focus:ring-2 focus:ring-action focus:border-brand-rich transition-colors shadow-2xs"
                 />
               </div>
 
               <button
                 type="submit"
                 disabled={loading}
-                className="w-full h-11 mt-2 px-4 py-2 bg-brand-forest hover:bg-brand-rich active:bg-brand-hover text-surface-pearl font-medium text-xs sm:text-sm rounded-xl transition-all shadow-sm hover:shadow flex items-center justify-center gap-2 disabled:opacity-60 focus:outline-none focus:ring-2 focus:ring-brand-rich focus:ring-offset-2"
+                className="w-full h-11 mt-2 px-4 py-2 bg-action hover:bg-action-hover active:bg-action-hover text-action-ink font-medium text-xs sm:text-sm rounded-xl transition-all shadow-sm hover:shadow flex items-center justify-center gap-2 disabled:opacity-60 focus:outline-none focus:ring-2 focus:ring-action focus:ring-offset-2"
               >
                 {loading ? (
                   <span className="inline-flex items-center gap-2">
@@ -133,7 +137,7 @@ export default function ForgotPasswordPage() {
                   </span>
                 ) : (
                   <>
-                    <span>Send Reset Instructions</span>
+                    <span>Send reset instructions</span>
                     <ArrowRight className="w-4 h-4" />
                   </>
                 )}

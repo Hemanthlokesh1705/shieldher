@@ -8,11 +8,12 @@ import {
   Check,
   Trash2,
   ArrowLeft,
-  Sparkles,
   Cpu,
   Loader2,
   FileImage,
+  FileText,
 } from "lucide-react";
+import { ConfirmDialog } from "../components/ui/ConfirmDialog";
 
 export default function CaseDetailPage() {
   const { caseId } = useParams<{ caseId: string }>();
@@ -24,7 +25,11 @@ export default function CaseDetailPage() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [copied, setCopied] = useState(false);
+  const [copyError, setCopyError] = useState<string | null>(null);
+  const [draftError, setDraftError] = useState<string | null>(null);
   const [deleting, setDeleting] = useState(false);
+  const [deleteConfirmationOpen, setDeleteConfirmationOpen] = useState(false);
+  const [deleteError, setDeleteError] = useState<string | null>(null);
 
   useEffect(() => {
     let isMounted = true;
@@ -32,14 +37,24 @@ export default function CaseDetailPage() {
       if (!caseId) return;
       setLoading(true);
       setError(null);
+      setDraftError(null);
       try {
         const c = await getCase(caseId);
         if (isMounted) setCaseItem(c);
 
         try {
           const draft = await getComplaintDraft(caseId);
-          if (isMounted) setComplaintDraft(draft);
-        } catch (_) {}
+          if (isMounted) {
+            setComplaintDraft(draft);
+            setDraftError(null);
+          }
+        } catch {
+          if (isMounted) {
+            setDraftError(
+              "The saved draft could not be loaded. Refresh this page to try again."
+            );
+          }
+        }
       } catch {
         if (isMounted) {
           setError(
@@ -59,25 +74,28 @@ export default function CaseDetailPage() {
 
   const handleDelete = async () => {
     if (!caseId) return;
-    const confirmDelete = window.confirm(
-      "Are you sure you want to delete this request and its records? This cannot be undone."
-    );
-    if (!confirmDelete) return;
 
     setDeleting(true);
+    setDeleteError(null);
     try {
       await deleteCase(caseId, "User requested removal");
+      setDeleteConfirmationOpen(false);
       navigate("/cases");
     } catch {
-      alert("Unable to delete request at this time. Please try again.");
+      setDeleteError("We couldn’t delete this request. Please try again.");
       setDeleting(false);
     }
   };
 
-  const handleCopyDraft = (text: string) => {
-    navigator.clipboard.writeText(text);
-    setCopied(true);
-    setTimeout(() => setCopied(false), 2000);
+  const handleCopyDraft = async (text: string) => {
+    setCopyError(null);
+    try {
+      await navigator.clipboard.writeText(text);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
+    } catch {
+      setCopyError("Could not copy the draft. You can select and copy its text manually.");
+    }
   };
 
   if (loading) {
@@ -92,7 +110,7 @@ export default function CaseDetailPage() {
   if (error || !caseItem) {
     return (
       <div className="bg-surface-pearl rounded-2xl border border-ink-border/80 p-8 shadow-xs space-y-4">
-        <div className="p-4 rounded-xl bg-accent-goldSoft border border-accent-gold/40 text-ink text-xs">
+        <div className="p-4 rounded-xl bg-surface-subtle border border-ink-border text-ink text-xs">
           <span>{error || "Request docket not found."}</span>
         </div>
         <Link
@@ -126,7 +144,7 @@ export default function CaseDetailPage() {
               className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold ${
                 caseItem.status === "CLOSED"
                   ? "bg-canvas-sand text-ink-secondary"
-                  : "bg-brand-sage/50 text-brand-forest border border-brand-border"
+                  : "bg-surface-subtle/50 text-brand-forest border border-brand-border"
               }`}
             >
               {caseItem.status === "CLOSED" ? "Closed" : "Active"}
@@ -151,8 +169,11 @@ export default function CaseDetailPage() {
           </Link>
           <button
             type="button"
-            className="inline-flex items-center gap-1 px-3.5 py-2 rounded-xl text-xs font-semibold text-accent-coral hover:bg-accent-coralSoft transition-colors"
-            onClick={handleDelete}
+            className="inline-flex items-center gap-1 px-3.5 py-2 rounded-xl text-xs font-semibold text-ink-primary hover:bg-surface-subtle transition-colors"
+            onClick={() => {
+              setDeleteError(null);
+              setDeleteConfirmationOpen(true);
+            }}
             disabled={deleting}
           >
             <Trash2 className="w-3.5 h-3.5" />
@@ -173,10 +194,21 @@ export default function CaseDetailPage() {
           </p>
         </div>
 
+        {draftError && (
+          <p className="text-sm text-status-warning" role="status">
+            {draftError}
+          </p>
+        )}
+        {copyError && (
+          <p className="text-sm text-status-error" role="alert">
+            {copyError}
+          </p>
+        )}
+
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-          <div className="p-5 rounded-2xl bg-[#FAF8F5] border border-ink-border/80 shadow-2xs">
+          <div className="p-5 rounded-2xl bg-surface-subtle border border-ink-border/80 shadow-2xs">
             <div className="flex items-center gap-2 text-ink-muted text-[11px] font-bold uppercase tracking-wider mb-2 font-heading">
-              <Sparkles className="w-4 h-4 text-brand-forest" />
+              <FileText className="w-4 h-4 text-ink-secondary" />
               <span>Face Manipulation Check</span>
             </div>
             <div className="text-base font-bold text-ink font-heading">
@@ -190,7 +222,7 @@ export default function CaseDetailPage() {
             </p>
           </div>
 
-          <div className="p-5 rounded-2xl bg-[#FAF8F5] border border-ink-border/80 shadow-2xs">
+          <div className="p-5 rounded-2xl bg-surface-subtle border border-ink-border/80 shadow-2xs">
             <div className="flex items-center gap-2 text-ink-muted text-[11px] font-bold uppercase tracking-wider mb-2 font-heading">
               <Cpu className="w-4 h-4 text-brand-forest" />
               <span>AI Generation Check</span>
@@ -215,7 +247,7 @@ export default function CaseDetailPage() {
           </div>
           <div className="overflow-x-auto">
             <table className="w-full text-left text-xs">
-              <thead className="bg-[#FAF9F6] border-b border-ink-border text-ink-muted font-heading font-semibold uppercase tracking-wider text-[11px]">
+              <thead className="bg-surface-subtle border-b border-ink-border text-ink-muted font-heading font-semibold uppercase tracking-wider text-[11px]">
                 <tr>
                   <th className="py-3 px-4 sm:px-6">File Name</th>
                   <th className="py-3 px-4 sm:px-6">Size</th>
@@ -273,23 +305,37 @@ export default function CaseDetailPage() {
         </div>
 
         {draftText ? (
-          <div className="p-5 sm:p-6 rounded-2xl bg-[#F8F6F1] border border-ink-border font-mono text-xs text-ink leading-relaxed whitespace-pre-wrap select-all shadow-inner">
+          <div className="p-5 sm:p-6 rounded-2xl bg-surface-subtle border border-ink-border font-mono text-xs text-ink leading-relaxed whitespace-pre-wrap select-all shadow-inner">
             {draftText}
           </div>
         ) : (
-          <div className="p-8 text-center rounded-2xl bg-[#FAF8F5] border border-ink-border">
+          <div className="p-8 text-center rounded-2xl bg-surface-subtle border border-ink-border">
             <p className="text-xs text-ink-secondary mb-3 font-medium">
               No complaint draft has been formatted for this request yet.
             </p>
             <Link
               to="/verification/report"
-              className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-brand-forest text-surface-pearl text-xs font-semibold hover:bg-brand-rich transition-colors shadow-xs"
+              className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-action text-action-ink text-xs font-semibold hover:bg-action-hover transition-colors shadow-xs"
             >
               <span>Prepare a Report</span>
             </Link>
           </div>
         )}
       </div>
+      <ConfirmDialog
+        open={deleteConfirmationOpen}
+        title="Delete this request?"
+        description="This removes the request and its saved records. This action cannot be undone."
+        confirmLabel="Delete request"
+        variant="destructive"
+        busy={deleting}
+        error={deleteError}
+        onCancel={() => {
+          setDeleteConfirmationOpen(false);
+          setDeleteError(null);
+        }}
+        onConfirm={handleDelete}
+      />
     </motion.div>
   );
 }

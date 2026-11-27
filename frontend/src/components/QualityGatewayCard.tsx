@@ -1,4 +1,5 @@
 import React from "react";
+import { AlertTriangle, UserRoundCheck, Zap } from "lucide-react";
 import { UploadResponse } from "../types/models";
 
 interface QualityGatewayCardProps {
@@ -34,8 +35,8 @@ export const QualityGatewayCard: React.FC<QualityGatewayCardProps> = ({
     <div className="app-card animate-fade-in">
       <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "1.25rem", flexWrap: "wrap", gap: "0.5rem" }}>
         <div style={{ display: "flex", alignItems: "center", gap: "0.75rem" }}>
-          <div style={{ width: "40px", height: "40px", borderRadius: "10px", backgroundColor: "rgba(16, 185, 129, 0.12)", border: "1px solid rgba(16, 185, 129, 0.3)", display: "flex", alignItems: "center", justifyContent: "center", fontSize: "1.25rem", color: "#10b981" }}>
-            ⚡
+          <div style={{ width: "40px", height: "40px", borderRadius: "10px", backgroundColor: "var(--accent-surface)", border: "1px solid var(--accent-border)", display: "flex", alignItems: "center", justifyContent: "center", color: "var(--accent-primary)" }}>
+            <Zap size={20} aria-hidden="true" />
           </div>
           <div>
             <h2 style={{ fontSize: "1.25rem", fontWeight: 700, color: "var(--color-text)", letterSpacing: "-0.01em" }}>
@@ -53,7 +54,7 @@ export const QualityGatewayCard: React.FC<QualityGatewayCardProps> = ({
 
       <div
         style={{
-          backgroundColor: "var(--color-bg-subtle, rgba(255,255,255,0.03))",
+          backgroundColor: "var(--surface-secondary)",
           border: "1px solid var(--color-border)",
           padding: "0.85rem 1.15rem",
           borderRadius: "10px",
@@ -88,8 +89,13 @@ export const QualityGatewayCard: React.FC<QualityGatewayCardProps> = ({
           <span style={{ fontSize: "0.75rem", color: "var(--color-text-muted)", textTransform: "uppercase", letterSpacing: "0.05em", fontWeight: 600 }}>
             Faces Detected
           </span>
-          <span style={{ fontSize: "1.25rem", fontWeight: 800, color: facesVal > 0 ? "var(--color-primary)" : "#d97706" }}>
-            {facesVal} {facesVal === 0 ? "⚠️" : "👤"}
+          <span style={{ fontSize: "1.25rem", fontWeight: 600, color: facesVal > 0 ? "var(--color-primary)" : "var(--status-review)" }}>
+            {facesVal}{" "}
+            {facesVal === 0 ? (
+              <AlertTriangle size={17} aria-label="No faces detected" />
+            ) : (
+              <UserRoundCheck size={17} aria-label="Faces detected" />
+            )}
           </span>
           <span style={{ fontSize: "0.72rem", color: "var(--color-text-subtle)" }}>
             MediaPipe BlazeFace
@@ -100,7 +106,7 @@ export const QualityGatewayCard: React.FC<QualityGatewayCardProps> = ({
           <span style={{ fontSize: "0.75rem", color: "var(--color-text-muted)", textTransform: "uppercase", letterSpacing: "0.05em", fontWeight: 600 }}>
             Sharpness (Laplacian Var)
           </span>
-          <span style={{ fontSize: "1.25rem", fontWeight: 800, color: blurVal >= (thresholds?.min_sharpness_laplacian ?? 100) ? "var(--color-primary)" : "#d97706" }}>
+          <span style={{ fontSize: "1.25rem", fontWeight: 600, color: blurVal >= (thresholds?.min_sharpness_laplacian ?? 100) ? "var(--color-primary)" : "var(--status-review)" }}>
             {typeof blurVal === "number" ? blurVal.toFixed(1) : blurVal}
           </span>
           <span style={{ fontSize: "0.72rem", color: "var(--color-text-subtle)" }}>
@@ -136,15 +142,15 @@ export const QualityGatewayCard: React.FC<QualityGatewayCardProps> = ({
       {quality_notes && quality_notes.length > 0 && (
         <div
           style={{
-            backgroundColor: "#fffbeb",
-            border: "1px solid #fde68a",
+            backgroundColor: "var(--status-review-bg)",
+            border: "1px solid var(--status-review-border)",
             padding: "0.9rem 1.15rem",
             borderRadius: "10px",
             marginBottom: "1rem",
           }}
         >
-          <strong style={{ fontSize: "0.85rem", color: "#b45309" }}>Quality Observations:</strong>
-          <ul style={{ fontSize: "0.825rem", color: "#78350f", marginLeft: "1.25rem", marginTop: "0.35rem", lineHeight: 1.5 }}>
+          <strong style={{ fontSize: "0.85rem", color: "var(--status-review)" }}>Quality observations</strong>
+          <ul style={{ fontSize: "0.825rem", color: "var(--text-secondary)", marginLeft: "1.25rem", marginTop: "0.35rem", lineHeight: 1.5 }}>
             {quality_notes.map((note, idx) => (
               <li key={idx}>{note}</li>
             ))}
@@ -155,15 +161,15 @@ export const QualityGatewayCard: React.FC<QualityGatewayCardProps> = ({
       {remediation_steps && remediation_steps.length > 0 && (
         <div
           style={{
-            backgroundColor: "#fef2f2",
-            border: "1px solid #fecaca",
+            backgroundColor: "var(--status-error-bg)",
+            border: "1px solid var(--status-error-border)",
             padding: "0.9rem 1.15rem",
             borderRadius: "10px",
             marginBottom: "1rem",
           }}
         >
-          <strong style={{ fontSize: "0.85rem", color: "#b91c1c" }}>Recommended Remediation:</strong>
-          <ul style={{ fontSize: "0.825rem", color: "#991b1b", marginLeft: "1.25rem", marginTop: "0.35rem", lineHeight: 1.5 }}>
+          <strong style={{ fontSize: "0.85rem", color: "var(--status-error)" }}>Recommended remediation</strong>
+          <ul style={{ fontSize: "0.825rem", color: "var(--text-secondary)", marginLeft: "1.25rem", marginTop: "0.35rem", lineHeight: 1.5 }}>
             {remediation_steps.map((step, idx) => (
               <li key={idx}>{step}</li>
             ))}

@@ -15,10 +15,10 @@ describe("HealthPage", () => {
     vi.mocked(api.fetchHealth).mockReturnValue(new Promise(() => {})); // Never resolves
     render(<HealthPage />);
 
-    expect(screen.getByText("System Health Check")).toBeInTheDocument();
-    expect(screen.getByText("Frontend Client")).toBeInTheDocument();
-    expect(screen.getByText("ONLINE")).toBeInTheDocument();
-    expect(screen.getByText("CHECKING...")).toBeInTheDocument();
+    expect(screen.getByRole("heading", { name: "System health" })).toBeInTheDocument();
+    expect(screen.getByRole("heading", { name: "Frontend" })).toBeInTheDocument();
+    expect(screen.getByText("Online")).toBeInTheDocument();
+    expect(screen.getByText("Checking")).toBeInTheDocument();
   });
 
   it("renders healthy dependencies when API returns ok", async () => {
@@ -36,12 +36,12 @@ describe("HealthPage", () => {
     render(<HealthPage />);
 
     await waitFor(() => {
-      expect(screen.getByText("ALL HEALTHY")).toBeInTheDocument();
+      expect(screen.getByText("All healthy")).toBeInTheDocument();
     });
 
     expect(screen.getByText("postgres")).toBeInTheDocument();
     expect(screen.getByText("redis")).toBeInTheDocument();
-    expect(screen.getByText("Latency: 1.2 ms")).toBeInTheDocument();
+    expect(screen.getByText("Response time: 1.2 ms")).toBeInTheDocument();
   });
 
   it("renders error message when API call fails", async () => {
@@ -49,9 +49,9 @@ describe("HealthPage", () => {
     render(<HealthPage />);
 
     await waitFor(() => {
-      expect(screen.getByText("DEGRADED")).toBeInTheDocument();
+      expect(screen.getByText("Needs attention")).toBeInTheDocument();
     });
 
-    expect(screen.getByRole("alert")).toHaveTextContent("Connection Error: Network failed");
+    expect(screen.getByRole("alert")).toHaveTextContent("Connection issue: Network failed");
   });
 });

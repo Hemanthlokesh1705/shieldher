@@ -2,19 +2,21 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 import { useVerification } from "../../context/VerificationContext";
-import { UserCheck, Sparkles, Cpu, ArrowRight, ArrowLeft } from "lucide-react";
+import { UserCheck, ScanFace, Cpu, ArrowRight, ArrowLeft } from "lucide-react";
 import { cn } from "../../lib/utils";
 
 export default function Step1Consent() {
   const navigate = useNavigate();
   const { consent, setConsent } = useVerification();
+  const [consentError, setConsentError] = React.useState<string | null>(null);
 
   const handleContinue = (e: React.FormEvent) => {
     e.preventDefault();
     if (!consent.allowLocalAnalysis) {
-      alert("Please confirm your permission for ShieldHer to assess the image.");
+      setConsentError("Please allow image analysis before continuing.");
       return;
     }
+    setConsentError(null);
     navigate("/verification/upload");
   };
 
@@ -36,11 +38,19 @@ export default function Step1Consent() {
       </div>
 
       <form onSubmit={handleContinue} className="space-y-7">
+        {consentError && (
+          <p
+            className="rounded-lg border border-status-errorBorder bg-status-errorBg px-4 py-3 text-sm text-status-error"
+            role="alert"
+          >
+            {consentError}
+          </p>
+        )}
         {/* Model Explanation Cards */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-          <div className="p-5 rounded-2xl bg-[#FAF8F5] border border-ink-border/70 flex flex-col justify-between shadow-2xs">
+          <div className="p-5 rounded-2xl bg-surface-subtle border border-ink-border/70 flex flex-col justify-between shadow-2xs">
             <div>
-              <div className="w-10 h-10 rounded-xl bg-brand-sage/40 text-brand-forest flex items-center justify-center mb-3.5 border border-brand-border">
+              <div className="w-10 h-10 rounded-xl bg-surface-subtle/40 text-brand-forest flex items-center justify-center mb-3.5 border border-brand-border">
                 <UserCheck className="w-5 h-5" />
               </div>
               <h4 className="text-sm font-bold text-ink font-heading">
@@ -57,10 +67,10 @@ export default function Step1Consent() {
             </span>
           </div>
 
-          <div className="p-5 rounded-2xl bg-[#FAF8F5] border border-ink-border/70 flex flex-col justify-between shadow-2xs">
+          <div className="p-5 rounded-2xl bg-surface-subtle border border-ink-border/70 flex flex-col justify-between shadow-2xs">
             <div>
-              <div className="w-10 h-10 rounded-xl bg-brand-sage/40 text-brand-forest flex items-center justify-center mb-3.5 border border-brand-border">
-                <Sparkles className="w-5 h-5 text-accent-gold" />
+              <div className="w-10 h-10 rounded-xl bg-surface-subtle/40 text-brand-forest flex items-center justify-center mb-3.5 border border-brand-border">
+                <ScanFace className="w-5 h-5" />
               </div>
               <h4 className="text-sm font-bold text-ink font-heading">
                 Face Manipulation Check
@@ -76,9 +86,9 @@ export default function Step1Consent() {
             </span>
           </div>
 
-          <div className="p-5 rounded-2xl bg-[#FAF8F5] border border-ink-border/70 flex flex-col justify-between shadow-2xs">
+          <div className="p-5 rounded-2xl bg-surface-subtle border border-ink-border/70 flex flex-col justify-between shadow-2xs">
             <div>
-              <div className="w-10 h-10 rounded-xl bg-brand-sage/40 text-brand-forest flex items-center justify-center mb-3.5 border border-brand-border">
+              <div className="w-10 h-10 rounded-xl bg-surface-subtle/40 text-brand-forest flex items-center justify-center mb-3.5 border border-brand-border">
                 <Cpu className="w-5 h-5" />
               </div>
               <h4 className="text-sm font-bold text-ink font-heading">
@@ -105,14 +115,14 @@ export default function Step1Consent() {
               className={cn(
                 "flex items-start gap-3.5 p-5 rounded-2xl border cursor-pointer transition-all shadow-2xs",
                 consent.retentionPolicy === "TEMPORARY_EXPLORATORY"
-                  ? "bg-brand-sage/20 border-brand-forest ring-1 ring-brand-forest"
+                  ? "bg-surface-subtle/20 border-brand-forest ring-1 ring-brand-forest"
                   : "bg-surface-pearl border-ink-border/80 hover:border-ink-borderStrong"
               )}
             >
               <input
                 type="radio"
                 name="retention"
-                className="mt-1 text-brand-forest focus:ring-brand-rich"
+                className="mt-1 text-brand-forest focus:ring-action"
                 checked={consent.retentionPolicy === "TEMPORARY_EXPLORATORY"}
                 onChange={() =>
                   setConsent((prev) => ({
@@ -123,11 +133,11 @@ export default function Step1Consent() {
               />
               <div className="text-xs">
                 <strong className="block text-sm text-ink font-bold font-heading mb-1">
-                  Temporary Check (Recommended)
+                  Temporary Check (up to 7 days)
                 </strong>
                 <p className="text-ink-secondary leading-relaxed">
-                  The assessment results are held temporarily for your review
-                  during this session. No permanent record is cataloged.
+                  The request is kept for up to 7 days. You can delete it sooner
+                  from My Requests.
                 </p>
               </div>
             </label>
@@ -136,14 +146,14 @@ export default function Step1Consent() {
               className={cn(
                 "flex items-start gap-3.5 p-5 rounded-2xl border cursor-pointer transition-all shadow-2xs",
                 consent.retentionPolicy === "PRESERVED"
-                  ? "bg-brand-sage/20 border-brand-forest ring-1 ring-brand-forest"
+                  ? "bg-surface-subtle/20 border-brand-forest ring-1 ring-brand-forest"
                   : "bg-surface-pearl border-ink-border/80 hover:border-ink-borderStrong"
               )}
             >
               <input
                 type="radio"
                 name="retention"
-                className="mt-1 text-brand-forest focus:ring-brand-rich"
+                className="mt-1 text-brand-forest focus:ring-action"
                 checked={consent.retentionPolicy === "PRESERVED"}
                 onChange={() =>
                   setConsent((prev) => ({
@@ -154,11 +164,11 @@ export default function Step1Consent() {
               />
               <div className="text-xs">
                 <strong className="block text-sm text-ink font-bold font-heading mb-1">
-                  Save for Official Reporting
+                  Keep for Reporting (up to 365 days)
                 </strong>
                 <p className="text-ink-secondary leading-relaxed">
-                  Generates an immutable cryptographic hash (SHA-256) of the
-                  image so you can attach it to a cybercrime report.
+                  Keep the request available for up to 365 days while you
+                  prepare a report. A SHA-256 hash is generated for reference.
                 </p>
               </div>
             </label>
@@ -166,7 +176,7 @@ export default function Step1Consent() {
         </div>
 
         {/* Clear Consents */}
-        <div className="p-5 rounded-2xl bg-[#FAF8F5] border border-ink-border/80 space-y-3.5 shadow-2xs">
+        <div className="p-5 rounded-2xl bg-surface-subtle border border-ink-border/80 space-y-3.5 shadow-2xs">
           <div className="text-xs font-bold text-ink uppercase tracking-wider font-heading">
             Your Explicit Permission
           </div>
@@ -174,7 +184,7 @@ export default function Step1Consent() {
           <label className="flex items-start gap-3 text-xs text-ink cursor-pointer">
             <input
               type="checkbox"
-              className="mt-0.5 rounded text-brand-forest focus:ring-brand-rich"
+              className="mt-0.5 rounded text-brand-forest focus:ring-action"
               checked={consent.allowLocalAnalysis}
               onChange={(e) =>
                 setConsent((prev) => ({
@@ -193,7 +203,7 @@ export default function Step1Consent() {
           <label className="flex items-start gap-3 text-xs text-ink cursor-pointer">
             <input
               type="checkbox"
-              className="mt-0.5 rounded text-brand-forest focus:ring-brand-rich"
+              className="mt-0.5 rounded text-brand-forest focus:ring-action"
               checked={consent.allowReverseSearch}
               onChange={(e) =>
                 setConsent((prev) => ({
@@ -223,7 +233,7 @@ export default function Step1Consent() {
 
           <button
             type="submit"
-            className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-brand-forest hover:bg-brand-rich active:bg-brand-hover text-surface-pearl text-xs sm:text-sm font-semibold transition-all shadow-xs hover:shadow disabled:opacity-50 disabled:pointer-events-none"
+            className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-action hover:bg-action-hover active:bg-action-hover text-action-ink text-xs sm:text-sm font-semibold transition-all shadow-xs hover:shadow disabled:opacity-50 disabled:pointer-events-none"
             disabled={!consent.allowLocalAnalysis}
           >
             <span>Continue to Image Upload</span>

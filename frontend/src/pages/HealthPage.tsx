@@ -1,10 +1,36 @@
-import { useEffect, useState, useCallback } from "react";
+import { useCallback, useEffect, useState } from "react";
+import { Activity, RefreshCw, ShieldCheck } from "lucide-react";
 import { fetchHealth } from "../services/api";
 import { HealthResponse } from "../types/health";
 
+function StatusBadge({
+  children,
+  healthy = true,
+  pending = false,
+}: {
+  children: string;
+  healthy?: boolean;
+  pending?: boolean;
+}) {
+  return (
+    <span
+      className={`inline-flex items-center gap-2 rounded-full border px-3 py-1 text-sm ${
+        pending
+          ? "border-ink-border bg-canvas-subtle text-ink-secondary"
+          : healthy
+          ? "border-status-successBorder bg-status-successBg text-status-success"
+          : "border-status-warningBorder bg-status-warningBg text-status-warning"
+      }`}
+    >
+      <span className="h-2 w-2 rounded-full bg-current" aria-hidden="true" />
+      {children}
+    </span>
+  );
+}
+
 export default function HealthPage() {
   const [health, setHealth] = useState<HealthResponse | null>(null);
-  const [loading, setLoading] = useState<boolean>(true);
+  const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [lastChecked, setLastChecked] = useState<string | null>(null);
 
@@ -16,11 +42,11 @@ export default function HealthPage() {
       setHealth(data);
       setLastChecked(new Date().toLocaleTimeString());
     } catch (err: unknown) {
-      if (err instanceof Error) {
-        setError(err.message);
-      } else {
-        setError("An unexpected error occurred while checking health");
-      }
+      setError(
+        err instanceof Error
+          ? err.message
+          : "An unexpected error occurred while checking system health."
+      );
       setHealth(null);
     } finally {
       setLoading(false);
@@ -31,189 +57,131 @@ export default function HealthPage() {
     checkHealth();
   }, [checkHealth]);
 
-  const currentPath = typeof window !== "undefined" ? window.location?.pathname : "";
+  const isHealthy = health?.status === "ok";
+  const formatStatus = (status: string) =>
+    status.toLowerCase().replace(/\b\w/g, (letter) => letter.toUpperCase());
 
   return (
-    <div className="health-page" style={{ minHeight: "100vh", backgroundColor: "var(--color-bg)", display: "flex", flexDirection: "column" }}>
-      {/* Top Application Header */}
-      <header className="app-header">
-        <div style={{ maxWidth: "1240px", margin: "0 auto", padding: "0.85rem 1.5rem", display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: "1rem" }}>
-          <div style={{ display: "flex", alignItems: "center", gap: "1rem" }}>
-            <div style={{ display: "flex", alignItems: "center", gap: "0.6rem" }}>
-              <div style={{ width: "36px", height: "36px", borderRadius: "10px", backgroundColor: "#ecfdf5", border: "1.5px solid #a7f3d0", display: "flex", alignItems: "center", justifyContent: "center", fontSize: "1.2rem", color: "#059669" }}>
-                🩺
-              </div>
-              <div>
-                <h1 style={{ fontSize: "1.25rem", fontWeight: 800, letterSpacing: "-0.02em", color: "#064e3b" }}>
-                  ShieldHer
-                </h1>
-                <p style={{ fontSize: "0.725rem", color: "var(--color-text-muted)" }}>
-                  Privacy-First Forensics & NCII Victim Support
-                </p>
-              </div>
-            </div>
-          </div>
-
-          <nav style={{ display: "flex", gap: "0.4rem", alignItems: "center" }}>
-            <a
-              href="/intake"
-              className={`nav-pill ${currentPath === "/intake" ? "active" : ""}`}
-            >
-              Victim Intake
-            </a>
-            <a href="/" className="nav-pill">Home</a>
-            <a
-              href="/reviewer"
-              className={`nav-pill ${currentPath === "/reviewer" ? "active" : ""}`}
-            >
-              Reviewer Portal
-            </a>
-            <a
-              href="/health"
-              className={`nav-pill ${currentPath === "/health" || !currentPath ? "active" : ""}`}
-            >
-              System Health
-            </a>
+    <div className="min-h-screen bg-canvas text-ink">
+      <header className="border-b border-ink-border bg-surface-pearl">
+        <div className="mx-auto flex max-w-7xl flex-wrap items-center justify-between gap-4 px-5 py-4 sm:px-8">
+          <a href="/" className="flex items-center gap-3 text-ink no-underline">
+            <span className="grid h-9 w-9 place-items-center rounded-lg bg-surface-subtle text-brand-forest">
+              <ShieldCheck size={19} aria-hidden="true" />
+            </span>
+            <span>
+              <span className="block text-base font-medium">ShieldHer</span>
+              <span className="block text-xs text-ink-muted">System status</span>
+            </span>
+          </a>
+          <nav className="flex flex-wrap items-center gap-x-5 gap-y-2 text-sm text-ink-secondary" aria-label="System pages">
+            <a href="/intake">Image check</a>
+            <a href="/reviewer">Reviewer portal</a>
+            <a href="/health" aria-current="page" className="font-medium text-brand-forest">System health</a>
           </nav>
         </div>
       </header>
 
-      <main style={{ maxWidth: "920px", width: "100%", margin: "2rem auto", padding: "0 1.5rem", flex: 1 }}>
-        <div className="app-card animate-fade-in" style={{ padding: "1.75rem 2rem", marginBottom: "1.75rem" }}>
-          <div style={{ display: "flex", alignItems: "center", gap: "0.6rem", marginBottom: "0.5rem" }}>
-            <span className="badge-clean badge-emerald">Diagnostics</span>
-            <span style={{ fontSize: "0.8rem", color: "var(--color-text-muted)" }}>ShieldHer System Diagnostics</span>
+      <main className="mx-auto w-full max-w-4xl space-y-5 px-5 py-8 sm:px-8 sm:py-10">
+        <section className="rounded-2xl border border-ink-border bg-surface-pearl p-6 sm:p-8">
+          <div className="mb-3 flex items-center gap-2 text-sm text-ink-secondary">
+            <Activity size={17} aria-hidden="true" />
+            <span>Service diagnostics</span>
           </div>
-          <h1 style={{ fontSize: "1.6rem", fontWeight: 800, color: "#064e3b", marginBottom: "0.5rem", letterSpacing: "-0.02em" }}>
-            System Health Check
-          </h1>
-          <p style={{ fontSize: "0.875rem", color: "var(--color-text-secondary)", lineHeight: 1.5 }}>
-            Monitor frontend runtime and backend microservices connectivity (PostgreSQL & Redis).
+          <h1 className="text-2xl font-medium text-ink">System health</h1>
+          <p className="mt-2 max-w-2xl text-sm leading-relaxed text-ink-secondary">
+            A current view of the website and its connected services.
           </p>
-        </div>
-
-        {/* Frontend status */}
-        <section className="app-card animate-fade-in" style={{ padding: "1.5rem", marginBottom: "1.5rem" }}>
-          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "1rem" }}>
-            <h2 style={{ fontSize: "1.15rem", fontWeight: 700, color: "#0f172a" }}>Frontend Client</h2>
-            <span className="badge-clean badge-emerald" style={{ display: "flex", alignItems: "center", gap: "0.4rem" }}>
-              <span className="status-dot-emerald" /> ONLINE
-            </span>
-          </div>
-          <div style={{ display: "flex", justifyContent: "space-between", padding: "0.6rem 0", borderBottom: "1px solid var(--color-border)", fontSize: "0.85rem" }}>
-            <span style={{ color: "var(--color-text-muted)" }}>Status:</span>
-            <strong style={{ color: "#059669" }}>Active (React + Vite)</strong>
-          </div>
-          <div style={{ display: "flex", justifyContent: "space-between", padding: "0.6rem 0", fontSize: "0.85rem" }}>
-            <span style={{ color: "var(--color-text-muted)" }}>Environment:</span>
-            <span style={{ color: "var(--color-text)", fontWeight: 600 }}>{import.meta.env.MODE || "development"}</span>
-          </div>
         </section>
 
-        {/* Backend status */}
-        <section className="app-card animate-fade-in" style={{ padding: "1.5rem", marginBottom: "1.5rem" }}>
-          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "1rem", flexWrap: "wrap", gap: "0.5rem" }}>
-            <h2 style={{ fontSize: "1.15rem", fontWeight: 700, color: "#0f172a" }}>Backend Services</h2>
+        <section className="rounded-2xl border border-ink-border bg-surface-pearl p-6 sm:p-8" aria-labelledby="frontend-status-title">
+          <div className="flex flex-wrap items-center justify-between gap-3">
+            <h2 id="frontend-status-title" className="text-lg font-medium text-ink">Frontend</h2>
+            <StatusBadge>Online</StatusBadge>
+          </div>
+          <dl className="mt-4 divide-y divide-ink-border text-sm">
+            <div className="flex justify-between gap-4 py-3">
+              <dt className="text-ink-secondary">Status</dt>
+              <dd className="font-medium text-ink">Active</dd>
+            </div>
+            <div className="flex justify-between gap-4 py-3">
+              <dt className="text-ink-secondary">Environment</dt>
+              <dd className="font-medium text-ink">{import.meta.env.MODE || "development"}</dd>
+            </div>
+          </dl>
+        </section>
+
+        <section className="rounded-2xl border border-ink-border bg-surface-pearl p-6 sm:p-8" aria-labelledby="backend-status-title">
+          <div className="flex flex-wrap items-center justify-between gap-3">
+            <h2 id="backend-status-title" className="text-lg font-medium text-ink">Connected services</h2>
             {loading ? (
-              <span className="badge-clean badge-neutral">
-                <span className="status-dot-emerald" style={{ backgroundColor: "#3b82f6" }} /> CHECKING...
-              </span>
-            ) : health?.status === "ok" ? (
-              <span className="badge-clean badge-emerald" style={{ display: "flex", alignItems: "center", gap: "0.4rem" }}>
-                <span className="status-dot-emerald" /> ALL HEALTHY
-              </span>
+              <StatusBadge pending>Checking</StatusBadge>
             ) : (
-              <span className="badge-clean badge-rose">
-                DEGRADED
-              </span>
+              <StatusBadge healthy={isHealthy}>
+                {isHealthy ? "All healthy" : "Needs attention"}
+              </StatusBadge>
             )}
           </div>
 
           {error && (
-            <div
-              role="alert"
-              style={{
-                backgroundColor: "var(--color-error-bg)",
-                border: "1.5px solid #fecaca",
-                color: "var(--color-error)",
-                padding: "0.85rem 1.1rem",
-                borderRadius: "10px",
-                marginBottom: "1.25rem",
-                fontSize: "0.85rem",
-                fontWeight: 500,
-              }}
-            >
-              <strong>Connection Error:</strong> {error}
+            <div className="mt-5 rounded-lg border border-status-errorBorder bg-status-errorBg px-4 py-3 text-sm text-status-error" role="alert">
+              <strong>Connection issue:</strong> {error}
             </div>
           )}
 
           {health && (
-            <div style={{ marginBottom: "1.5rem" }}>
-              <div style={{ display: "flex", justifyContent: "space-between", padding: "0.6rem 0", borderBottom: "1px solid var(--color-border)", fontSize: "0.85rem" }}>
-                <span style={{ color: "var(--color-text-muted)" }}>API Status:</span>
-                <strong style={{ color: health.status === "ok" ? "#059669" : "#dc2626" }}>
-                  {health.status.toUpperCase()}
-                </strong>
-              </div>
-              <div style={{ display: "flex", justifyContent: "space-between", padding: "0.6rem 0", borderBottom: "1px solid var(--color-border)", fontSize: "0.85rem" }}>
-                <span style={{ color: "var(--color-text-muted)" }}>Version:</span>
-                <span style={{ color: "var(--color-text)", fontWeight: 600 }}>{health.version}</span>
-              </div>
-              <div style={{ display: "flex", justifyContent: "space-between", padding: "0.6rem 0", borderBottom: "1px solid var(--color-border)", fontSize: "0.85rem" }}>
-                <span style={{ color: "var(--color-text-muted)" }}>Environment:</span>
-                <span style={{ color: "var(--color-text)", fontWeight: 600 }}>{health.environment}</span>
-              </div>
+            <>
+              <dl className="mt-4 divide-y divide-ink-border text-sm">
+                <div className="flex justify-between gap-4 py-3">
+                  <dt className="text-ink-secondary">API status</dt>
+                  <dd className="font-medium text-ink">{formatStatus(health.status)}</dd>
+                </div>
+                <div className="flex justify-between gap-4 py-3">
+                  <dt className="text-ink-secondary">Version</dt>
+                  <dd className="font-medium text-ink">{health.version}</dd>
+                </div>
+                <div className="flex justify-between gap-4 py-3">
+                  <dt className="text-ink-secondary">Environment</dt>
+                  <dd className="font-medium text-ink">{health.environment}</dd>
+                </div>
+              </dl>
 
-              <h3 style={{ fontSize: "0.95rem", fontWeight: 700, color: "#065f46", marginTop: "1.25rem", marginBottom: "0.85rem" }}>
-                Dependencies
-              </h3>
-              <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(240px, 1fr))", gap: "1rem" }}>
+              <h3 className="mb-3 mt-6 text-base font-medium text-ink">Dependencies</h3>
+              <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
                 {Object.entries(health.checks).map(([name, check]) => (
-                  <div
-                    key={name}
-                    className="metric-tile-clean"
-                    style={{ padding: "1rem" }}
-                  >
-                    <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "0.35rem" }}>
-                      <strong style={{ color: "#0f172a", fontSize: "0.95rem" }}>{name}</strong>
-                      <span
-                        className="status-dot-emerald"
-                        style={{ backgroundColor: check.status === "ok" ? "#059669" : "#dc2626" }}
-                      />
+                  <article key={name} className="rounded-xl border border-ink-border bg-canvas-subtle p-4">
+                    <div className="flex items-center justify-between gap-3">
+                      <h4 className="font-medium text-ink">{name}</h4>
+                      <StatusBadge healthy={check.status === "ok"}>
+                        {formatStatus(check.status)}
+                      </StatusBadge>
                     </div>
-                    <div style={{ fontSize: "0.775rem", color: "var(--color-text-muted)", display: "flex", flexDirection: "column", gap: "0.2rem" }}>
-                      <span>Status: <strong style={{ color: check.status === "ok" ? "#059669" : "#dc2626" }}>{check.status}</strong></span>
-                      {check.latency_ms !== null && check.latency_ms !== undefined && (
-                        <span>Latency: {check.latency_ms} ms</span>
-                      )}
-                      {check.detail && (
-                        <span style={{ color: "var(--color-text-subtle)", marginTop: "0.2rem" }}>Detail: {check.detail}</span>
-                      )}
-                    </div>
-                  </div>
+                    {check.latency_ms !== null && check.latency_ms !== undefined && (
+                      <p className="mt-2 text-sm text-ink-secondary">
+                        Response time: {check.latency_ms} ms
+                      </p>
+                    )}
+                    {check.detail && (
+                      <p className="mt-2 text-sm leading-relaxed text-ink-secondary">{check.detail}</p>
+                    )}
+                  </article>
                 ))}
               </div>
-            </div>
+            </>
           )}
 
-          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: "1rem", borderTop: "1px solid var(--color-border)", paddingTop: "1rem" }}>
-            {lastChecked && (
-              <span style={{ fontSize: "0.75rem", color: "var(--color-text-muted)" }}>Last checked at: {lastChecked}</span>
-            )}
+          <div className="mt-6 flex flex-wrap items-center justify-between gap-4 border-t border-ink-border pt-5">
+            {lastChecked ? (
+              <p className="text-sm text-ink-muted">Last checked at {lastChecked}</p>
+            ) : <span />}
             <button
               onClick={checkHealth}
               disabled={loading}
-              className="btn-emerald"
-              style={{ padding: "0.6rem 1.25rem", fontSize: "0.825rem" }}
+              className="inline-flex min-h-10 items-center gap-2 rounded-lg bg-action px-4 py-2 text-sm font-medium text-action-ink hover:bg-action-hover disabled:cursor-wait disabled:opacity-60"
               type="button"
             >
-              {loading ? (
-                <>
-                  <span className="status-dot-emerald" /> Checking...
-                </>
-              ) : (
-                "Recheck Health"
-              )}
+              <RefreshCw size={16} aria-hidden="true" />
+              {loading ? "Checking…" : "Check again"}
             </button>
           </div>
         </section>

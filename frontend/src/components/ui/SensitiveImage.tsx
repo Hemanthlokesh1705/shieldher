@@ -22,7 +22,7 @@ export const SensitiveImage: React.FC<SensitiveImageProps> = ({
   return (
     <div
       className={cn(
-        "relative overflow-hidden rounded border border-ink-border bg-canvas-subtle group select-none",
+        "relative overflow-hidden rounded-md border border-ink-border bg-canvas-subtle group select-none",
         aspectRatio,
         className
       )}
@@ -31,25 +31,25 @@ export const SensitiveImage: React.FC<SensitiveImageProps> = ({
         src={src}
         alt={alt}
         className={cn(
-          "h-full w-full object-contain transition-all duration-300",
-          isBlurred ? "blur-xl scale-105 filter" : "blur-0 scale-100"
+          "h-full w-full object-contain transition-[filter] duration-300",
+          isBlurred ? "blur-xl filter" : "blur-0"
         )}
         draggable={false}
       />
 
       {isBlurred && (
-        <div className="absolute inset-0 flex flex-col items-center justify-center bg-black/20 backdrop-blur-[2px] p-4 text-center">
-          <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-white/90 shadow-sm text-xs font-medium text-ink mb-2">
-            <ShieldAlert className="w-3.5 h-3.5 text-teal-600" />
-            <span>Sensitive Image Shield</span>
+        <div className="absolute inset-0 flex flex-col items-center justify-center bg-surface-pearl/85 p-4 text-center">
+          <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-full border border-ink-border bg-white text-xs font-medium text-ink mb-2">
+            <ShieldAlert className="w-3.5 h-3.5 text-brand-forest" />
+            <span>Image preview is blurred</span>
           </div>
-          <p className="text-xs text-white drop-shadow mb-3 max-w-xs">
-            Blurred to safeguard privacy and prevent accidental exposure.
+          <p className="text-sm text-ink-secondary mb-3 max-w-xs">
+            Reveal it only when you feel ready.
           </p>
           <button
             type="button"
             onClick={() => setIsBlurred(false)}
-            className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded bg-white text-xs font-medium text-ink hover:bg-canvas-subtle shadow-sm transition-colors"
+            className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-md border border-ink-border bg-white text-sm font-medium text-ink hover:bg-canvas-subtle transition-colors"
           >
             <Eye className="w-3.5 h-3.5" />
             <span>Reveal Preview</span>
@@ -61,7 +61,7 @@ export const SensitiveImage: React.FC<SensitiveImageProps> = ({
         <button
           type="button"
           onClick={() => setIsBlurred(true)}
-          className="absolute top-2 right-2 inline-flex items-center gap-1 px-2.5 py-1 rounded bg-black/60 text-white text-xs hover:bg-black/80 transition-colors backdrop-blur-sm"
+          className="absolute top-2 right-2 inline-flex items-center gap-1 px-2.5 py-1 rounded-md border border-ink-border bg-white text-ink text-xs hover:bg-canvas-subtle transition-colors"
           title="Re-blur preview"
         >
           <EyeOff className="w-3.5 h-3.5" />

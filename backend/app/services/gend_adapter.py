@@ -103,7 +103,7 @@ class GenDModelAdapter:
 
         try:
             logger.info("Instantiating GenD architecture", weights_dir=str(w_dir), device=str(device))
-            
+
             # Import GenD model definition from local repo files
             import sys
             if str(w_dir) not in sys.path:
